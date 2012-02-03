@@ -1,7 +1,15 @@
 ImGoing::Application.routes.draw do
+  get "events/feed"
+  get "events/page"
+
   devise_for :users
 
-  root :to => "home#index"
+  devise_scope :user do
+    get "signin", :to => "devise/sessions#new"
+    get "signup", :to => "devise/registrations#new"
+  end
+
+  root :to => "events#feed"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -1,0 +1,171 @@
+@font-face{
+  font-family:'Carton';
+  src: url('/assets/Carton-Slab.otf');
+}
+body {
+  background: #ccc;
+  width: 100%;
+  font-family: 'Helvetica Neue';
+}
+body, html {
+  height: 100%;
+}
+
+nav {
+  $submit-color: #ff00ff;
+  
+  float: left;
+  background: #222;
+  min-height: 100%;
+  position: fixed;
+  width: 140px;
+  -moz-transition: width 0.1s linear;
+  -webkit-transition: width 1s linear;
+  header {
+    text-align: center;
+    margin-top: 7px;
+    h1 {
+      font-weight: bold;
+      font-size: 1em;
+      a {
+        text-decoration: none;
+        #going {
+          color: #bbb;
+          text-transform: uppercase;
+          font-size: 1.4em;
+        }
+        #im {
+          font-size: 1.2em;
+          color: #888;
+        }
+      }
+      a:hover {
+        #going {
+          color: #fff;
+          text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+        }
+        #im {
+          color: #bbb;
+          text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+        }
+      }
+      a:active {
+        top: 1px;
+        #going {
+          text-shadow: 0 -1px 0 #000;
+        }
+        #im {
+          text-shadow: 0 -1px 0 #000;
+        }
+      }
+    }
+  }
+  .sign_options {
+    color: #444;
+    font-size: 11px;
+    padding: 7px;
+    background: #111;
+    text-align: center;
+    a {
+      color: #777;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    a:hover {
+      color: #aaa;
+    }
+    a.active {
+      color: #eee;
+    }
+  }
+  .form_holder {
+    margin: 40px auto 0;
+    display: none;
+    width: 240px;
+    padding: 30px;
+    background: #000;
+    .line {
+      position: relative;
+      margin-bottom: 15px;
+      label {
+        position: absolute;
+        top: 11px;
+        left: 9px;
+        color: #555;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      label.active {
+        color: #aaa;
+      }
+      input {
+        border: none;
+        padding: 8px;
+        background: #fff;
+        width: 224px;
+        font-size: 18px;
+        font-weight: bold;
+        font-family: 'Helvetica Neue';
+        cursor: pointer;
+      }
+      input[type="submit"] {
+        background: #ff00ff;
+        width: 240px;
+      }
+      input[type="submit"]:hover {
+        background: lighten($submit-color, 15%);
+      }
+    }
+    .line.focus {
+      label {
+        color: #aaa;
+      }
+    }
+    .line.text_entered {
+      label {
+        display: none;
+      }
+    }
+    .line.divider {
+      background: #222222;
+      height: 1px;
+    }
+    .line:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+nav.expanded {  
+  width: 100%;
+  -moz-transition: width 0.2s linear;
+  .form_holder {
+    display: block;
+  }
+  .arrow_container {
+    height: 100%;
+    border-left: solid 1px #111;
+    padding: 15px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #1f1f1f;
+    .arrow {
+      border-bottom: solid 12px transparent;
+      border-top: solid 12px transparent;
+      border-right: solid 12px #ccc;
+      position: relative;
+      top: 50%;
+      margin-top: -24px;
+    }
+  }
+  .arrow_container:hover {
+    background: #000;
+    cursor: pointer;
+  }
+}
+
+section {
+  max-width: 750px;
+  margin: 0 auto;
+}

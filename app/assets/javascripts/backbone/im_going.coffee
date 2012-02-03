@@ -9,3 +9,9 @@ window.ImGoing =
   Collections: {}
   Routers: {}
   Views: {}
+  init: ->
+    new ImGoing.Routers.ApplicationRouter
+    Backbone.history.start()
+
+$(document).ready ->
+  ImGoing.init()
