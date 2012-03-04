@@ -1,36 +1,46 @@
-class ImGoing.Views.SignOptionsView extends Backbone.View
-  template: JST["backbone/templates/sign_options"]
+window.SignOptionsView = Backbone.View.extend
+  template: JST["templates/sign_options"]
   events:
     "click a#signup_link" : "showSignUp"
     "click a#signin_link" : "showSignIn"
 
   initialize: ->
-    ($ '.arrow_container').click ->
-      ($ 'nav').removeClass 'expanded'
-      ($ '.sign_options a').removeClass('active')
+    ($ '#overlay').click ->
+      ($ '.form_holder').hide()
+      ($ '#overlay').hide()
+      ($ ".sign_options a").removeClass('active')
+      ($ '#side_column').width(180)
+      return false
 
   showSignUp: (e) ->
     link = e.target
+    left_pos = ($ '#main_inner').offset().left
+    new_width = ($(window).width() - left_pos) - 100
     ($ ".sign_options a").removeClass('active')
     ($ link).addClass('active')
-    sign_options = new ImGoing.Views.SignUpView
-    ($ 'nav').addClass('expanded').find(".form_holder").html sign_options.render().el
+    sign_options = new SignUpView
+    ($ '#overlay').show()
+    ($ '#side_column').width(new_width).find(".form_holder").show().html sign_options.render().el
     return false
 
   showSignIn: (e) ->
     link = e.target
+    left_pos = ($ '#main_inner').offset().left
+    new_width = ($(window).width() - left_pos) - 100
     ($ ".sign_options a").removeClass('active')
     ($ link).addClass('active')
-    sign_options = new ImGoing.Views.SignInView
-    ($ 'nav').addClass('expanded').find(".form_holder").html sign_options.render().el
+    sign_options = new SignInView
+    ($ '#overlay').show()
+    ($ '#side_column').width(new_width).find(".form_holder").show().html sign_options.render().el
     return false
 
   render: ->
-    $(@el).html(@template)
+    $(@el).html @template
+      current_user: oApp.currentUser.email
     @
 
-class ImGoing.Views.SignUpView extends Backbone.View
-  template: JST["backbone/templates/sign_up"]
+window.SignUpView = Backbone.View.extend
+  template: JST["templates/sign_up"]
   
   events:
     "blur .line input" : "blurInput"
@@ -64,8 +74,8 @@ class ImGoing.Views.SignUpView extends Backbone.View
     $(@el).html(@template)
     @
 
-class ImGoing.Views.SignInView extends Backbone.View
-  template: JST["backbone/templates/sign_in"]
+window.SignInView = Backbone.View.extend
+  template: JST["templates/sign_in"]
 
   events:
     "blur .line input" : "blurInput"

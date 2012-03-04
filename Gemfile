@@ -9,6 +9,8 @@ gem 'will_paginate'
 gem "rails-backbone"
 gem 'devise'
 gem 'sqlite3'
+gem 'hbs'
+gem 'handlebars_assets'
 
 # Gems used only for assets and not required
 # in production environments by default.

@@ -1,6 +1,6 @@
 ImGoing::Application.routes.draw do
-  get "events/feed"
-  get "events/page"
+  get "listings/feed"
+  get "listings/page"
 
   devise_for :users
 
@@ -8,8 +8,10 @@ ImGoing::Application.routes.draw do
     get "signin", :to => "devise/sessions#new"
     get "signup", :to => "devise/registrations#new"
   end
+  
+  resources :listings
 
-  root :to => "events#feed"
+  root :to => "listings#feed"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

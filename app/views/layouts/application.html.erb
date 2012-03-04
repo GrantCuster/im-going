@@ -2,6 +2,17 @@
 <html>
 <head>
   <title>Going.im</title>
+  <script type='text/javascript'>
+    var oApp = {};
+    <% if current_user %>
+      oApp.currentUser = <%= current_user.to_json.html_safe %>;
+    <% else %>
+      oApp.currentUser = false
+    <% end %>
+  </script>
+  <script type ="text/javascript">
+    preloaded_data = <%= @data.to_json.html_safe %>
+  </script>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -9,18 +20,19 @@
 </head>
 <body>
   <nav>
-    <div class="sign_options">
-    </div>
     <header>
       <h1><a href="#"><span id="going">going</span><span id="im">.im</span></a></h1>
     </header>
-    <div class="form_holder">
-    </div>
-    <div class="arrow_container"><div class="arrow"></div></div>
   </nav>
-  <section>
-    <%= yield %>
+  <section id="main_column">
+    <div id="main_inner">
+      <%= yield %>
+    </div>
   </section>
-
+  <div id="overlay"></div>
+  <section id="side_column">
+    <div class="sign_options"></div>
+    <div class="form_holder"></div>
+  </section>
 </body>
 </html>

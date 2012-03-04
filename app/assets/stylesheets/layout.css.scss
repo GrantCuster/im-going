@@ -1,171 +1,77 @@
-@font-face{
-  font-family:'Carton';
-  src: url('/assets/Carton-Slab.otf');
-}
 body {
-  background: #ccc;
-  width: 100%;
   font-family: 'Helvetica Neue';
-}
-body, html {
   height: 100%;
+  min-width: 600px;
 }
-
 nav {
-  $submit-color: #ff00ff;
-  
-  float: left;
-  background: #222;
-  min-height: 100%;
+  width: 130px;
+  padding: 20px;
+  height: 100%;
+  padding: 20px 0 20px 20px;
   position: fixed;
-  width: 140px;
-  -moz-transition: width 0.1s linear;
-  -webkit-transition: width 1s linear;
-  header {
-    text-align: center;
-    margin-top: 7px;
-    h1 {
+  left: 0;
+  top: 0;
+  h1 {
+    font-size: 1.4em;
+    a {
+      color: #222;
+      text-decoration: none;
       font-weight: bold;
-      font-size: 1em;
-      a {
-        text-decoration: none;
-        #going {
-          color: #bbb;
-          text-transform: uppercase;
-          font-size: 1.4em;
-        }
-        #im {
-          font-size: 1.2em;
-          color: #888;
-        }
-      }
-      a:hover {
-        #going {
-          color: #fff;
-          text-shadow: 0 1px 0 rgba(0,0,0,0.3);
-        }
-        #im {
-          color: #bbb;
-          text-shadow: 0 1px 0 rgba(0,0,0,0.3);
-        }
-      }
-      a:active {
-        top: 1px;
-        #going {
-          text-shadow: 0 -1px 0 #000;
-        }
-        #im {
-          text-shadow: 0 -1px 0 #000;
-        }
+      #im {
+        color: #555;
+        font-weight: normal;
       }
     }
   }
+}
+#main_column {
+  margin: 0 223px 0 170px;
+  min-width: 250px;
+  #main_inner {
+    max-width: 650px;
+    margin: 0 auto;
+    border-top: solid 3px #000;
+  }
+}
+#side_column {
+  width: 180px;
+  padding: 20px;
+  height: 100%;
+  right: 0;
+  top: 0;
+  position: fixed;
+  -moz-transition: width 0.2s linear;
+  background: #fff;
   .sign_options {
-    color: #444;
-    font-size: 11px;
-    padding: 7px;
-    background: #111;
-    text-align: center;
+    color: #aaa;
+    margin-bottom: 15px;
     a {
-      color: #777;
-      text-transform: uppercase;
       text-decoration: none;
+      color: #777;
     }
     a:hover {
-      color: #aaa;
+      color: #ff0000;
     }
     a.active {
-      color: #eee;
+      color: #000;
     }
-  }
-  .form_holder {
-    margin: 40px auto 0;
-    display: none;
-    width: 240px;
-    padding: 30px;
-    background: #000;
-    .line {
-      position: relative;
-      margin-bottom: 15px;
-      label {
-        position: absolute;
-        top: 11px;
-        left: 9px;
-        color: #555;
-        font-size: 18px;
-        font-weight: bold;
-        cursor: pointer;
-      }
-      label.active {
-        color: #aaa;
-      }
-      input {
-        border: none;
-        padding: 8px;
-        background: #fff;
-        width: 224px;
-        font-size: 18px;
-        font-weight: bold;
-        font-family: 'Helvetica Neue';
-        cursor: pointer;
-      }
-      input[type="submit"] {
-        background: #ff00ff;
-        width: 240px;
-      }
-      input[type="submit"]:hover {
-        background: lighten($submit-color, 15%);
-      }
-    }
-    .line.focus {
-      label {
-        color: #aaa;
-      }
-    }
-    .line.text_entered {
-      label {
-        display: none;
-      }
-    }
-    .line.divider {
-      background: #222222;
-      height: 1px;
-    }
-    .line:last-child {
-      margin-bottom: 0;
-    }
-  }
-}
-nav.expanded {  
-  width: 100%;
-  -moz-transition: width 0.2s linear;
-  .form_holder {
-    display: block;
-  }
-  .arrow_container {
-    height: 100%;
-    border-left: solid 1px #111;
-    padding: 15px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: #1f1f1f;
-    .arrow {
-      border-bottom: solid 12px transparent;
-      border-top: solid 12px transparent;
-      border-right: solid 12px #ccc;
-      position: relative;
-      top: 50%;
-      margin-top: -24px;
-    }
-  }
-  .arrow_container:hover {
-    background: #000;
-    cursor: pointer;
   }
 }
 
-section {
-  max-width: 750px;
-  margin: 0 auto;
+#overlay {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  cursor: pointer;
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #000;
+  opacity: 0.4;
+}
+
+.listing {
+  background: #fff000;
+  padding: 8px;
 }
