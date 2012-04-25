@@ -21,13 +21,14 @@ class ListingsController < ApplicationController
   
   def index
   end
-  
+
   def new
     @listing = Listing.new
   end
   
   def create
-    @listing = current_user.listings.build(params[:listing])
+    @listing = Listing.create! params
+    render :json => @listing
   end
   
 end

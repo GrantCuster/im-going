@@ -1,16 +1,11 @@
 window.SignOptionsView = Backbone.View.extend
   template: JST["templates/sign_options"]
+  className: 'sign_options_header'
   events:
     "click a#signup_link" : "showSignUp"
     "click a#signin_link" : "showSignIn"
 
   initialize: ->
-    ($ '#overlay').click ->
-      ($ '.form_holder').hide()
-      ($ '#overlay').hide()
-      ($ ".sign_options a").removeClass('active')
-      ($ '#side_column').width(180)
-      return false
 
   showSignUp: (e) ->
     link = e.target
@@ -20,7 +15,7 @@ window.SignOptionsView = Backbone.View.extend
     ($ link).addClass('active')
     sign_options = new SignUpView
     ($ '#overlay').show()
-    ($ '#side_column').width(new_width).find(".form_holder").show().html sign_options.render().el
+    ($ '#side_column').width(new_width).find(".side_content").show().html sign_options.render().el
     return false
 
   showSignIn: (e) ->
@@ -31,7 +26,7 @@ window.SignOptionsView = Backbone.View.extend
     ($ link).addClass('active')
     sign_options = new SignInView
     ($ '#overlay').show()
-    ($ '#side_column').width(new_width).find(".form_holder").show().html sign_options.render().el
+    ($ '#side_column').width(new_width).find(".side_content").show().html sign_options.render().el
     return false
 
   render: ->
@@ -84,6 +79,9 @@ window.SignInView = Backbone.View.extend
     "keydown .line input" : "typeCheck"
     "keyup .line input" : "textCheck"
 
+  initialize: ->
+    _.bindAll @, 'render'
+
   placeholderPass: (e) ->
     target = e.target
     ($ target).parent().find('input').focus()
@@ -106,5 +104,8 @@ window.SignInView = Backbone.View.extend
       current_input.parent().removeClass('text_entered')
 
   render: ->
-    $(@el).html(@template)
+    token = ($ 'meta[name="csrf-token"]').attr('content')
+    HTML = @template
+      token: token
+    $(@el).html HTML
     @

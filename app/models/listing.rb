@@ -1,5 +1,5 @@
 class Listing < ActiveRecord::Base
-attr_accessible :listing_name
+attr_accessible :listing_name, :user_id, :date_and_time
   
   belongs_to :user
   
