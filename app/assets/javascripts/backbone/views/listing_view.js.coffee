@@ -35,6 +35,7 @@ window.ListingView = Backbone.View.extend
       listing_day: @model.getSaleDay()
       cost: @model.getCost()
       ticket_display: true if (@model.getSaleMonth() || @model.getCost())
+      ticket_url: @model.getTicketUrl()
     ($ @el).html HTML
     @
 
@@ -63,7 +64,8 @@ window.ListingsView = Backbone.View.extend
     #   left: left_pos,
     #   top: top_pos
   
-  showCreate: ->
+  showCreate: (e) ->
+    ($ e.target).addClass('active').text 'reset form'
     ($ '#main_column').addClass('inactive')
     listing_create = new ListingCreate @collection
     ($ '#panel_container').html listing_create.render().el
@@ -290,6 +292,7 @@ window.ListingCreate = Backbone.View.extend
   closeModal: ->
     ($ @el).remove()
     ($ '#main_column').removeClass('inactive')
+    ($ '#create_event').removeClass('active').text('new event')
     return false
   
   intentionSelect: (e) ->

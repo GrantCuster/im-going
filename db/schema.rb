@@ -13,7 +13,7 @@
 
 
 ActiveRecord::Schema.define(:version => 20120520185911) do
-
+git 
   create_table "listings", :force => true do |t|
     t.string   "listing_name"
     t.integer  "user_id"

@@ -29,18 +29,22 @@ window.Listing = Backbone.Model.extend
   getTicketOption: -> @get "ticket_option"  
   getSellOut: -> 
     option_num = @get "sell_out"
-    if option_num == 1
+    if option_num == 0
       days = 0
-    else if option_num == 2
+    else if option_num == 1
       days = 7
-    else if option_num == 3
-      days = 30
     else
-      days = "no_date"
+      days = 30
     if !(days == "no_date")
       current_date = new Date
-      d = new Date Date.parse(@get "date_and_time")
+      sale_date = @getSaleDate()
+      console.log sale_date
+      if sale_date
+        d = new Date Date.parse(@getSaleDate())
+      else
+        d = new Date Date.parse(@get "created_at")
       d.setDate(d.getDate() + days)
+      console.log d.toString()
       days_until = (d - current_date)/86400000
       if days_until < 2
         urgency = "red"
@@ -59,6 +63,7 @@ window.Listing = Backbone.Model.extend
     date = $.format.date(@getSaleDate(),"d")
     date
   getCost: -> @get "cost"  
+  getTicketUrl: -> @get "ticket_url"
 
   # getTicketDate: () ->
   #   n = getSellOut()
