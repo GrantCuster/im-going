@@ -5,12 +5,55 @@
 <div class="main">
   {{dates}}
   <div class="name">{{name}}</div>
-  <a href="#">{{email}}</a> is going.
+  <div class="going">
+    <a href="#">{{email}}</a> is going.
+  </div>
+  <div class="main_bottom_container">
+    <div class="main_bottom">
+      <div class="main_supplement">
+        {{#if venue_name}}        
+          <div class="location">
+            At {{#if venue_url}}<a href="{{venue_url}}">{{/if}}{{venue_name}}{{#if venue_url}}</a>{{/if}}, 
+            {{venue_address}}
+          </div>
+        {{/if}}
+        <div class="description">
+          {{description}}
+        </div>
+      </div>
+      <div class="actions group">
+        <div class="left">
+          <a class="intenter" href="#">want to go?</a>
+          <a href="#">comment</a>
+        </div>
+        <div class="right hidden">
+          <a class="share">twitter</a>
+          <a class="share">tumblr</a>
+          <a class="share">facebook</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{#if ticket_display}}
+    <div class="ticket_line"></div>
+    <div class="ticket {{urgency}}">
+      <div class="ticket_end left"></div>
+        {{#if free}}
+          <div class="sale_date">FREE</div>
+        {{else}}
+          {{#if listing_month}}
+            <div class="sale_date">{{listing_month}}/{{listing_day}}</div>
+            {{#if cost}}
+              <div class="ticket_price">{{cost}}</div>
+            {{/if}}
+          {{/if}}
+        {{/if}}
+      <div class="ticket_end right"></div>
+    </div>
+  {{/if}}
+  <div class="expand">
+    <div class="expand_hor"></div>
+    <div class="expand_ver"></div>
+  </div>
 </div>
-<div class="ticket_line"></div>
-<div class="ticket">
-  <div class="ticket_end left"></div>
-    <div class="sale_date">5/22</div>
-    <div class="ticket_price">$20</div>
-  <div class="ticket_end right"></div>
-</div>
+<div class="bottom_dot"></div>

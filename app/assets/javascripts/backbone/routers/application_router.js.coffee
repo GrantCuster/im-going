@@ -3,8 +3,8 @@ window.ApplicationRouter = Backbone.Router.extend
     "" : "index"
 
   index: ->
-    sign_options = new SignOptionsView
-    ($ ".sign_options").html sign_options.render().el
+    view = new SortOptionsView
+    ($ ".sort_container").html view.render().el
     @populate_listings()
     @populate_side_listings()
   
@@ -13,7 +13,6 @@ window.ApplicationRouter = Backbone.Router.extend
     listings.reset(preloaded_data)
     view = new ListingsView collection: listings
     ($ '#main_inner').html view.render().el
-    view
   
   populate_side_listings: ->
     side_listings = new SideListings

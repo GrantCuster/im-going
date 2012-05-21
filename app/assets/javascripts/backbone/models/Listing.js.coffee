@@ -4,6 +4,15 @@ window.Listing = Backbone.Model.extend
 
   getID: -> @get "id"
   getName: -> @get "listing_name"
+  getIntention: -> 
+    intent_num = @get "intention"
+    if intent_num == 0
+      intention = "is going"
+    else if intent_num == 1
+      intention = "is thinking about going to"
+    else
+      intention = "would go, if someone else does, to"
+    intention
   getDateTime: -> 
     d = new Date Date.parse(@get "date_and_time")
     d.toString()
@@ -17,6 +26,51 @@ window.Listing = Backbone.Model.extend
     time_stripped
   getMonth: -> $.format.date(@getDateTime(),"MMMM")
   getUser: -> new User (@get "user")
+  getTicketOption: -> @get "ticket_option"  
+  getSellOut: -> 
+    option_num = @get "sell_out"
+    if option_num == 1
+      days = 0
+    else if option_num == 2
+      days = 7
+    else if option_num == 3
+      days = 30
+    else
+      days = "no_date"
+    if !(days == "no_date")
+      current_date = new Date
+      d = new Date Date.parse(@get "date_and_time")
+      d.setDate(d.getDate() + days)
+      days_until = (d - current_date)/86400000
+      if days_until < 2
+        urgency = "red"
+      else if days_until < 7
+        urgency = "orange"
+      else
+        urgency = "green"
+      urgency
+  getSaleDate: ->
+    sale_date = @get "sale_date"
+    sale_date
+  getSaleMonth: ->
+    date = $.format.date(@getSaleDate(),"M")
+    date
+  getSaleDay: ->
+    date = $.format.date(@getSaleDate(),"d")
+    date
+  getCost: -> @get "cost"  
+
+  # getTicketDate: () ->
+  #   n = getSellOut()
+  #   d = new Date Date.parse(@get "date_and_time")
+  #   new_d = d.setDate(d.getDate() + n)
+  #   d.toString()
+  # getTicketMonth: -> $.format.date(@getTicketDate(),"MM")
+  # getTicketDay: -> $.format.date(@getTicketDate(),"dd")
+  getVenueName: -> @get "venue_name"
+  getVenueAddress: -> @get "venue_address"
+  getVenueUrl: -> @get "venue_url"
+  getEventDescription: -> @get "event_description"
   getShortDate: -> $.format.date(@getDateTime(),"M/d")
 
 window.Listings = Backbone.Collection.extend

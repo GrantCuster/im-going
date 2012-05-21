@@ -1,3 +1,52 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
 // attempted button fix
 * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 input::-moz-focus-inner {
@@ -45,19 +94,21 @@ body {
   font-family: "ff-meta-web-pro-1","ff-meta-web-pro-2",'Helvetica Neue';
   
   #wrapper {
-    margin: 0 250px 0 0;
+    margin: 0 240px 0 0;
     line-height: 1.4em;
     position: relative;
     
     // Main Column
     #main_column {
-      width: 800px;
-      margin: 0 auto;
+      width: 830px;
+      margin: 0;
+      float: right;
+      -moz-transition: all 0.2s linear;
+      background: #fff;
+      z-index: 9;
+      position: relative;
       
       #main_inner {
-        width: 800px;
-        float: left;
-        clear: both;
         position: relative;
         
         #top_bar {
@@ -85,10 +136,13 @@ body {
             width: 148px;
             z-index: 9;
             left: 0;
-            border-bottom-right-radius: 4px;
-          }    
+            display: none;
+          }
         }
       }
+    }
+    #main_column.inactive {
+      margin-right: 780px;
     }
   }
 }
@@ -97,10 +151,10 @@ body {
 form {
   .form_heading {
     font-size: 14px;
-    margin-top: 12px;
-    margin-bottom : 10px;
+    margin-top: 16px;
+    margin-bottom : 12px;
     text-transform: lowercase;
-    color: #444;
+    color: #000;
     clear: both;
   }
   label {
@@ -111,36 +165,33 @@ form {
     clear: both;
   }
   .form_text {
-    float: left;
-    margin-top: 14px;
-    margin-right: 8px;
-    font-size: 16px;
-    margin-bottom: 8px;
-    height: 23px;
+
   }
   .form_text.end {
-    margin-left: -4px;
   }
   input {
-    float: left;
     border: none;
-    padding: 7px 7px 4px;
-    border-bottom: solid 1px #e1e1e1;
+    padding: 0;
+    width: 200px;
+    margin: 0;
+    display: inline-block;
     font-size: 18px;
-    background: #e1e1e1;
-    line-height: 24px;
-    width: 100%;
-    max-width: 200px;
-    float: left;
-    margin-right: 8px;
+    padding: 6px 6px 5px;
+    background: #fff;
     margin-bottom: 8px;
+    -moz-transition: all 0.2s linear;
   }
   input.text_entered {
-    background: #fff;
+    background: transparent;
+  }
+  input:focus {
+    width: 180px;
+  }
+  input.short {
+    width: 100px;
   }
   input:hover, input:focus {
-    background: #efefef;
-    border-bottom: solid 1px #efefef;
+    background: #fff;
   }
   input[type="submit"] {
     background: #0E72BC;
@@ -152,27 +203,29 @@ form {
     text-align: center;
     cursor: pointer;
     text-transform: lowercase;
-    border-radius: 3px;
-    margin-top: 12px;
+    margin-top: 14px;
     float: left;
     width: auto;
   }
   input[type="submit"]:active {
     box-shadow: inset 0 0 8px rgba(0,0,0,0.8);
   }
-  .ui-autocomplete {
-    width: 169px;
-    background: #bbb;
-    border-top: solid 2px #777;
-    .ui-menu-item a {
-      padding: 6px 8px;
-      display: block;
-    }
-    .ui-state-hover {
-      background: #ddd;
-      cursor: pointer;
-      color: #000;
-    }
+}
+.ui-autocomplete {
+  width: 169px;
+  font-size: 16px;
+  background: #e9e9e9;
+  border-top: solid 2px #444;
+  color: #000;
+  position: fixed;
+  .ui-menu-item a {
+    padding: 6px 8px;
+    display: block;
+  }
+  .ui-state-hover {
+    background: #fff;
+    cursor: pointer;
+    color: #000;
   }
 }
 
@@ -187,95 +240,132 @@ form {
   position: absolute;
   right: 0;
   top: 24px;
+  display: none;
 }
 
 // Listing Create form
-
-.listing_create_container {
+.sign_container {
   position: fixed;
   z-index: 8;
-  width: 100%;
+  width: 760px;
   height: 100%;
-  left: 0;
+  right: 250px;
   top: 0;
-  background: #fff;
-  .main_form {
-    background: #fff;
-    margin: 0;
-    .header {
-      background: #000;
-      padding: 12px 12px 10px;
-      color: #fff;
-      h2 {
-        float: left;
-      }
-      .modal_close {
-        float: right;
-        margin-top: -6px;
-        padding: 3px;
-        cursor: pointer;
-      }
-      .modal_close:hover {
-        color: #ccc;
-      }
-    }
-    form {
-      margin: 0;
-      padding: 0;
-    }
-    .intention_container {
-      position: relative;
+  -moz-transition: all 0.1s linear;
+  color: #444;
+}
+
+
+.panel_container {
+  position: fixed;
+  z-index: 8;
+  width: 760px;
+  height: 100%;
+  right: 250px;
+  top: 0;
+  -moz-transition: all 0.1s linear;
+  color: #444;
+}
+.main_form {
+  margin: 0;
+  .header {
+    color: #000;
+    margin: 20px 20px 20px;
+    font-size: 20px;
+    padding-bottom: 12px;
+    text-transform: lowercase;
+    border-bottom: solid 1px #bbb;
+    h2 {
       float: left;
-      .intention_selected {
-        background: #e1e1e1;
-        padding: 8px 8px 7px;
-        font-size: 18px;
-        width: 320px;
-        line-height: 24px;
-        color: #000;
-        cursor: pointer;
-        float: left;
-        margin-bottom: 8px;
-        margin-right: 8px;
-      }
-      .intention_select {
-        font-size: 18px;
-        position: absolute;
-        width: 320px;
-        background: #bbb;
-        border-top: solid 2px #777;
-        z-index: 9;
-        display: none;
-        top: 39px;
-        li {
-          padding: 6px 8px;
-          display: block;
-          cursor: pointer;
-        }
-        li:hover {
-          background: #ddd;
-        }
-        li.active {
-          display: none;
-        }
-      }
-      .intention_select.active {
-        display: block;
-      }
+    }
+    .modal_close {
+      float: right;
+      margin-top: -6px;
+      padding: 3px;
+      cursor: pointer;
+    }
+    .modal_close:hover {
+      color: #fff;
     }
   }
-  .required_info {
-    padding: 20px 20px 8px;
-    border-bottom: 1px dotted #ddd;
+  form {
+    margin: 0;
+    padding: 0;
   }
-  .left_group {
-    float: left;
-    width: 370px;
+  .intention_container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: -14px;
+    .intention_selected {
+      background: #fff;
+      padding: 8px 26px 6px 6px;
+      font-size: 18px;
+      line-height: 24px;
+      color: #000;
+      cursor: pointer;
+      float: left;
+      .intention_triangle {
+        border-top: solid 6px #7f7f7f;
+        border-left: solid 6px transparent;
+        border-right: solid 6px transparent;
+        width: 6px;
+        height: 6px;
+        position: absolute;
+        right: 10px;
+        top: 16px;
+      }
+    }
+    .intention_selected:hover {
+      background: #fff;
+      .intention_triangle {
+        border-top: solid 6px #000;
+      }
+    }
+    .intention_selected.active {
+      background: #000;
+      color: #fff;
+    }
+    .intention_select {
+      font-size: 18px;
+      position: absolute;
+      width: 320px;
+      color: #ddd;
+      background: #000;
+      border-top: solid 3px #000;
+      border-bottom: solid 3px #000;
+      z-index: 9;
+      display: none;
+      top: 38px;
+      margin-bottom: 8px;
+      li {
+        padding: 6px 8px;
+        display: block;
+        cursor: pointer;
+      }
+      li:hover {
+        background: #444;
+        color: #fff;
+      }
+      li.active {
+        display: none;
+      }
+    }
+    .intention_select.active {
+      display: block;
+    }
   }
-  .ticket_group {
-    float: right;
-    width: 360px;
-  }
+}
+.required_info {
+  padding: 0 20px;
+  font-size: 18px;
+}
+.left_group {
+  float: left;
+  width: 370px;
+}
+.ticket_group {
+  float: right;
+  width: 360px;
 }
 
 #logo {
@@ -300,7 +390,8 @@ form {
 .month_container {
   position: relative;
   height: 30px;
-  margin-bottom: 25px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   .month {
     background: none repeat scroll 0 0 #000000;
     color: #FFFFFF;
@@ -309,29 +400,35 @@ form {
     height: 32px;
     letter-spacing: 2px;
     line-height: 1em;
-    margin: 15px 0 0 -110px;
+    margin: 0 0 0 -610px;
     padding: 10px;
     position: absolute;
     text-align: right;
     text-transform: uppercase;
     top: 0;
-    width: 258px;
+    width: 758px;
     font-weight: bold;
     z-index: 6;
-    border-bottom-right-radius: 4px;
-    border-top-right-radius: 4px;
+    -moz-transition: width 0.1s linear;
   }
 }
 .month.active {
+  width: 650px;
+  position: fixed;
+  left: 0;
+  top: 25px;
+  margin-top: 0;
+  margin-left: -506px;
+  z-index: 9;
+}
+.month.prev {
   opacity: 0;
 }
 .listing {
   clear: both;
-  overflow: hidden;
-  padding: 16px 0 0;
+  padding: 0;
   margin-left: 50px;
   position: relative;
-  border-bottom: solid 1px #ddd;
   .date {
     text-transform: lowercase;
     text-align: right;
@@ -339,7 +436,7 @@ form {
     font-size: 30px;
     float: left;
     color: #000;
-    margin-top: 4px;
+    margin-top: 24px;
     font-size: 18px;
     font-weight: bold;
     margin-right: 12px;
@@ -361,17 +458,22 @@ form {
     .time {
       clear: both;
       color: #000000;
-      font-style: italic;
+      font-style: itaflic;
       font-weight: normal;
       text-align: right;
+      color: #777;
+      margin-top: 1px;
     }
   }
   .main {
     float: left;
-    margin-left: 8px;
+    margin-left: 0;
+    cursor: pointer;
     font-size: 16px;
     line-height: 20px;
-    padding: 0 0 16px;
+    border-bottom: solid 1px #ddd;
+    width: 646px;
+    padding: 20px 0 14px 10px;
     .name {
       font-size: 30px;
       line-height: 1.4em;
@@ -386,23 +488,62 @@ form {
     a:hover {
       text-decoration: underline;
     }
+    .going {
+      margin-bottom: 6px;
+    }
+    .main_bottom_container {
+      height: 0;
+      overflow: hidden;
+      -moz-transition: height 0.1s ease 0s;
+      .main_bottom {
+      }
+    }
+    .main_supplement {
+      padding: 9px 15px 3px;
+      margin-right: 49px;
+      margin-bottom: 8px;
+    }
+    .location {
+      margin-bottom: 6px;
+      a {
+      }
+    }
+    .description {
+      margin-bottom: 6px;
+    }
+    .actions {
+      margin-right: 49px;
+      a {
+        color: #999;
+        font-weight: normal;
+      }
+      a.intenter {
+        color: #0E72BC;
+        text-transform: lowercase;
+        font-weight: bold;
+        margin-right: 8px;
+      }
+      a.share {
+        font-weight: bold;
+      }
+    }
   }
   .ticket {
 //    background: none repeat scroll 0 0 #ff3300;
 //    background: #ff0000;
-    background: #009933;
+    background: green;
     color: #FFFFFF;
     float: right;
     height: 34px;
     position: absolute;
-    right: 0;
-    top: 12px;
+    right: 58px;
+    top: 15px;
     font-size: 18px;
     padding: 0 15px 0;
     .sale_date {
       color: #fff;
       float: left;
-      padding-top: 4px;
+      padding-top: 8px;
       div {
         color: rgba(255, 255, 255, 0.8);
         float: left;
@@ -417,32 +558,64 @@ form {
       padding-left: 6px;
       margin-left: 6px;
       height: 36px;
-      padding-top: 4px;
+      padding-top: 8px;
     }
     .ticket_end {
       background: none repeat scroll 0 0 #FFFFFF;
-      border-radius: 12px;
       height: 12px;
       left: -6px;
       position: absolute;
       top: 11px;
       width: 10px;
+      border-radius: 22px;
     }
     .ticket_end.right {
       left: auto;
       right: -6px;
     }
   }
+  .bottom_dot {
+    background: #eee;
+    bottom: 0px;
+    height: 3px;
+    left: 100px;
+    position: absolute;
+    width: 3px;
+    display: none;
+  }
+  .ticket.orange {
+    background: darkorange;
+  }
+  .ticket.red {
+    background: darkred;
+  }
 }
-.listing:hover {
-//  border: solid 1px #eaeaea;
-//  border-left: none;
-//  border-right: none;
-  .day span {
+.listing.expanded {
+  .main_bottom {
+    height: auto;
+  }
+  .expand {
+    .expand_ver {
+      display: none;
+    }
+  }
+  .expand:hover {
+    div {
+      background: #222;
+    }
   }
 }
 .listing.last_of_month {
-  border-bottom: none;
+  .main {
+    border-bottom: none;
+  }
+}
+.main:hover {
+  .expand {
+    div {
+      background: #222;
+    }
+  }
 }
 .events_listing {
   padding-top: 0px;
@@ -450,7 +623,8 @@ form {
   margin-bottom: 30px;
 }
 #side_column {
-  width: 230px;
+  width: 240px;
+  background: #eee;
   height: 100%;
   right: 0;
   top: 0;
@@ -519,6 +693,7 @@ form {
   .side_listing {
     background: #eaeaea;
     padding: 10px 10px 8px;
+    display: none;
     .title {
       background: none repeat scroll 0 0 #555;
       color: #FFFFFF;
@@ -563,32 +738,37 @@ form {
 //  }
 //}
 
-#overlay {
-  width: 100%;
+#panel_container {
+  width: 780px;
   height: 100%;
-  cursor: pointer;
-  display: none;
-  position: absolute;
   top: 0;
-  left: 0;
-  background: #eaeaea;
-  opacity: 1;
+  right: 240px;
+  background: #ccc;
   position: fixed;
-  z-index: 8;
+  z-index: 1;
 }
 form {
   position: relative;
   clear: both;
   textarea {
-    background: #e1e1e1;
+    background: #fff;
     padding: 7px 5px 5px;
-    font-size: 13px;
-    line-height: 20px;
+    line-height: 22px;
     border: none;
+    width: 450px;
     margin: 0;
     font-family: "ff-meta-web-pro-1","ff-meta-web-pro-2",'Helvetica Neue';
-    width: 408px;
-    height: 70px;
+    height: 38px;
+    font-size: 16px;
+    margin-bottom: 8px;
+    -moz-transition: all 0.2s linear;
+  }
+  textarea:focus {
+    height: 80px;
+    width: 600px;
+  }
+  textarea:hover, textarea:focus {
+    background: #fff;
   }
 }
 #date_bar {
@@ -611,16 +791,16 @@ form {
   z-index: -1;
 }
 
-#sort_options {
+.sort_options {
   float: right;
   height: 34px;
   margin-top: 10px;
   background: #ccc;
   overflow: hidden;
-  margin-right: 20px;
+  margin-right: 12px;
   margin-top: 15px;
   width: 210px;
-  border-radius: 3px;
+  border-radius: 4px;
   
   li {
     height: 38px;
@@ -637,7 +817,6 @@ form {
     color: #fff;
   }
   li.city {
-    width: 94px;
   }
   li:hover {
     background: #999;
@@ -660,10 +839,10 @@ form {
   float: left;
   z-index: 8;
   position: fixed;
-  right: 20px;
+  right: 12px;
   top: 50px;
   width: 210px;
-  border-radius:3px;
+  border-radius: 4px;
 }
 
 .one_quarter {
@@ -679,6 +858,7 @@ form {
 .form_group {
   padding: 0 20px 2px;
   clear: both;
+  font-size: 18px;
 }
 
 .radio_list {
@@ -704,3 +884,36 @@ form {
 //    margin-left: 275px;
 //  }
 //}
+.text_container {
+  height: 1px;
+  width: 1000px;
+  overflow: hidden;
+  .text_clone {
+    float: left;
+    font-size: 18px;
+    padding: 5px;
+  }
+}
+
+.expand {
+  float: right;
+  height: 26px;
+  position: absolute;
+  right: 19px;
+  top: 19px;
+  width: 26px;
+  div {
+    background: #ccc;
+    position: absolute;
+  }
+  .expand_hor {
+    width: 24px;
+    height: 6px;
+    top: 9px;
+  }
+  .expand_ver {
+    width: 6px;
+    height: 24px;
+    left: 9px;   
+  }
+}

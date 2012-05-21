@@ -1,6 +1,7 @@
 ImGoing::Application.routes.draw do
   get "listings/feed"
   get "listings/page"
+  match "listings/new" => "listings#new"
 
   devise_for :users
 
@@ -12,6 +13,7 @@ ImGoing::Application.routes.draw do
   resources :listings
 
   root :to => "listings#feed"
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
