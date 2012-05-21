@@ -1,15 +1,28 @@
-<form method="post" id="user_new" class="user_new" action="/users" accept-charset="UTF-8"><input type="hidden" value="✓" name="utf8">
+<div class="main_form">
+  <div class="header group">
+    <h2>Sign Up</h2>
+    <div class="modal_close">x</div>
+  </div>
+  <form method="post" id="user_new" class="user_new" action="/users" accept-charset="UTF-8"><input type="hidden" value="✓" name="utf8">
 
-  <div class="line"><label for="username">username</label>
-  <input type="username" value="" size="30" name="user[name]" id="username"></div>
+    <div class="form_group group">
+      <input type="username" placeholder="username" value="" size="30" name="user[name]" id="username">
+    </div>
 
-  <div class="line"><label for="user_email">email</label>
-  <input type="email" value="" size="30" name="user[email]" id="user_email"></div>
+    <div class="form_group group">
+      <input type="email" placeholder="email" value="" size="30" name="user[email]" id="user_email">
+    </div>
+    
+    <div class="form_group group">
+      <input type="password" size="30" placeholder="password" name="user[password]" id="user_password">
+    </div>
 
-  <div class="line"><label for="user_password">password</label>
-  <input type="password" size="30" name="user[password]" id="user_password"></div>
-
-  <div class="line"><label for="user_password_confirmation">password confirmation</label>
-  <input type="password" size="30" name="user[password_confirmation]" id="user_password_confirmation"></div>
-  <div class="line"><input type="submit" value="sign up" name="commit"></div>
-</form>
+    <div class="form_group group">
+      <input type="password" size="30" placeholder="reenter password" name="user[password_confirmation]" id="user_password_confirmation">
+    </div>
+    
+    <div class="form_group group">
+      <input type="submit" value="sign up" name="commit">
+    </div>
+  </form>
+</div>

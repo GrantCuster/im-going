@@ -27,7 +27,8 @@ class ListingsController < ApplicationController
   end
   
   def create
-    @listing = Listing.create! params
+    @listing = current_user.listings.build(params[:listing])
+    @listing.save
     render :json => @listing
   end
   

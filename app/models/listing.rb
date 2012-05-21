@@ -1,5 +1,5 @@
 class Listing < ActiveRecord::Base
-attr_accessible :listing_name, :user_id, :date_and_time
+  attr_accessible :listing_name, :user_id, :date_and_time, :venue_name, :venue_address, :venue_url, :intention, :event_description, :ticket_option, :sell_out, :cost, :ticket_url, :sale_date
   
   belongs_to :user
   
