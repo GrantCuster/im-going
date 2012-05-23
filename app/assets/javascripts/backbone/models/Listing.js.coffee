@@ -64,6 +64,7 @@ window.Listing = Backbone.Model.extend
     date
   getCost: -> @get "cost"  
   getTicketUrl: -> @get "ticket_url"
+  getUserID: -> @get "user_id"
 
   # getTicketDate: () ->
   #   n = getSellOut()

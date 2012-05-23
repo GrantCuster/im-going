@@ -3,6 +3,7 @@ window.ListingView = Backbone.View.extend
   className: "listing group"
   events: 
     "click .main" : 'listingToggle'
+    "click .going a" : "userLoad"
 
   initialize: ->
     _.bindAll @, 'render'
@@ -18,10 +19,17 @@ window.ListingView = Backbone.View.extend
       setTimeout ->
         ($ @el).find('.main_bottom_container').addClass('reverse')
 
+  userLoad: (e) ->
+    user_id = ($ e.target).attr('href')
+    view = new UserView model: @model.getUser()
+    ($ '.side_content').html view.render().el
+    return false
+
   render: ->
     HTML = @template
       name: @model.getName()
-      email: @model.getUser().getName()
+      username: @model.getUser().attributes.username
+      user_id: @model.getUserID()
       day: @model.getDay()
       date: @model.getDate()
       time: @model.getTime()
@@ -262,7 +270,6 @@ window.SideListingView = Backbone.View.extend
   render: ->
     HTML = @template
       name: @model.getName()
-      email: @model.getUser().getName()
       shortdate: @model.getShortDate()
     ($ @el).html HTML
     @

@@ -10,6 +10,6 @@ class User < ActiveRecord::Base
   has_many :listings
   
   def to_json(options = {})
-    super(options.merge(:only => [ :id, :email ]))
+    super(options.merge(:only => [ :id, :email, :username ]))
   end
 end

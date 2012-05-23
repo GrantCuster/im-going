@@ -13,6 +13,7 @@ ImGoing::Application.routes.draw do
   resources :listings
 
   root :to => "listings#feed"
+  match 'users/:user_id' => 'users#show'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
