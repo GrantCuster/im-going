@@ -8,12 +8,13 @@ ImGoing::Application.routes.draw do
   devise_scope :user do
     get "signin", :to => "devise/sessions#new"
     get "signup", :to => "devise/registrations#new"
+    get "signout", :to => "devise/sessions#destroy"
   end
   
   resources :listings
 
   root :to => "listings#feed"
-  match 'users/:user_id' => 'users#show'
+  match "user/:user_id/listing" => "listings#user"
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

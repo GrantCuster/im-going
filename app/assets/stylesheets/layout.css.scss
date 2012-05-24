@@ -375,13 +375,12 @@ form {
 }
 
 #logo {
-  font-size: 38px;
-  line-height: 38px;
-  margin-top: 25px;
-  margin-left: 20px;
+  font-size: 48px;
+  line-height: 48px;
+  margin-top: 60px;
+  margin-left: 40px;
   font-weight: bold;
-  color: #222;
-  display: none;
+  color: #000;
   span {
     color: #555;
   }
@@ -392,6 +391,7 @@ form {
   color: #aaa;
   float: left;
   clear: both;
+  display: none;
 }
 .month_container {
   position: relative;
@@ -416,6 +416,9 @@ form {
     font-weight: bold;
     z-index: 6;
     -moz-transition: width 0.1s linear;
+  }
+  .month.retract {
+    width: 400px;
   }
 }
 .month.active {
@@ -650,7 +653,7 @@ form {
 }
 .events_listing {
   padding-top: 0px;
-  margin-top: 20px;
+  margin-top: 60px;
   margin-bottom: 30px;
 }
 #side_column {
@@ -716,10 +719,21 @@ form {
   }
   .side_content {
     padding: 0 20px 0 0;
-    margin-top: 115px;
+    margin-top: 45px;
     color: #555;
     font-size: 14px;
     line-height: 20px;
+    .user_view {
+      width: 250px;
+      padding: 20px;
+      img {
+        max-width: 210px;
+      }
+      .username {
+        margin-top: 8px;
+        color: #000;
+      }
+    }
   }
   .side_listing {
     background: #eaeaea;
@@ -792,7 +806,7 @@ form {
     height: 38px;
     font-size: 16px;
     margin-bottom: 8px;
-    -moz-transition: all 0.2s linear;
+    -moz-transition: all 0.1s linear;
   }
   textarea:focus {
     height: 80px;
@@ -874,6 +888,7 @@ form {
   top: 50px;
   width: 210px;
   border-radius: 4px;
+  display: none;
 }
 #create_event.active {
   background: #999;

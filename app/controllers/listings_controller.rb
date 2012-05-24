@@ -16,6 +16,15 @@ class ListingsController < ApplicationController
     end
   end
   
+  def user
+    user_id = params[:user_id]
+    listings = Listing.where(:user_id => user_id)
+    
+    respond_to do |format|
+      format.json { render :json => listings }
+    end   
+  end
+  
   def page
   end
   

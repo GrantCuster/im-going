@@ -23,7 +23,15 @@ window.ListingView = Backbone.View.extend
     user_id = ($ e.target).attr('href')
     view = new UserView model: @model.getUser()
     ($ '.side_content').html view.render().el
+    @user_listings = new Listings
+    me = @
+    @user_listings.fetch({url: "/user/#{user_id}/listing.json", success: => @successCall() })
     return false
+  
+  successCall: ->
+    view = new ListingsView collection: @user_listings
+    ($ '#main_inner').html view.render().el
+    ($ '.month').removeClass 'retract'
 
   render: ->
     HTML = @template
@@ -205,7 +213,7 @@ window.ListingsView = Backbone.View.extend
       if me.month != listing_month
         me.month = listing_month
         ($ me.el).find('.listing:last-child').addClass 'last_of_month'
-        ($ me.el).append '<div class="month_container"><div class="month">' + listing_month + '</div></div>'
+        ($ me.el).append '<div class="month_container"><div class="month retract">' + listing_month + '</div></div>'
       ($ me.el).append listing_view.render().el
     )
     

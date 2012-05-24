@@ -86,6 +86,7 @@ window.Listings = Backbone.Collection.extend
     (d.getTime())
 
   initialize: ->
+    console.log 'listing view initialized'
 
 window.SideListings = Backbone.Collection.extend
   model: Listing

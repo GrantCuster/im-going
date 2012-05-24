@@ -13,6 +13,7 @@ window.ApplicationRouter = Backbone.Router.extend
     listings.reset(preloaded_data)
     view = new ListingsView collection: listings
     ($ '#main_inner').html view.render().el
+    ($ '.month').removeClass 'retract'
   
   populate_side_listings: ->
     side_listings = new SideListings

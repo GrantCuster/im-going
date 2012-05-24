@@ -6,8 +6,7 @@ window.UserView = Backbone.View.extend
     _.bindAll @
 
   render: ->
-    console.log @model.getName()
     HTML = @template
-      name: "grant"
+      name: @model.getName()
     $(@el).html HTML
     @
