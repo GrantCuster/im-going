@@ -6,7 +6,7 @@
   {{dates}}
   <div class="name">{{name}}</div>
   <div class="going">
-    <a href="{{user_id}}">{{username}}</a> is going.
+    <a href="{{user_id}}">{{username}}</a> is going. {{intentions}}
   </div>
   <div class="main_bottom_container">
     <div class="main_bottom">
@@ -23,7 +23,16 @@
       </div>
       <div class="actions group">
         <div class="left">
-          <a class="intenter" href="#">want to go?</a>
+          <div class="intent_option">
+            <a class="intenter" href="#">want to go?</a>
+            {{#if current_user}}
+              <ul class="go_options">
+                <li>I am going</li>
+                <li>I am thinking about going</li>
+                <li>I would go if somebody else do</li>
+              </ul>
+            {{/if}}
+          </div>
           <a href="#">comment</a>
         </div>
         <div class="right hidden">

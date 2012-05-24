@@ -34,13 +34,27 @@ window.SortOptionsView = Backbone.View.extend
   template: JST["templates/sort_options"]
   className: "sort_options"
   tagName: "ul"
-  events:
-    "click .sign_up" : "sign_up"
-    "click .sign_in" : "sign_in"
     
   initialize: ->
     _.bindAll @, 'render'
+    
+  render: ->
+    HTML = @template
+    $(@el).html @template
+      current_user: oApp.currentUser
+    @
+
+window.SignOptionsView = Backbone.View.extend
+  template: JST["templates/sign_options"]
+  className: "sign_up_options"
+  tagName: "ul"
+  events:
+    "click .facebook" : "sign_up"
+    "click .twitter" : "sign_in"
   
+  initialize: ->
+    _.bindAll @, 'render'
+
   sign_up: ->
     ($ '#main_column').addClass('inactive')
     view = new SignUpView
@@ -50,7 +64,7 @@ window.SortOptionsView = Backbone.View.extend
     ($ '#main_column').addClass('inactive')
     view = new SignInView
     ($ '#panel_container').html view.render().el
-    
+  
   render: ->
     HTML = @template
     $(@el).html @template

@@ -8,6 +8,10 @@ window.ListingView = Backbone.View.extend
   initialize: ->
     _.bindAll @, 'render'
     @model.bind 'change', @render, @
+    @getIntentions()
+  
+  getIntentions: ->
+    console.log 'get intentions'
 
   listingToggle: ->
     if ($ @el).hasClass('expanded')
@@ -34,9 +38,15 @@ window.ListingView = Backbone.View.extend
     ($ '.month').removeClass 'retract'
 
   render: ->
+    user = @model.getUser()
+    intentions = @model.getIntentions()
+    if intentions.length > 0
+      intention_choices = intentions.order()
+      console.log intention_choices
     HTML = @template
+      current_user: oApp.currentUser
       name: @model.getName()
-      username: @model.getUser().attributes.username
+      username: user.username
       user_id: @model.getUserID()
       day: @model.getDay()
       date: @model.getDate()

@@ -170,7 +170,6 @@ form {
 
   }
   .required {
-    border-bottom: solid 1px red;
   }
   .form_text.end {
   }
@@ -375,10 +374,11 @@ form {
 }
 
 #logo {
-  font-size: 48px;
-  line-height: 48px;
-  margin-top: 60px;
-  margin-left: 40px;
+  font-size: 36px;
+  line-height: 44px;
+  margin-top: 90px;
+  margin-left: 20px;
+  margin-right: 20px;
   font-weight: bold;
   color: #000;
   span {
@@ -386,12 +386,11 @@ form {
   }
 }
 #tagline {
-  margin-top: 3px;
-  font-size: 13px;
-  color: #aaa;
-  float: left;
-  clear: both;
-  display: none;
+  font-size: 14px;
+  line-height: 18px;
+  color: #666;
+  margin-left: 20px;
+  margin-right: 30px;
 }
 .month_container {
   position: relative;
@@ -526,14 +525,53 @@ form {
         color: #999;
         font-weight: normal;
       }
-      a.intenter {
-        color: #0E72BC;
-        text-transform: lowercase;
-        font-weight: bold;
-        margin-right: 8px;
-      }
       a.share {
         font-weight: bold;
+      }
+      .intent_option {
+        position: relative;
+        display: inline-block;
+        a.intenter {
+          color: #0E72BC;
+          text-transform: lowercase;
+          margin-right: 8px;
+          padding: 8px 12px;
+          margin-top: -8px;
+          margin-left: -12px;
+          font-weight: bold;
+        }  
+        .go_options {
+          display: none;
+          position: absolute;
+          left: -12px;
+          top: 26px;
+          width: 250px;
+          padding: 0;
+          background: #333;
+          border-top: solid 4px #000;
+          border-bottom: solid 4px #000;
+          li {
+            padding: 8px 10px;
+            color: #eee;
+          }
+        }
+      }
+      .intent_option:hover {
+        a.intenter {
+          background: #000;
+          color: #fff;
+          font-weight: normal;
+          text-decoration: none;
+        }
+        .go_options {
+          display: block;
+          color: #fff;
+          z-index: 999;
+          li:hover {
+            background: #000;
+            color: #fff;
+          }
+        }
       }
     }
   }
@@ -625,8 +663,11 @@ form {
   }
 }
 .listing.expanded {
-  .main_bottom {
-    height: auto;
+  .main_bottom_container {
+    overflow: visible;
+    .main_bottom {
+      height: auto;
+    }
   }
   .expand {
     .expand_ver {
@@ -656,6 +697,51 @@ form {
   margin-top: 60px;
   margin-bottom: 30px;
 }
+.sign_up_options {
+  float: right;
+  height: 34px;
+  background: #ccc;
+  width: 200px;
+  border-radius: 5px;
+  margin-right: 20px;
+  margin-top: 40px;
+  overflow: hidden;
+  position: relative;
+  li {
+    height: 34px;
+    padding: 9px 8px 0;
+    font-size: 18px;
+    line-height: 18px;
+    color: #eee;
+    float: right;
+    text-transform: lowercase;
+    cursor: pointer;
+    background: #333;
+    width: 100px;
+    text-align: center;
+  }
+  li:hover {
+    background: #bbb;
+  }
+  li.facebook {
+    background: #395B9B;
+  }
+  li.twitter {
+    background: #53BEE2;
+  }
+  li#sign_up_overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 200px;
+    background: magenta;
+  }
+}
+.sign_up_options:hover {
+  li#sign_up_overlay {
+    display: none;
+  }
+}
 #side_column {
   width: 240px;
   background: #eee;
@@ -666,28 +752,6 @@ form {
   -moz-transition: width 0.2s linear;
   z-index: 7;
   line-height: 1.4em;
-  #side_sort_options {
-    float: right;
-    height: 30px;
-    background: #000;
-    width: 200px;
-    top: 0;
-    position: fixed;
-    li {
-      height: 30px;
-      padding: 8px 8px 0;
-      font-size: 14px;
-      line-height: 14px;
-      color: #eee;
-      float: right;
-      text-transform: lowercase;
-      cursor: pointer;
-      background: #333;
-    }
-    li:hover {
-      background: #bbb;
-    }
-  }
   .sign_options {
     color: #aaa;
     margin-bottom: 15px;
@@ -715,6 +779,7 @@ form {
     }
     a.active {
       color: #000;
+      width: 100px;
     }
   }
   .side_content {
@@ -842,9 +907,9 @@ form {
   margin-top: 10px;
   background: #ccc;
   overflow: hidden;
-  margin-right: 12px;
+  margin-right: 20px;
   margin-top: 15px;
-  width: 210px;
+  width: 200px;
   border-radius: 4px;
   
   li {
@@ -862,6 +927,10 @@ form {
     color: #fff;
   }
   li.city {
+    width: 200px;
+  }
+  li.city.signed_in {
+    width: auto;
   }
   li:hover {
     background: #999;
@@ -878,17 +947,16 @@ form {
   color: #fff;
   line-height: 18px;
   height: 34px;
-  margin-top: 15px;
+  margin-top: 188px;
   text-align: center;
   text-decoration: none;
   float: left;
   z-index: 8;
   position: fixed;
-  right: 12px;
+  right: 20px;
   top: 50px;
-  width: 210px;
+  width: 200px;
   border-radius: 4px;
-  display: none;
 }
 #create_event.active {
   background: #999;

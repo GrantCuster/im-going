@@ -25,7 +25,12 @@ window.Listing = Backbone.Model.extend
     time_stripped = time.replace("M", "")
     time_stripped
   getMonth: -> $.format.date(@getDateTime(),"MMMM")
-  getUser: -> new User (@get "user")
+  getUser: -> @get "user"
+  getUsername: ->
+    user = @getUser()
+    console.log 'user'
+    console.log user
+    return false
   getTicketOption: -> @get "ticket_option"  
   getSellOut: -> 
     option_num = @get "sell_out"
@@ -65,6 +70,7 @@ window.Listing = Backbone.Model.extend
   getCost: -> @get "cost"  
   getTicketUrl: -> @get "ticket_url"
   getUserID: -> @get "user_id"
+  getIntentions: -> new Intentions(@get "intentions")
 
   # getTicketDate: () ->
   #   n = getSellOut()
@@ -84,9 +90,6 @@ window.Listings = Backbone.Collection.extend
   comparator: (listing) -> 
     d = new Date Date.parse(listing.get("date_and_time"))
     (d.getTime())
-
-  initialize: ->
-    console.log 'listing view initialized'
 
 window.SideListings = Backbone.Collection.extend
   model: Listing
