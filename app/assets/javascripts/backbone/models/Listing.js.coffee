@@ -28,8 +28,6 @@ window.Listing = Backbone.Model.extend
   getUser: -> @get "user"
   getUsername: ->
     user = @getUser()
-    console.log 'user'
-    console.log user
     return false
   getTicketOption: -> @get "ticket_option"  
   getSellOut: -> 
@@ -43,13 +41,11 @@ window.Listing = Backbone.Model.extend
     if !(days == "no_date")
       current_date = new Date
       sale_date = @getSaleDate()
-      console.log sale_date
       if sale_date
         d = new Date Date.parse(@getSaleDate())
       else
         d = new Date Date.parse(@get "created_at")
       d.setDate(d.getDate() + days)
-      console.log d.toString()
       days_until = (d - current_date)/86400000
       if days_until < 2
         urgency = "red"

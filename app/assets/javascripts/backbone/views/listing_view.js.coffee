@@ -4,14 +4,11 @@ window.ListingView = Backbone.View.extend
   events: 
     "click .main" : 'listingToggle'
     "click .going a" : "userLoad"
+    "click .go_options li" : "intentionChoice"
 
   initialize: ->
     _.bindAll @, 'render'
     @model.bind 'change', @render, @
-    @getIntentions()
-  
-  getIntentions: ->
-    console.log 'get intentions'
 
   listingToggle: ->
     if ($ @el).hasClass('expanded')
@@ -32,6 +29,18 @@ window.ListingView = Backbone.View.extend
     @user_listings.fetch({url: "/user/#{user_id}/listing.json", success: => @successCall() })
     return false
   
+  intentionChoice: (e) ->
+    intentions = @model.getIntentions()
+    intent = ($ e.target).index() + 1
+    listing_id = @model.getID()
+    user_id = oApp.currentUser.id
+    data = {}
+    data["listing_id"] = listing_id
+    data["user_id"] = user_id
+    data["intention"] = intent
+    intentions.create data
+    return false
+  
   successCall: ->
     view = new ListingsView collection: @user_listings
     ($ '#main_inner').html view.render().el
@@ -39,10 +48,7 @@ window.ListingView = Backbone.View.extend
 
   render: ->
     user = @model.getUser()
-    intentions = @model.getIntentions()
-    if intentions.length > 0
-      intention_choices = intentions.order()
-      console.log intention_choices
+    intentions = @model.getIntentions().order()
     HTML = @template
       current_user: oApp.currentUser
       name: @model.getName()
@@ -57,11 +63,13 @@ window.ListingView = Backbone.View.extend
       description: @model.getEventDescription()
       free: true if @model.getTicketOption() == 2
       urgency: @model.getSellOut()
+      intentions: intentions if intentions.length > 0
       listing_month: @model.getSaleMonth()
       listing_day: @model.getSaleDay()
       cost: @model.getCost()
       ticket_display: true if (@model.getSaleMonth() || @model.getCost())
       ticket_url: @model.getTicketUrl()
+      intentions: intentions if intentions.length > 0
     ($ @el).html HTML
     @
 
@@ -374,7 +382,6 @@ window.ListingCreate = Backbone.View.extend
         false
     ticket_url = ($ '#listing_ticket_url').val()
     ($ '#listing_sale_date').val formatted_date
-    console.log formatted_sale_date
     ($ '#listing_intention').val intention
     ($ '#listing_date_and_time').val formatted_date
     ($ '#listing_ticket_option').val ticket_option
@@ -403,10 +410,7 @@ window.ListingCreate = Backbone.View.extend
     input = ($ e.target)
     new_width = input.attr('data-og-width')
     input.width new_width
-  
-  checkIt: ->
-    console.log 'check it'
-  
+    
   inputBlur: (e) ->
     input = ($ e.target)
     if input.val().length > 0

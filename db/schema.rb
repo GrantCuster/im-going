@@ -11,14 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120524224325) do
+ActiveRecord::Schema.define(:version => 20120525011230) do
 
   create_table "intentions", :force => true do |t|
     t.integer  "intention"
     t.integer  "user_id"
+    t.integer  "listing_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "listing_id"
   end
 
   create_table "listings", :force => true do |t|

@@ -2,6 +2,7 @@ ImGoing::Application.routes.draw do
   get "listings/feed"
   get "listings/page"
   match "listings/new" => "listings#new"
+  match "intentions/new" => "intentions#new"
 
   devise_for :users
 
@@ -12,6 +13,7 @@ ImGoing::Application.routes.draw do
   end
   
   resources :listings
+  resources :intentions
 
   root :to => "listings#feed"
   match "user/:user_id/listing" => "listings#user"
