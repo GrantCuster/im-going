@@ -5,3 +5,4 @@ window.User = Backbone.Model.extend
   
   getEmail: -> @get "email"
   getName: -> @get "username"
+  getId: -> @get "id"

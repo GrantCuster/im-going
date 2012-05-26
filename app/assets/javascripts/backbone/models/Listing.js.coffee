@@ -4,15 +4,7 @@ window.Listing = Backbone.Model.extend
 
   getID: -> @get "id"
   getName: -> @get "listing_name"
-  getIntention: -> 
-    intent_num = @get "intention"
-    if intent_num == 0
-      intention = "is going"
-    else if intent_num == 1
-      intention = "is thinking about going to"
-    else
-      intention = "would go, if someone else does, to"
-    intention
+  getIntention: -> @get "intention"
   getDateTime: -> 
     d = new Date Date.parse(@get "date_and_time")
     d.toString()
@@ -66,7 +58,12 @@ window.Listing = Backbone.Model.extend
   getCost: -> @get "cost"  
   getTicketUrl: -> @get "ticket_url"
   getUserID: -> @get "user_id"
-  getIntentions: -> new Intentions(@get "intentions")
+  getIntentions: ->
+    listing_intention = new Intention( intention: this.getIntention() + 1, user_id: this.getID(), user: this.getUser() )
+    intentions = new Intentions([listing_intention])
+    other_intentions = @get "intentions"
+    intentions.add(other_intentions)
+    intentions
 
   # getTicketDate: () ->
   #   n = getSellOut()

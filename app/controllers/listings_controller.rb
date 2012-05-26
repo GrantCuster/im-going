@@ -18,10 +18,15 @@ class ListingsController < ApplicationController
   
   def user
     user_id = params[:user_id]
-    listings = Listing.where(:user_id => user_id)
+    @listings = Listing.where(:user_id => user_id)
+    intentions = Intention.where(:user_id => user_id)
+    intentions.each do |intention|
+      listFromIntent = Listing.find(intention.listing_id)
+      @listings.push(listFromIntent)
+    end
     
     respond_to do |format|
-      format.json { render :json => listings }
+      format.json { render :json => @listings }
     end   
   end
   

@@ -25,12 +25,14 @@ window.ListingView = Backbone.View.extend
     view = new UserView model: @model.getUser()
     ($ '.side_content').html view.render().el
     @user_listings = new Listings
-    me = @
-    @user_listings.fetch({url: "/user/#{user_id}/listing.json", success: => @successCall() })
+    @user_listings.fetch
+      url: "/user/#{user_id}/listing.json"
+      success: => @successCall()
     return false
   
   intentionChoice: (e) ->
-    intentions = @model.getIntentions()
+    @intentions = @model.getIntentions()
+    @intentions.bind 'add', @render, @
     intent = ($ e.target).index() + 1
     listing_id = @model.getID()
     user_id = oApp.currentUser.id
@@ -38,7 +40,7 @@ window.ListingView = Backbone.View.extend
     data["listing_id"] = listing_id
     data["user_id"] = user_id
     data["intention"] = intent
-    intentions.create data
+    @intentions.create data
     return false
   
   successCall: ->
@@ -48,7 +50,7 @@ window.ListingView = Backbone.View.extend
 
   render: ->
     user = @model.getUser()
-    intentions = @model.getIntentions().order()
+    @intentions || = @model.getIntentions()
     HTML = @template
       current_user: oApp.currentUser
       name: @model.getName()
@@ -63,13 +65,12 @@ window.ListingView = Backbone.View.extend
       description: @model.getEventDescription()
       free: true if @model.getTicketOption() == 2
       urgency: @model.getSellOut()
-      intentions: intentions if intentions.length > 0
       listing_month: @model.getSaleMonth()
       listing_day: @model.getSaleDay()
       cost: @model.getCost()
       ticket_display: true if (@model.getSaleMonth() || @model.getCost())
       ticket_url: @model.getTicketUrl()
-      intentions: intentions if intentions.length > 0
+      intentions: @intentions.order() if @intentions.length > 0
     ($ @el).html HTML
     @
 
