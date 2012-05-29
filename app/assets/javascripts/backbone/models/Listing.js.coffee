@@ -19,9 +19,6 @@ window.Listing = Backbone.Model.extend
   getMonth: -> $.format.date(@getDateTime(),"MMMM")
   getUser: -> @get "user"
   getUserID: -> @get "user_id"
-  getUsername: ->
-    user = @getUser()
-    return false
   getTicketOption: -> @get "ticket_option"  
   getSellOut: -> 
     option_num = @get "sell_out"

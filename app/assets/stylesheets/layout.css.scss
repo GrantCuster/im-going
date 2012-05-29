@@ -94,7 +94,7 @@ body {
   font-family: "ff-meta-web-pro-1","ff-meta-web-pro-2",'Helvetica Neue';
   
   #wrapper {
-    margin: 0 240px 0 0;
+    margin: 0 260px 0 0;
     line-height: 1.4em;
     position: relative;
     
@@ -144,9 +144,6 @@ body {
     }
     #main_column.inactive {
       margin-right: 780px;
-      #main_inner .listing .main {
-        border-bottom: solid 1px #ccc;
-      }
     }
   }
 }
@@ -294,8 +291,8 @@ form {
         width: 500px;
         line-height: 1.4em;
         font-size: 30px;
-        margin-top: 8px;
-        margin-left: -1px;
+        margin-top: 9px;
+        margin-left: -2px;
         font-weight: bold;
         -moz-transition: font-size 0.2s linear, font-weight 0.2s linear, margin-top 0.2s linear, margin-left 0.2s linear;
       }
@@ -318,12 +315,10 @@ form {
     width: 588px;
   }
 }
-.listing.transitions {
-  -moz-transition: all 0.2s linear;
-}
 .listing.transition {
-  opacity: 1;
   position: relative;
+  -moz-transition: all 0.2s linear;
+  opacity: 1; 
 }
 .listing.transition.move_it {
   right: 0;
@@ -463,8 +458,8 @@ form {
 .month_container {
   position: relative;
   height: 60px;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 25px;
+  padding-bottom: 5px;
   background: #fff;
   clear: both;
   -moz-transition: height 0.2s linear;
@@ -481,18 +476,22 @@ form {
     position: absolute;
     text-align: right;
     text-transform: uppercase;
-    top: 15px;
+    top: 25px;
     width: 758px;
     font-weight: bold;
     z-index: 6;
     -moz-transition: width 0.1s linear;
   }
 }
-.month_container {
-  height: 0px;
+.month_container.retract {
   .month {
     width: 400px;
   }
+}
+.month_container.inserted {
+  height: 0;
+  padding: 0;
+  overflow: hidden;
 }
 .month.active {
   width: 650px;
@@ -758,7 +757,6 @@ form {
 }
 .listing.last_of_month {
   .main {
-    border-bottom: none;
   }
 }
 .main:hover {
@@ -770,7 +768,7 @@ form {
 }
 .events_listing {
   padding-top: 0px;
-  margin-top: 60px;
+  margin-top: 80px;
   margin-bottom: 30px;
 }
 .sign_up_options {
@@ -785,7 +783,7 @@ form {
   position: relative;
   li {
     height: 34px;
-    padding: 9px 14px 0;
+    padding: 9px 11px 0;
     font-size: 18px;
     line-height: 18px;
     color: #eee;
@@ -796,9 +794,6 @@ form {
     width: 100px;
     text-align: center;
   }
-  li:hover {
-    background: #bbb;
-  }
   li.facebook {
     background: #395B9B;
     text-align: left;
@@ -807,6 +802,7 @@ form {
     .name {
       display: none;
       font-weight: normal;
+      -moz-transition: all 0.2s linear;
     }
   }
   li.twitter {
@@ -825,33 +821,78 @@ form {
     top: 0;
     width: 130px;
     background: magenta;
+    padding: 9px 6px 0;
+    -moz-transition: all 0.1s linear;
+    .left_pointer {
+      border: solid 12px transparent;
+      border-right: solid 12px magenta;
+      position: absolute;
+      left: -18px;
+      top: 5px;
+      display: none;
+    }
+    .right_pointer {
+      border: solid 12px transparent;
+      border-left: solid 12px magenta;
+      position: absolute;
+      right: -18px; 
+      top: 5px;
+      display: none;
+    }
+  }
+  li.facebook_target {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    background: transparent;
+  }
+  li.twitter_target {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50%;
+    background: transparent;
   }
 }
-.sign_up_options:hover {
+.sign_up_options.facebooked {
   li#sign_up_overlay {
-    display: none;
+    left: 100px;
+    width: 75px;
+    .left_pointer {
+      display: block;
+    }
   }
   li.facebook {
-    text-align: center;
+    text-align: left;
     span {
       display: none;
     }
     .name {
       display: inline;
+    }
+  }  
+}
+.sign_up_options.twittered {
+  li#sign_up_overlay {
+    left: 30px;
+    width: 75px;
+    .right_pointer {
+      display: block;
     }
   }
   li.twitter {
-    text-align: center;
+    text-align: right;
     span {
       display: none;
     }
     .name {
       display: inline;
     }
-  }
+  }  
 }
 #side_column {
-  width: 240px;
+  width: 260px;
   background: #eee;
   height: 100%;
   right: 0;
@@ -891,9 +932,8 @@ form {
     }
   }
   .side_content {
-    padding: 0 20px 0 0;
-    margin-top: 45px;
-    color: #555;
+    padding: 0 30px 0;
+    margin-top: 90px;
     font-size: 14px;
     line-height: 20px;
     .user_view {
@@ -909,32 +949,31 @@ form {
     }
   }
   .side_listing {
-    background: #eaeaea;
-    padding: 10px 10px 8px;
-    display: none;
     .title {
-      background: none repeat scroll 0 0 #555;
-      color: #FFFFFF;
-      font-size: 16px;
+      color: #444;
+      font-size: 18px;
       font-weight: normal;
       line-height: 1.4em;
-      padding: 8px 10px 5px;
       text-transform: lowercase;
-      margin: -10px -10px 8px;
+      border-bottom: solid 1px #ccc;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
     }
     .listing {
-      font-size: 14px;
+      font-size: 15px;
+      line-height: 25px;
       background: transparent;
       padding: 0;
       margin: 0;
       a {
         cursor: pointer;
         text-decoration: none;
-        color: #555;
+        color: #444;
       }
     }
     .listing:hover a {
-      text-decoration: underline;
+      background: #ddd;
+      color: #000;
     }
     .listing:last-child {
       .side_separator {
@@ -1011,18 +1050,24 @@ form {
 
 .sort_options {
   float: right;
-  height: 34px;
+  height: 36px;
   margin-top: 10px;
   background: #ccc;
   overflow: hidden;
   margin-right: 20px;
-  margin-top: 15px;
-  width: 200px;
-  border-radius: 4px;
-  
+  margin-top: 25px;
+  width: 210px;
+  .left_pointer {
+    border: solid 12px transparent;
+    border-right: solid 12px magenta;
+    position: absolute;
+    left: -18px;
+    top: 5px;
+    display: none;
+  }
   li {
-    height: 38px;
-    padding: 8px 8px 0;
+    height: 39px;
+    padding: 10px 8px 0;
     font-size: 18px;
     line-height: 18px;
     color: #000;
@@ -1038,7 +1083,7 @@ form {
     width: 200px;
   }
   li.city.signed_in {
-    width: auto;
+    width: 95px;
   }
   li:hover {
     background: #999;
@@ -1047,24 +1092,22 @@ form {
     background: black;
   }
 }
-
-#create_event {
-  background: #0E72BC;
-  padding: 8px 10px 0;
-  font-size: 18px;
-  color: #fff;
-  line-height: 18px;
-  height: 34px;
-  margin-top: 188px;
-  text-align: center;
-  text-decoration: none;
-  float: left;
-  z-index: 8;
-  position: fixed;
-  right: 20px;
-  top: 50px;
-  width: 200px;
-  border-radius: 4px;
+.create_container {
+  padding: 0 30px;
+  margin-top: 30px;
+  #create_event {
+    background: #0E72BC;
+    padding: 12px 10px 0;
+    font-size: 18px;
+    color: #fff;
+    line-height: 18px;
+    height: 41px;
+    text-align: center;
+    text-decoration: none;
+    z-index: 8;
+    width: 200px;
+    display: block;
+  }
 }
 #create_event.active {
   background: #999;

@@ -61,6 +61,10 @@ window.SignOptionsView = Backbone.View.extend
   events:
     "click .facebook" : "sign_up"
     "click .twitter" : "sign_in"
+    "mouseenter .facebook_target" : "facebookEnter"
+    "mouseleave .facebook_target" : "facebookLeave"
+    "mouseenter .twitter_target" : "twitterEnter"
+    "mouseleave .twitter_target" : "twitterLeave"
   
   initialize: ->
     _.bindAll @, 'render'
@@ -74,7 +78,19 @@ window.SignOptionsView = Backbone.View.extend
     ($ '#main_column').addClass('inactive')
     view = new SignInView
     ($ '#panel_container').html view.render().el
+
+  facebookEnter: ->
+    ($ '.sign_up_options').addClass 'facebooked'
   
+  facebookLeave: ->
+    ($ '.sign_up_options').removeClass 'facebooked'
+
+  twitterEnter: ->
+    ($ '.sign_up_options').addClass 'twittered'
+
+  twitterLeave: ->
+    ($ '.sign_up_options').removeClass 'twittered'
+
   render: ->
     HTML = @template
     $(@el).html @template
