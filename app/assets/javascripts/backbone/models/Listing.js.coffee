@@ -18,6 +18,7 @@ window.Listing = Backbone.Model.extend
     time_stripped
   getMonth: -> $.format.date(@getDateTime(),"MMMM")
   getUser: -> @get "user"
+  getUserID: -> @get "user_id"
   getUsername: ->
     user = @getUser()
     return false
@@ -59,7 +60,7 @@ window.Listing = Backbone.Model.extend
   getTicketUrl: -> @get "ticket_url"
   getUserID: -> @get "user_id"
   getIntentions: ->
-    listing_intention = new Intention( intention: this.getIntention() + 1, user_id: this.getID(), user: this.getUser() )
+    listing_intention = new Intention( intention: this.getIntention() + 1, user_id: this.getUserID(), user: this.getUser() )
     intentions = new Intentions([listing_intention])
     other_intentions = @get "intentions"
     intentions.add(other_intentions)

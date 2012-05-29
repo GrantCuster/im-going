@@ -24,13 +24,27 @@
       <div class="actions group">
         <div class="left">
           <div class="intent_option">
-            <a class="intenter" href="#">want to go?</a>
-            {{#if current_user}}
-              <ul class="go_options">
-                <li>I am going</li>
-                <li>I am thinking about going</li>
-                <li>I would go if somebody else do</li>
-              </ul>
+            {{#if user_listing}}
+              <a href="#">edit</a>
+              <a href-"#">delete</a>
+            {{else}}
+              {{#if intented}}
+                <a class="intenter" href="#">{{{user_intent}}}</a>
+                <ul class="go_options">
+                  <li>I'm not</li>
+                  <li>I am thinking about going</li>
+                  <li>I would go if somebody else do</li>
+                </ul>
+              {{else}}
+                <a class="intenter" href="#">want to go?</a>
+                {{#if current_user}}
+                  <ul class="go_options">
+                    <li>I am going</li>
+                    <li>I am thinking about going</li>
+                    <li>I would go if somebody else do</li>
+                  </ul>
+                {{/if}}
+              {{/if}}
             {{/if}}
           </div>
           <a href="#">comment</a>

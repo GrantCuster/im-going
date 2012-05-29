@@ -5,6 +5,6 @@ $(document).ready ->
     ($ '#main_column').css 'width', (main_width)
     ($ '.listing .main').css 'width', (main_width - 152)
 
-  layout_response()
-  ($ window).resize ->
-    layout_response()
+  # layout_response()
+  # ($ window).resize ->
+  #   layout_response()

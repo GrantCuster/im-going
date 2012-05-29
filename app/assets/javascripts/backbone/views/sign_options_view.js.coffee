@@ -1,6 +1,11 @@
 window.SignUpView = ListingCreate.extend
   template: JST["templates/sign_up"]
 
+  initialize: (collection) ->
+    _.bindAll @
+    if ($ '.text_container').length == 0
+      ($ 'body').append '<div class="text_container"><div class="text_clone"></div></div>'
+
   typeCheck: (e) ->
     current_input = ($ ".line.focus input")
     if (!($ ".line.focus").hasClass('text_entered')) && (e.which != 8)
@@ -19,6 +24,11 @@ window.SignInView = ListingCreate.extend
     'click .modal_close' : 'closeModal'
     'focus input' : 'inputFocus'
     'blur input' : 'inputBlur'
+
+  initialize: (collection) ->
+    _.bindAll @
+    if ($ '.text_container').length == 0
+      ($ 'body').append '<div class="text_container"><div class="text_clone"></div></div>'
 
   typeCheck: (e) ->
     current_input = ($ ".line.focus input")

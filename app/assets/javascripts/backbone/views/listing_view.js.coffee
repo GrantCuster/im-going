@@ -46,14 +46,27 @@ window.ListingView = Backbone.View.extend
   successCall: ->
     view = new ListingsView collection: @user_listings
     ($ '#main_inner').html view.render().el
-    ($ '.month').removeClass 'retract'
+    ($ '.month_container').removeClass 'retract'
 
   render: ->
     user = @model.getUser()
     @intentions || = @model.getIntentions()
+    if oApp.currentUser.id == @model.getUserID()
+      user_listing = true
+    else
+      user_listing = false
+    intented = false
+    user_intent = false
+    unless user_listing
+      @intentions.each (intention) =>
+        if intention.getUserID() == oApp.currentUser.id 
+          intented = true
+          user_intent = intention
     HTML = @template
       current_user: oApp.currentUser
+      user_listing: user_listing if user_listing == true
       name: @model.getName()
+      intented: intented if intented == true
       username: user.username
       user_id: @model.getUserID()
       day: @model.getDay()
@@ -70,6 +83,7 @@ window.ListingView = Backbone.View.extend
       cost: @model.getCost()
       ticket_display: true if (@model.getSaleMonth() || @model.getCost())
       ticket_url: @model.getTicketUrl()
+      user_intent: user_intent.getText() if user_intent
       intentions: @intentions.order() if @intentions.length > 0
     ($ @el).html HTML
     @
@@ -82,7 +96,6 @@ window.ListingsView = Backbone.View.extend
   
   initialize: ->
     _.bindAll @, 'initSubViews', 'render'
-    @collection.bind 'add', @addOne, @
   
   addOne: (listing) ->
     window.side_listings.add(listing)
@@ -102,6 +115,7 @@ window.ListingsView = Backbone.View.extend
   showCreate: (e) ->
     ($ e.target).addClass('active').text 'reset form'
     ($ '#main_column').addClass('inactive')
+    ($ '.month_container').addClass 'retract'
     listing_create = new ListingCreate @collection
     ($ '#panel_container').html listing_create.render().el
     el = $('.listing_create_container')
@@ -232,7 +246,7 @@ window.ListingsView = Backbone.View.extend
       if me.month != listing_month
         me.month = listing_month
         ($ me.el).find('.listing:last-child').addClass 'last_of_month'
-        ($ me.el).append '<div class="month_container"><div class="month retract">' + listing_month + '</div></div>'
+        ($ me.el).append '<div class="month_container"><div class="month">' + listing_month + '</div></div>'
       ($ me.el).append listing_view.render().el
     )
     
@@ -317,6 +331,7 @@ window.ListingCreate = Backbone.View.extend
     if ($ '.text_container').length == 0
       ($ 'body').append '<div class="text_container"><div class="text_clone"></div></div>'
     @collection = collection
+    @collection.bind 'add', @addTransition, @
     getDates()
 
   showIntentions: (e) ->
@@ -403,9 +418,45 @@ window.ListingCreate = Backbone.View.extend
     data["ticket_url"] = ticket_url
     data["sale_date"] = formatted_sale_date
     @collection.create data
-    ($ @el).hide()
-    ($ '#main_column').removeClass('inactive')
+    ($ '#panel_container').addClass('creating').find('#listing_listing_name').addClass('transition').width(500)
     return false
+  
+  addTransition: (listing, collection) ->
+    collection.find (model, index) =>
+      if model.getID() == listing.getID()
+        @insert_at = index
+    view = new ListingView(model: listing)
+    new_listing = view.render().el   
+    if @insert_at != 0
+      object_before = ($ ".events_listing .listing:eq(#{@insert_at - 1})")
+      object_before.after new_listing
+    else
+      ($ '.listing').prepend new_listing
+    ($ new_listing).addClass 'expanded prepare'    
+    new_height = ($ new_listing).height()
+    ($ new_listing).before '<div class="insertion_spacer"></div>'
+    new_pos = ($ new_listing).offset().top
+    insertion_pos = ($ '#new_listing').offset().top
+    scroll_pos = new_pos - insertion_pos
+    ($ 'html, body').animate
+      'scrollTop' : scroll_pos
+    , 400, ->
+      ($ '.insertion_spacer').animate
+        'height' : new_height
+      , 400, ->
+        ($ new_listing).addClass 'transition'
+        setTimeout =>
+          ($ new_listing).addClass 'move_it'
+          ($ '#main_column').removeClass 'inactive'
+          setTimeout ->
+            ($ '#panel_container').removeClass('creating').html ''
+            ($ '#create_event').removeClass('active').text('new event')
+            ($ '.insertion_spacer').remove()
+            listings_view = new ListingsView collection: listings
+            ($ '#main_inner').html listings_view.render().el
+            ($ '.month_container').removeClass 'retract'
+          , 200
+        , 400
   
   inputFocus: (e) ->
     input = ($ e.target)
