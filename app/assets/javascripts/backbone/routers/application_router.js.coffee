@@ -5,11 +5,11 @@ window.ApplicationRouter = Backbone.Router.extend
   index: ->
     view = new SortOptionsView
     ($ ".sort_container").html view.render().el
-    unless oApp.currentUser
-      sign_view = new SignOptionsView
-      ($ ".side_container").html sign_view.render().el
     @populate_listings()
     @populate_side_content()
+    unless oApp.currentUser
+      sign_view = new SignOptionsView
+      ($ ".sort_container").after sign_view.render().el
   
   populate_listings: ->
     listings = new Listings

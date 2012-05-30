@@ -85,7 +85,9 @@ window.ListingView = Backbone.View.extend
       ticket_url: @model.getTicketUrl()
       user_intent: user_intent.getText() if user_intent
       intentions: @intentions.order() if @intentions.length > 0
+      listing_id: @model.getID()
     ($ @el).html HTML
+    ($ @el).attr 'data-id', @model.getID()
     @
 
 window.ListingsView = Backbone.View.extend
@@ -122,7 +124,6 @@ window.ListingsView = Backbone.View.extend
       listing_month = listing_view.model.getMonth()
       if me.month != listing_month
         me.month = listing_month
-        ($ me.el).find('.listing:last-child').addClass 'last_of_month'
         ($ me.el).append '<div class="month_container"><div class="month">' + listing_month + '</div></div>'
       ($ me.el).append listing_view.render().el
     )
@@ -180,10 +181,21 @@ window.SideListingView = Backbone.View.extend
   template: JST["templates/listings/side_listing"]
   tagName: "span"
   className: "listing"
+  events: 
+    'click span' : 'findListing'
 
   initialize: ->
     _.bindAll @, 'render'
     @model.bind 'change', @render, @
+
+  findListing: ->
+    listing_id = ($ @el).find('span').attr("data-id").trim()
+    listing_target = ($ '.listing[data-id="' + listing_id + '"]"')
+    offset = listing_target.offset().top - 40
+    ($ 'html, body').animate
+      scrollTop: offset
+    , 200, ->
+      listing_target.addClass 'expanded'
 
   render: ->
     user = @model.getUser()
@@ -191,11 +203,12 @@ window.SideListingView = Backbone.View.extend
       username: user.username
       name: @model.getName()
       shortdate: @model.getShortDate()
+      listing_id: @model.getID()
     ($ @el).html HTML
     @
 
 window.ListingCreate = Backbone.View.extend
-  className: "panel_container"
+  className: "panel"
   template: JST["templates/listings/new"]
   events:
     'click input[type="submit"]' : "createListing"

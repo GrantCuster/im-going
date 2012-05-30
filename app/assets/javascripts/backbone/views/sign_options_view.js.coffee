@@ -59,8 +59,8 @@ window.SignOptionsView = Backbone.View.extend
   className: "sign_up_options"
   tagName: "ul"
   events:
-    "click .facebook" : "sign_up"
-    "click .twitter" : "sign_in"
+    "click .facebook_target" : "sign_up"
+    "click .twitter_target" : "sign_in"
     "mouseenter .facebook_target" : "facebookEnter"
     "mouseleave .facebook_target" : "facebookLeave"
     "mouseenter .twitter_target" : "twitterEnter"
