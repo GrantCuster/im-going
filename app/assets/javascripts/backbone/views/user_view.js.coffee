@@ -9,6 +9,6 @@ window.UserView = Backbone.View.extend
   render: ->
     console.log 'render'
     HTML = @template
-      name: 'hi'
+      name: 'Grant'
     ($ @el).html HTML
     @

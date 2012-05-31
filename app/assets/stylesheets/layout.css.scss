@@ -436,15 +436,12 @@ form {
 }
 
 #logo {
-  font-size: 36px;
+  font-size: 44px;
   line-height: 44px;
-  margin-top: 90px;
-  margin-left: 20px;
-  margin-right: 20px;
   font-weight: bold;
   color: #000;
   span {
-    color: #555;
+    color: #0E72BC;
   }
 }
 #tagline {
@@ -505,7 +502,9 @@ form {
   opacity: 0;
 }
 .listing_top {
-  height: 60px;
+  height: 130px;
+  padding-top: 58px;
+  padding-left: 28px;
   background: #fff;
 }
 .listing {
@@ -749,7 +748,7 @@ form {
   .date {
     .day {
       .day_wrapper {
-        background: #B4D5FF;
+        background: #FDE200;
       }
     }
   }
@@ -965,14 +964,16 @@ form {
     font-size: 14px;
     line-height: 20px;
     .user_view {
-      width: 250px;
-      padding: 20px;
+      width: 200px;
       img {
-        max-width: 210px;
+        max-width: 200px;
       }
       .username {
-        margin-top: 8px;
-        color: #000;
+        background: none repeat scroll 0 0 #000000;
+        color: #FFFFFF;
+        font-weight: normal;
+        padding: 12px 8px 0;
+        height: 41px;
       }
     }
   }
@@ -1234,5 +1235,11 @@ form {
 #panel_container.finish {
   .insertion_back {
     width: 20px;
+  }
+}
+#logo {
+  .location {
+    background: #FDE200;
+    color: #000;
   }
 }
