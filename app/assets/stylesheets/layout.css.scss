@@ -565,6 +565,7 @@ form {
       line-height: 1.4em;
       font-weight: bold;
       margin-top: -4px;
+      float: left;
     }
     a {
       font-weight: bold;
@@ -576,6 +577,7 @@ form {
     }
     .going {
       margin-bottom: 6px;
+      clear: both;
     }
     .main_bottom_container {
       height: 0;
@@ -740,7 +742,21 @@ form {
     }
   }
 }
+.day_wrapper {
+  -moz-transition: background 0.1s linear;
+}
 .listing.expanded {
+  .date {
+    .day {
+      .day_wrapper {
+        background: #B4D5FF;
+      }
+    }
+  }
+  .main {
+    .name {
+    }
+  }
   .main_bottom_container {
     overflow: visible;
     .main_bottom {
@@ -748,24 +764,35 @@ form {
     }
   }
   .expand {
+    top: 15px;
     .expand_ver {
       display: none;
     }
-  }
-  .expand:hover {
-    div {
-      background: #222;
+    .expand_hor {
+      border-top: solid 10px transparent;
+      border-bottom: solid 10px #ccc;
     }
+  }
+}
+.listing.expanded:hover {
+  .expand .expand_hor {
+    border-top: solid 10px transparent;
+    border-bottom: solid 10px #333;
   }
 }
 .listing.last_of_month {
   .main {
   }
 }
-.main:hover {
+.listing:hover {
+  .main {
+    .name {
+      text-decoration: underline;
+    }
+  }
   .expand {
-    div {
-      background: #222;
+    .expand_hor {
+      border-top: solid 10px #333;
     }
   }
 }
@@ -774,17 +801,15 @@ form {
   margin-bottom: 30px;
 }
 .sign_up_options {
-  float: right;
   height: 41px;
   background: #ccc;
   width: 200px;
-  margin-right: 30px;
-  margin-top: -41px;
+  margin: 20px 30px;
   overflow: hidden;
   position: relative;
   li {
     height: 41px;
-    padding: 12px 11px 0;
+    padding: 12px 13px 0;
     font-size: 18px;
     line-height: 18px;
     color: #eee;
@@ -829,7 +854,7 @@ form {
       border-right: solid 12px magenta;
       position: absolute;
       left: -18px;
-      top: 10px;
+      top: 9px;
       display: none;
     }
     .right_pointer {
@@ -837,7 +862,7 @@ form {
       border-left: solid 12px magenta;
       position: absolute;
       right: -18px; 
-      top: 10px;
+      top: 9px;
       display: none;
     }
   }
@@ -936,7 +961,7 @@ form {
   }
   .side_content {
     padding: 0 30px 0;
-    margin-top: 90px;
+    margin-top: 30px;
     font-size: 14px;
     line-height: 20px;
     .user_view {
@@ -1050,16 +1075,13 @@ form {
   width: 690px;
   z-index: -1;
 }
-
+.sort_container {
+  width: 200px;
+  margin: 30px 30px 20px;
+}
 .sort_options {
-  float: right;
   height: 41px;
-  margin-top: 10px;
   background: #ccc;
-  overflow: hidden;
-  margin-right: 20px;
-  margin-top: 25px;
-  width: 210px;
   .left_pointer {
     border: solid 12px transparent;
     border-right: solid 12px magenta;
@@ -1083,10 +1105,10 @@ form {
     color: #fff;
   }
   li.city {
-    width: 210px;
+    width: 200px;
   }
   li.city.signed_in {
-    width: 95px;
+    width: 85px;
   }
   li:hover {
     background: #999;
@@ -1172,24 +1194,25 @@ form {
 
 .expand {
   float: right;
-  height: 26px;
+  height: 24px;
   position: absolute;
   right: 19px;
-  top: 19px;
-  width: 26px;
+  top: 27px;
+  width: 24px;
   div {
-    background: #ccc;
-    position: absolute;
   }
   .expand_hor {
-    width: 24px;
-    height: 6px;
-    top: 9px;
+    border: solid 10px transparent;
+    border-top: solid 10px #ccc;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
   .expand_ver {
     width: 6px;
     height: 24px;
-    left: 9px;   
+    left: 9px;
+    display: none; 
   }
 }
 .username {

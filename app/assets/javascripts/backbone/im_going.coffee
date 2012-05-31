@@ -11,7 +11,7 @@ window.ImGoing =
   Views: {}
   init: ->
     new ApplicationRouter
-    Backbone.history.start()
+    Backbone.history.start({pushState: true})
 
 $(document).ready ->
   ImGoing.init()

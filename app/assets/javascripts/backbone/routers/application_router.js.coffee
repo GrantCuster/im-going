@@ -17,8 +17,9 @@ window.ApplicationRouter = Backbone.Router.extend
     listings_view = new ListingsView collection: listings
     ($ '#main_inner').html listings_view.render().el
     ($ '.month').removeClass 'retract'
-    button_view = new CreateButton collection: listings
-    ($ '.side_content').after button_view.render().el
+    if oApp.currentUser
+      button_view = new CreateButton collection: listings
+      ($ '.side_content').after button_view.render().el
   
   populate_side_content: ->
     side_listings = new SideListings
