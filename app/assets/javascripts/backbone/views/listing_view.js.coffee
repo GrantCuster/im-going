@@ -21,13 +21,7 @@ window.ListingView = Backbone.View.extend
         ($ @el).find('.main_bottom_container').addClass('reverse')
 
   userLoad: (e) ->
-    user_id = ($ e.target).attr('href')
-    view = new UserView model: @model.getUser()
-    ($ '.side_content').html view.render().el
-    @user_listings = new Listings
-    @user_listings.fetch
-      url: "/user/#{user_id}/listing.json"
-      success: => @successCall()
+    window.router.navigate ($ e.target).attr('href'), {trigger: true}
     return false
   
   intentionChoice: (e) ->
@@ -42,11 +36,6 @@ window.ListingView = Backbone.View.extend
     data["intention"] = intent
     @intentions.create data
     return false
-  
-  successCall: ->
-    view = new ListingsView collection: @user_listings
-    ($ '#main_inner').html view.render().el
-    ($ '.month_container').removeClass 'retract'
 
   render: ->
     user = @model.getUser()
@@ -146,6 +135,25 @@ window.ListingsView = Backbone.View.extend
     ($ @el).html @template
     @initSubViews()
     @monthScroll()
+    @
+
+window.ListingsHeader = Backbone.View.extend
+  template: JST["templates/listings/header"]
+  events:
+    'click .base' : 'base'
+
+
+  initialize: (options) ->
+    @options = options || ""
+
+  base: ->
+    window.router.navigate '', {trigger: true}
+
+  render: ->
+    me = @
+    HTML = @template
+      active: @options.active
+    ($ @el).html HTML        
     @
 
 window.SideListingsView = Backbone.View.extend
@@ -417,6 +425,9 @@ window.ListingCreate = Backbone.View.extend
       ($ input).attr('data-og-width',og_width)
     placeholder = ($ input).attr('placeholder')
     ($ '.text_clone').text(placeholder)
+    if ($ input).val().length > 0
+      characters = ($ input).val()
+      ($ '.text_clone').text(characters)
     new_width = ($ '.text_clone').width() + 15
     ($ input).width new_width
 

@@ -4,19 +4,23 @@ ImGoing::Application.routes.draw do
   match "listings/new" => "listings#new"
   match "intentions/new" => "intentions#new"
 
-  devise_for :users
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   devise_scope :user do
     get "signin", :to => "devise/sessions#new"
     get "signup", :to => "devise/registrations#new"
     get "signout", :to => "devise/sessions#destroy"
   end
-  
+
   resources :listings
   resources :intentions
 
   root :to => "listings#feed"
   match "user/:user_id/listing" => "listings#user"
+  match "user/edit" => "users#edit"
+  match "user/:user_id" => "users#show"
+  match "user/:user_id/show" => "users#show"
+  match "user/update" => "users#update"
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

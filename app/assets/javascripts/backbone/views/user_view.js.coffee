@@ -3,12 +3,13 @@ window.UserView = Backbone.View.extend
   className: "user_view"
 
   initialize: ->
-    console.log 'initialize user'
     _.bindAll @
 
   render: ->
-    console.log 'render'
+    console.log @model
     HTML = @template
-      name: 'Grant'
+      name: @model.getName()
+      image: @model.getImageURL()
+      description: @model.getDescription()
     ($ @el).html HTML
     @

@@ -29,6 +29,7 @@ GEM
       activesupport (= 3.1.1)
     activesupport (3.1.1)
       multi_json (~> 1.0)
+    addressable (2.2.7)
     annotate (2.4.0)
     arel (2.2.1)
     bcrypt-ruby (3.0.1)
@@ -55,10 +56,15 @@ GEM
       factory_girl (~> 2.3.0)
       railties (>= 3.0.0)
     faker (0.3.1)
+    faraday (0.7.6)
+      addressable (~> 2.2)
+      multipart-post (~> 1.1)
+      rack (~> 1.1)
     handlebars_assets (0.4.0)
       execjs (>= 1.2.9)
       sprockets (>= 2.0.3)
       tilt
+    hashie (1.2.0)
     hbs (0.1.2)
       therubyracer (~> 0.9.4)
     hike (1.2.1)
@@ -74,7 +80,25 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.17.2)
     multi_json (1.0.4)
+    multipart-post (1.1.5)
     nokogiri (1.5.0)
+    oauth (0.4.5)
+    oauth2 (0.5.2)
+      faraday (~> 0.7)
+      multi_json (~> 1.0)
+    omniauth (1.0.3)
+      hashie (~> 1.2)
+      rack
+    omniauth-facebook (1.2.0)
+      omniauth-oauth2 (~> 1.0.0)
+    omniauth-oauth (1.0.1)
+      oauth
+      omniauth (~> 1.0)
+    omniauth-oauth2 (1.0.0)
+      oauth2 (~> 0.5.0)
+      omniauth (~> 1.0)
+    omniauth-twitter (0.0.8)
+      omniauth-oauth (~> 1.0)
     orm_adapter (0.0.5)
     polyglot (0.3.3)
     rack (1.3.6)
@@ -164,6 +188,9 @@ DEPENDENCIES
   handlebars_assets
   hbs
   jquery-rails
+  omniauth
+  omniauth-facebook
+  omniauth-twitter
   rails (= 3.1.1)
   rails-backbone
   rspec-rails

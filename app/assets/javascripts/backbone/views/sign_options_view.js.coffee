@@ -40,18 +40,68 @@ window.SignInView = ListingCreate.extend
     if current_input.val().length == 0
       current_input.parent().removeClass('text_entered')
 
+window.UserEditView = ListingCreate.extend
+  template: JST["templates/users/edit_user"]
+  events:
+    'click .modal_close' : 'closeModal'
+    'focus input' : 'inputFocus'
+    'blur input' : 'inputBlur'
+
+  initialize: (collection) ->
+    console.log @model
+    _.bindAll @
+    if ($ '.text_container').length == 0
+      ($ 'body').append '<div class="text_container"><div class="text_clone"></div></div>'
+
+  typeCheck: (e) ->
+    current_input = ($ ".line.focus input")
+    if (!($ ".line.focus").hasClass('text_entered')) && (e.which != 8)
+      current_input.parent().addClass('text_entered')
+
+  textCheck: (e) ->
+    current_input = ($ ".line.focus input")
+    if current_input.val().length == 0
+      current_input.parent().removeClass('text_entered')
+
+  render: ->
+    token = ($ 'meta[name="csrf-token"]').attr('content')
+    HTML = @template
+      token: token
+      name: @model.getName()
+      email: @model.getEmail()
+      imageURL: @model.getImageURL()
+    ($ @el).html(HTML)
+    ($ @el).find('input').not('input[type="submit"]').each (index, input) =>
+      @placeholderSize(input)
+    @
+
 window.SortOptionsView = Backbone.View.extend
   template: JST["templates/sort_options"]
   className: "sort_options"
   tagName: "ul"
+  events:
+    'click #sort_nyc' : 'NYC'
+    'click #sort_you' : 'you'
     
-  initialize: ->
+  initialize: (options) ->
+    @options = options || ""
     _.bindAll @, 'render'
+  
+  NYC: () ->
+    window.router.navigate '/', {trigger: true}
+  
+  you: () ->
+    user_id = oApp.currentUser.id
+    window.router.navigate "/user/#{user_id}", {trigger: true}
     
-  render: ->
+  render: () ->
     HTML = @template
+    console.log @options
     $(@el).html @template
       current_user: oApp.currentUser
+      nyc: true if @options.active == "nyc"
+      friends: true if @options.active == "friends"
+      you: true if @options.active == "you"
     @
 
 window.SignOptionsView = Backbone.View.extend
@@ -59,7 +109,7 @@ window.SignOptionsView = Backbone.View.extend
   className: "sign_up_options"
   tagName: "ul"
   events:
-    "click .facebook_target" : "sign_up"
+    "click .facebook_target" : "facebook"
     "click .twitter_target" : "sign_in"
     "mouseenter .facebook_target" : "facebookEnter"
     "mouseleave .facebook_target" : "facebookLeave"
@@ -69,15 +119,13 @@ window.SignOptionsView = Backbone.View.extend
   initialize: ->
     _.bindAll @, 'render'
 
-  sign_up: ->
+  sign_in: ->
     ($ '#main_column').addClass('inactive')
     view = new SignUpView
     ($ '#panel_container').html view.render().el
 
-  sign_in: ->
-    ($ '#main_column').addClass('inactive')
-    view = new SignInView
-    ($ '#panel_container').html view.render().el
+  facebook: ->
+    window.open 'http://localhost:3000/users/auth/facebook'
 
   facebookEnter: ->
     ($ '.sign_up_options').addClass 'facebooked'
