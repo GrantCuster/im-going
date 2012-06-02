@@ -17,6 +17,10 @@ window.Listing = Backbone.Model.extend
     time_stripped = time.replace("M", "")
     time_stripped
   getMonth: -> $.format.date(@getDateTime(),"MMMM")
+  getFormDay: ->
+    $.format.date(@getDateTime(), "ddd, MMMM dd")
+  getFormTime: ->
+    $.format.date(@getDateTime(), "h:mm a")
   getUser: -> @get "user"
   getUserID: -> @get "user_id"
   getTicketOption: -> @get "ticket_option"  

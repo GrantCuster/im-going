@@ -11,6 +11,7 @@ class ListingsController < ApplicationController
   end
 
   def show
+    @listing = Listing.find(params[:listing_id])
     respond_to do |format|
       format.json { render :json => @listing }
     end
@@ -28,6 +29,14 @@ class ListingsController < ApplicationController
     respond_to do |format|
       format.json { render :json => @listings }
     end   
+  end
+  
+  def edit
+    @listing = Listing.find(params[:listing_id])
+    respond_to do |format|
+      format.html { render 'listings/feed' }
+      format.json { render :json => @listing }
+    end
   end
   
   def page

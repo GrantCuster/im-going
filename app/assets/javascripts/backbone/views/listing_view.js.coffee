@@ -5,6 +5,7 @@ window.ListingView = Backbone.View.extend
     "click .main" : 'listingToggle'
     "click .going a" : "userLoad"
     "click .go_options li" : "intentionChoice"
+    "click .edit" : "editListing"
 
   initialize: ->
     _.bindAll @, 'render'
@@ -22,6 +23,13 @@ window.ListingView = Backbone.View.extend
 
   userLoad: (e) ->
     window.router.navigate ($ e.target).attr('href'), {trigger: true}
+    return false
+  
+  editListing: ->
+    ($ @el).addClass 'transition'
+    ($ @el).addClass 'editing'
+    listing_id = @model.getID()
+    window.router.navigate "listing/#{listing_id}/edit", {trigger: true}
     return false
   
   intentionChoice: (e) ->
@@ -438,6 +446,24 @@ window.ListingCreate = Backbone.View.extend
     ($ @el).html(HTML)
     ($ @el).find('input').not('input[type="submit"]').each (index, input) =>
       @placeholderSize(input)
+    @
+
+window.ListingEdit = ListingCreate.extend
+  template: JST["templates/listings/edit"]
+  
+  initialize: () ->
+    _.bindAll @
+    getDates()
+  
+  render: ->
+    console.log @model
+    token = ($ 'meta[name="csrf-token"]').attr('content')
+    HTML = @template
+      token: token
+      name: @model.getName()
+      day: @model.getFormDay()
+      time: @model.getFormTime()
+    ($ @el).html(HTML)
     @
 
 window.CreateButton = Backbone.View.extend

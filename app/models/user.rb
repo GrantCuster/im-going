@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :username, :image, :description
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :username, :image, :description, :fb_id, :fb_token
 
   has_many :listings, :dependent => :destroy
   has_many :intentions, :dependent => :destroy
@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
     if user = self.find_by_email(data.email)
       user
     else # Create a user with a stub password.
-      self.create(:email => data.email, :password => Devise.friendly_token[0,20], :username => data.name, :image => data.image) 
+      self.create(:email => data.email, :password => Devise.friendly_token[0,20], :fb_id => 12, :username => data.name, :image => data.image, :fb_token => access_token.credentials.token) 
     end
   end
 

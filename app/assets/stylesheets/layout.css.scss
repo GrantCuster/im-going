@@ -805,6 +805,12 @@ form {
     }
   }
 }
+.listing.editing {
+  background: #ccc;
+  div {
+    opacity: 0;
+  }
+}
 .events_listing {
   padding-top: 0px;
   margin-bottom: 30px;

@@ -21,7 +21,9 @@ ImGoing::Application.routes.draw do
   match "user/:user_id" => "users#show"
   match "user/:user_id/show" => "users#show"
   match "user/update" => "users#update"
-  
+  match "listing/:listing_id" => "listings#show"
+  match "listing/:listing_id/edit" => "listings#edit"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

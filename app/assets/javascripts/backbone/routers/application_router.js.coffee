@@ -5,6 +5,7 @@ window.ApplicationRouter = Backbone.Router.extend
     "/user/edit" : "editUser"
     "/user/:user_id" : "userLoad"
     "user/:user_id" : "userLoad"
+    "listing/:listing_id/edit" : "listingEdit"
 
   index: ->
     @populate_listings()
@@ -12,10 +13,13 @@ window.ApplicationRouter = Backbone.Router.extend
     @populate_side_listings()
   
   sideContent: (options) ->
-    if options.active == (oApp.currentUser.username).replace ' ', ''
-      view = new SortOptionsView(active: "you")
+    if oApp.currentUser
+      if options.active == (oApp.currentUser.username).replace ' ', ''
+        view = new SortOptionsView(active: "you")
+      else
+        view = new SortOptionsView(options)
     else
-      view = new SortOptionsView(options)
+      view = new SortOptionsView(active: "nyc")
     ($ ".sort_container").html view.render().el
     header = new ListingsHeader(options)
     ($ '.listing_top').html header.render().el
@@ -66,3 +70,14 @@ window.ApplicationRouter = Backbone.Router.extend
         view = new ListingsView collection: @user_listings
         ($ '#main_inner').html view.render().el
         ($ '.month_container').removeClass 'retract'
+
+  listingEdit: (listing_id) ->
+    ($ '#main_column').addClass('inactive')
+    @listing = new Listing
+    @listing.fetch
+      url: "/listing/#{listing_id}.json"
+      success: (model, response) => 
+        view = new ListingEdit model: model
+        ($ '#panel_container').html view.render().el
+
+

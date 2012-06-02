@@ -1,9 +1,9 @@
 <div class="main_form">
   <div class="header group">
-    <h2>New Event</h2>
+    <h2>Edit Event</h2>
     <div class="modal_close">x</div>
   </div>
-  <form method="post" id="new_listing" class="new_listing" action="/listings" accept-charset="UTF-8">
+  <form method="post" id="update_listing" class="udpate_listing" action="/listings/update" accept-charset="UTF-8">
     <div style="margin:0;padding:0;display:inline">
       <input type="hidden" value="✓" name="utf8"><input name="authenticity_token" type="hidden" value="{{token}}">
     </div>
@@ -18,11 +18,11 @@
         </ul>
         <input type="hidden" id="listing_intention" name="listing[intention]" />
       </div>
-      <input class="required" type="text" size="37" name="listing[listing_name]" id="listing_listing_name" placeholder="Event Name" />
+      <input class="required" type="text" size="37" name="listing[listing_name]" id="listing_listing_name" placeholder="Event Name" value="{{name}}" />
       &nbsp;&nbsp;on&nbsp;&nbsp;
-      <input type="text" class="required" size="30" id="listing_day" placeholder="Tuesday, December 18" />
+      <input type="text" class="required" size="30" id="listing_day" placeholder="Tuesday, December 18" value="{{day}}" />
       &nbsp;&nbsp;at&nbsp;&nbsp;
-      <input type="text" class="short required" size="30" id="listing_time" placeholder="8:00 PM" />
+      <input type="text" class="short required" size="30" id="listing_time" placeholder="8:00 PM" value="{{time}}" />
       <input type="hidden" id="listing_date_and_time" name="listing[date_and_time]" />
       <div id="required_label">required</div>
     </div>
