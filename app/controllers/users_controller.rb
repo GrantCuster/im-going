@@ -21,7 +21,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    logger.debug 'user update'
     options = params[:user]
     @user = User.find(current_user.id)
     @user.update_attributes(options)
@@ -30,4 +29,9 @@ class UsersController < ApplicationController
     end
   end
   
+  def facebook_friends
+    respond_to do |format|
+      format.html { render 'listings/feed' }
+    end    
+  end
 end

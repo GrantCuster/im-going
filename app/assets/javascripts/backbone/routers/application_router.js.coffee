@@ -3,8 +3,13 @@ window.ApplicationRouter = Backbone.Router.extend
     "" : "index"
     "/" : "index"
     "/user/edit" : "editUser"
+    
+    "user/facebook_friends" : "facebookFriends"
+    "/user/facebook_friends" : "facebookFriends"   
+
     "/user/:user_id" : "userLoad"
     "user/:user_id" : "userLoad"
+
     "listing/:listing_id/edit" : "listingEdit"
 
   index: ->
@@ -80,4 +85,9 @@ window.ApplicationRouter = Backbone.Router.extend
         view = new ListingEdit model: model
         ($ '#panel_container').html view.render().el
 
+  facebookFriends: () ->
+    console.log 'facebook friends'
+    @user = new User(oApp.currentUser)
+    console.log @user
 
+      

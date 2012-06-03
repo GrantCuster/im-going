@@ -18,9 +18,11 @@ ImGoing::Application.routes.draw do
   root :to => "listings#feed"
   match "user/:user_id/listing" => "listings#user"
   match "user/edit" => "users#edit"
+  match "user/update" => "users#update"
+  match "user/facebook_friends" => "users#facebook_friends"
   match "user/:user_id" => "users#show"
   match "user/:user_id/show" => "users#show"
-  match "user/update" => "users#update"
+  
   match "listing/:listing_id" => "listings#show"
   match "listing/:listing_id/edit" => "listings#edit"
 

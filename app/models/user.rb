@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   has_many :intentions, :dependent => :destroy
 
   def to_json(options = {})
-    super(options.merge(:only => [ :id, :email, :username, :image, :description ]))
+    super(options.merge(:only => [ :id, :email, :username, :image, :description, :fb_id, :fb_token ]))
   end
 
   def self.new_with_session(params, session)
@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
     if user = self.find_by_email(data.email)
       user
     else # Create a user with a stub password.
-      self.create(:email => data.email, :password => Devise.friendly_token[0,20], :fb_id => 12, :username => data.name, :image => data.image, :fb_token => access_token.credentials.token) 
+      self.create(:email => data.email, :password => Devise.friendly_token[0,20], :fb_id => access_token.uid, :username => data.name, :image => data.image, :fb_token => access_token.credentials.token) 
     end
   end
 
