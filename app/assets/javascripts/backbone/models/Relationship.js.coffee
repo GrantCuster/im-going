@@ -1,7 +1,6 @@
 window.Relationship = Backbone.Model.extend
   
   url: -> 
-    console.log 'url fire'
     followed_id = @get "followed_id"
     url = "/user/#{followed_id}/follow"
   
@@ -11,5 +10,5 @@ window.Relationship = Backbone.Model.extend
   getFollowed: ->
     new User @get "followed_id"
 
-window.Relationships = window.CollectionMore.extend
+window.Relationships = Backbone.Collection.extend
   model: Relationship

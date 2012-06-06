@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  def show
+  def user
     @user = User.find(params["user_id"])
     respond_to do |format|
       format.html { render 'listings/feed' }
@@ -42,18 +42,19 @@ class UsersController < ApplicationController
   end
   
   def follow
-    if request.method == "PUT"
+    if request.method == "POST"
       follower_id = params[:follower_id]
       followed_id = params[:followed_id]
-      Relationship.create!(followed_id: followed_id, follower_id: follower_id)
+      relationship = Relationship.create!(followed_id: followed_id, follower_id: follower_id)
       respond_to do |format|
-        format.json { render :json => params }
+        format.json { render :json => relationship }
       end
     end
     if request.method == "DELETE"
+      relationship = current_user.relationships.find_by_followed_id(params[:user_id])
       current_user.unfollow!(params[:user_id])
       respond_to do |format|
-        format.json { render :json => current_user }
+        format.json { render :json => relationship }
       end
     end
   end

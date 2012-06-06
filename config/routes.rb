@@ -16,13 +16,14 @@ ImGoing::Application.routes.draw do
   resources :intentions
   resources :venues
 
-  root :to => "listings#feed"
+  root :to => "listings#city_feed"
+  match "feed" => "listings#friend_feed"
   match "user/:user_id/listing" => "listings#user"
   match "user/edit" => "users#edit"
   match "user/update" => "users#update"
   match "user/facebook_friends" => "users#facebook_friends"
-  match "user/:user_id" => "users#show"
-  match "user/:user_id/show" => "users#show"
+  match "users/:user_id" => "users#user"
+  match "user/:user_id/show" => "users#user"
   match "user/:user_id/follow" => "users#follow"
   match "user/:user_id/unfollow" => "users#follow"
   match "friends/facebook" => "users#facebook_friends"

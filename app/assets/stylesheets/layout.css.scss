@@ -1044,6 +1044,9 @@ form {
           }
         }
         .follow.un {
+          background: #444;
+        }
+        .follow.un:hover {
           background: red;
         }
         .follow:hover {

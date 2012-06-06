@@ -1,5 +1,5 @@
 class Listing < ActiveRecord::Base
-  attr_accessible :listing_name, :user_id, :date_and_time, :venue_name, :venue_address, :venue_url, :intention, :event_description, :ticket_option, :sell_out, :cost, :ticket_url, :sale_date, :lat, :lng
+  attr_accessible :listing_name, :user_id, :date_and_time, :venue_name, :venue_address, :venue_url, :intention, :event_description, :ticket_option, :sell_out, :cost, :ticket_url, :sale_date, :lat, :lng, :privacy
   
   belongs_to :user
   has_many :intentions, :dependent => :destroy
@@ -12,5 +12,11 @@ class Listing < ActiveRecord::Base
     hash = super options
     
     hash
+  end
+  
+  def self.from_users_followed_by(user)
+    followed_user_ids = "SELECT followed_id FROM relationships
+                        WHERE follower_id = :user_id"
+    where("user_id IN (#{followed_user_ids}) OR user_id = :user_id", user_id: user.id)
   end
 end

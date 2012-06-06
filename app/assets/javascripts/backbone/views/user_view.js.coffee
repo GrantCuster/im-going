@@ -6,13 +6,24 @@ window.UserView = Backbone.View.extend
 
   initialize: ->
     _.bindAll @
+    console.log @model
 
   followUser: (e) ->
     if ($ e.target).parents('.follow').hasClass 'un'
       relation = new Relationship @model.getFollowStatus()
-      relation.destroy()
+      relation.destroy 
+        success: (model, response) =>
+          @model.set {followed_by_current_user: null}
+          @render()
     else
-      console.log 'else'
+      data = {}
+      data["followed_id"] = @model.getId()
+      data["follower_id"] = oApp.currentUser.id
+      relation = new Relationship
+      relation.save data,
+        success: (model, response) =>
+          @model.set {followed_by_current_user: response}
+          @render()
 
   render: ->
     HTML = @template

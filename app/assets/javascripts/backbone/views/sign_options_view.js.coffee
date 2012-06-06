@@ -81,6 +81,7 @@ window.SortOptionsView = Backbone.View.extend
   tagName: "ul"
   events:
     'click #sort_nyc' : 'NYC'
+    'click #sort_friends' : 'friends'
     'click #sort_you' : 'you'
     
   initialize: (options) ->
@@ -90,13 +91,15 @@ window.SortOptionsView = Backbone.View.extend
   NYC: () ->
     window.router.navigate '/', {trigger: true}
   
+  friends: () ->
+    window.router.navigate '/feed', {trigger: true}
+  
   you: () ->
     user_id = oApp.currentUser.id
-    window.router.navigate "/user/#{user_id}", {trigger: true}
+    window.router.navigate "/users/#{user_id}", {trigger: true}
     
   render: () ->
     HTML = @template
-    console.log @options
     $(@el).html @template
       current_user: oApp.currentUser
       nyc: true if @options.active == "nyc"

@@ -3,19 +3,31 @@ window.ApplicationRouter = Backbone.Router.extend
     "" : "index"
     "/" : "index"
     "/user/edit" : "editUser"
+    "/feed" : "friendFeed"
+    "feed" : "friendFeed"
     
     "friends/facebook" : "facebookFriends"
     "/friends/facebook" : "facebookFriends"   
 
-    "/user/:user_id" : "userLoad"
-    "user/:user_id" : "userLoad"
+    "/users/:user_id" : "userLoad"
+    "users/:user_id" : "userLoad"
 
     "listing/:listing_id/edit" : "listingEdit"
 
   index: ->
     @populate_listings()
-    @sideContent(active: "nyc")
     @populate_side_listings()
+    @sideContent(active: "nycx")
+  
+  friendFeed: ->
+    @sideContent(active: "friends")
+    @friends_listings = new Listings
+    @friends_listings.fetch
+      url: "/feed.json"
+      success: => 
+        view = new ListingsView collection: @friends_listings
+        ($ '#main_inner').html view.render().el
+        ($ '.month_container').removeClass 'retract'
   
   sideContent: (options) ->
     if oApp.currentUser
