@@ -4,8 +4,8 @@ window.ApplicationRouter = Backbone.Router.extend
     "/" : "index"
     "/user/edit" : "editUser"
     
-    "user/facebook_friends" : "facebookFriends"
-    "/user/facebook_friends" : "facebookFriends"   
+    "friends/facebook" : "facebookFriends"
+    "/friends/facebook" : "facebookFriends"   
 
     "/user/:user_id" : "userLoad"
     "user/:user_id" : "userLoad"
@@ -86,8 +86,8 @@ window.ApplicationRouter = Backbone.Router.extend
         ($ '#panel_container').html view.render().el
 
   facebookFriends: () ->
-    console.log 'facebook friends'
-    @user = new User(oApp.currentUser)
-    console.log @user
-
+    fb_friends = new FbUsers
+    fb_friends.reset(preloaded_data)
+    view = new FriendsView collection: fb_friends
+    ($ '#main_inner').html view.render().el
       

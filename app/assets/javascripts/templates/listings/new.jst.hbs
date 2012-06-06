@@ -32,6 +32,8 @@
       <input type="text" size="30" id="listing_venue_name" name="listing[venue_name]" placeholder="Venue Name" /> 
       <input type="text" size="30" id="listing_venue_address" name="listing[venue_address]" placeholder="Address" />
       <input type="text" size="30" id="listing_venue_url" name="listing[venue_url]" placeholder="URL" />
+      <div id="map_area"></div>
+      <div id="map_option">Remove Map</div>
     </div>
     
     <div class="form_group group">
@@ -39,18 +41,19 @@
       <textarea id="listing_event_description" name="listing[event_description]"></textarea>
     </div>
     
-    <div class="form_group group">
+    <div class="form_group group intention_fix">
       <div class="form_heading">tickets</div>
       <div id="ticket_option" class="intention_container">
-        <div class="intention_selected">Tickets are on sale <div class="intention_triangle"></div></div>
+        <div class="intention_selected">Select a ticket option <div class="intention_triangle"></div></div>
         <ul class="intention_select">
-          <li class="active">Tickets are on sale</li>
+          <li>Tickets are on sale</li>
           <li>Tickets will go on sale</li>
           <li>It's free!</li>
+          <li class="active">no ticket info</li>
         </ul>
         <input type="hidden" id="listing_ticket_option" name="listing[ticket_option]" />
       </div>
-      <span class="not_free">
+      <span class="not_free hidden">
         <span class="future_sale hidden">
           <input type="text" class="required" size="30" id="listing_sale_day" placeholder="Tuesday, December 18" />
           &nbsp;&nbsp;at&nbsp;&nbsp;
@@ -77,7 +80,24 @@
         <input type="text" size="30" name="listing[ticket_url]" id="listing_ticket_url" placeholder="Ticket URL" />
       </span>
     </div>
-    
-    <div class="form_group group"><input type="submit" value="Create Event" name="commit"></div>
+
+    <div class="form_group group intention_fix">
+      <div class="form_heading">show to</div>
+      <div id="city" class="intention_container">
+        <div class="fake_intention">nyc</div>
+      </div>
+      <div id="privacy" class="intention_container">
+        <div class="intention_selected">everyone
+          <div class="intention_triangle"></div>
+        </div>
+        <ul class="intention_select">
+          <li class="active">everyone</li>
+          <li>friends only</li>
+        </ul>
+        <input type="hidden" id="listing_privacy" name="listing[privacy]" />
+      </div>
+    </div>
+  
+    <div class="form_group group"><input type="submit" value="Create Event" class="not_ready" name="commit"><div class="error_msg"></div></div>
   </form>
 </div>

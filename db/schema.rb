@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120602155207) do
+ActiveRecord::Schema.define(:version => 20120606013442) do
 
   create_table "intentions", :force => true do |t|
     t.integer  "intention"
@@ -37,7 +37,21 @@ ActiveRecord::Schema.define(:version => 20120602155207) do
     t.string   "cost"
     t.text     "ticket_url"
     t.datetime "sale_date"
+    t.integer  "lat"
+    t.integer  "lng"
+    t.integer  "privacy"
   end
+
+  create_table "relationships", :force => true do |t|
+    t.integer  "follower_id"
+    t.integer  "followed_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "relationships", ["followed_id"], :name => "index_relationships_on_followed_id"
+  add_index "relationships", ["follower_id", "followed_id"], :name => "index_relationships_on_follower_id_and_followed_id", :unique => true
+  add_index "relationships", ["follower_id"], :name => "index_relationships_on_follower_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -57,9 +71,19 @@ ActiveRecord::Schema.define(:version => 20120602155207) do
     t.text     "description"
     t.string   "fb_token"
     t.integer  "fb_id"
+    t.text     "fb_friends"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "venues", :force => true do |t|
+    t.string   "venue_name"
+    t.string   "venue_address"
+    t.text     "venue_url"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

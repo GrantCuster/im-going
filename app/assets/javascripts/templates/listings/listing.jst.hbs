@@ -13,8 +13,8 @@
       <div class="main_supplement">
         {{#if venue_name}}        
           <div class="location">
-            At {{#if venue_url}}<a href="{{venue_url}}">{{/if}}{{venue_name}}{{#if venue_url}}</a>{{/if}}, 
-            {{venue_address}}
+            At{{#if venue_name}}&nbsp;{{#if venue_url}}<a href="{{venue_url}}" target="_blank">{{/if}}{{venue_name}}{{#if venue_url}}</a>{{/if}}{{/if}}{{#if venue_name}}{{#if venue_address}},{{/if}}{{/if}}{{#if venue_address}}&nbsp;{{venue_address}}{{/if}}
+            {{#if venue_map}}<div class="listing_map"></div>{{/if}}
           </div>
         {{/if}}
         <div class="description">

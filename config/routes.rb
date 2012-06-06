@@ -14,6 +14,7 @@ ImGoing::Application.routes.draw do
 
   resources :listings
   resources :intentions
+  resources :venues
 
   root :to => "listings#feed"
   match "user/:user_id/listing" => "listings#user"
@@ -22,6 +23,9 @@ ImGoing::Application.routes.draw do
   match "user/facebook_friends" => "users#facebook_friends"
   match "user/:user_id" => "users#show"
   match "user/:user_id/show" => "users#show"
+  match "user/:user_id/follow" => "users#follow"
+  match "user/:user_id/unfollow" => "users#follow"
+  match "friends/facebook" => "users#facebook_friends"
   
   match "listing/:listing_id" => "listings#show"
   match "listing/:listing_id/edit" => "listings#edit"

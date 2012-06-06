@@ -23,7 +23,16 @@ window.Listing = Backbone.Model.extend
     $.format.date(@getDateTime(), "h:mm a")
   getUser: -> @get "user"
   getUserID: -> @get "user_id"
-  getTicketOption: -> @get "ticket_option"  
+  getTicketOption: -> @get "ticket_option"
+  getIfMap: -> if @get "lat" then true else false
+  getLat: -> 
+    lat_raw = @get "lat"
+    lat = lat_raw/1000000
+    lat
+  getLng: ->
+    lng_raw = @get "lng"
+    lng = lng_raw/1000000
+    lng
   getSellOut: -> 
     option_num = @get "sell_out"
     if option_num == 0
