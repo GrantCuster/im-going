@@ -28,7 +28,7 @@ window.ApplicationRouter = Backbone.Router.extend
         view = new ListingsView collection: @friends_listings
         ($ '#main_inner').html view.render().el
         ($ '.month_container').removeClass 'retract'
-  
+
   sideContent: (options) ->
     if oApp.currentUser
       if options.active == (oApp.currentUser.username).replace ' ', ''
