@@ -1,13 +1,24 @@
 class UsersController < ApplicationController
 
-  def user
-    @user = User.find(params["user_id"])
+  def show
+    @data = {}
+    @user = User.find_by_username(params["username"])
+        
+    user_id = @user.id
+    @listings = Listing.where(:user_id => user_id)
+    intentions = Intention.where(:user_id => user_id)
+    intentions.each do |intention|
+      listFromIntent = Listing.find(intention.listing_id)
+      @listings.push(listFromIntent)
+    end
+    
+    options = { :current_user => current_user }
+    @data["user"] = @user.as_json(options)
+    @data["listings"] = @listings
+    
     respond_to do |format|
       format.html { render 'listings/feed' }
-      format.json { 
-        options = { :current_user => current_user }
-        render :json => @user.as_json(options)
-      }
+      format.json { render :json => @data }
     end
   end
   

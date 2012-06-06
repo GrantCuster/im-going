@@ -1,8 +1,4 @@
 ImGoing::Application.routes.draw do
-  get "listings/feed"
-  get "listings/page"
-  match "listings/new" => "listings#new"
-  match "intentions/new" => "intentions#new"
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
@@ -12,24 +8,30 @@ ImGoing::Application.routes.draw do
     get "signout", :to => "devise/sessions#destroy"
   end
 
+  root :to => redirect("/nyc")
+  match "nyc" => "listings#nyc_feed"
   resources :listings
-  resources :intentions
-  resources :venues
+  match ":username" => "users#show"
+  match "users/:user_id/follow" => "users#follow"
+  match "users/:user_id/unfollow" => "users#follow"
+  match "friends/feed" => "listings#friends_feed"
 
-  root :to => "listings#city_feed"
-  match "feed" => "listings#friend_feed"
-  match "user/:user_id/listing" => "listings#user"
-  match "user/edit" => "users#edit"
-  match "user/update" => "users#update"
-  match "user/facebook_friends" => "users#facebook_friends"
-  match "users/:user_id" => "users#user"
-  match "user/:user_id/show" => "users#user"
-  match "user/:user_id/follow" => "users#follow"
-  match "user/:user_id/unfollow" => "users#follow"
-  match "friends/facebook" => "users#facebook_friends"
-  
-  match "listing/:listing_id" => "listings#show"
-  match "listing/:listing_id/edit" => "listings#edit"
+  # resources :listings
+  # resources :intentions
+  # resources :venues
+  # 
+  # root :to => "listings#city_feed"
+  # match "listings/new" => "listings#new"
+  # match "intentions/new" => "intentions#new"
+  # match "feed" => "listings#friend_feed"
+  # match "user/:user_id/listing" => "listings#user"
+  # match "user/edit" => "users#edit"
+  # match "user/update" => "users#update"
+  # match "user/facebook_friends" => "users#facebook_friends"
+  # match "friends/facebook" => "users#facebook_friends"
+  # 
+  # match "listing/:listing_id" => "listings#show"
+  # match "listing/:listing_id/edit" => "listings#edit"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

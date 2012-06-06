@@ -609,8 +609,14 @@ form {
       margin-bottom: 11px;
     }
     .location {
-      margin-bottom: 6px;
+      margin-bottom: 12px;
       a {
+      }
+      .map_link {
+        font-weight: bold;
+      }
+      .map_link:hover {
+        text-decoration: underline;
       }
     }
     .description {
@@ -1356,8 +1362,8 @@ form {
   display: block;
 }
 #map_area {
-  width: 360px;
-  height: 200px;
+  width: 280px;
+  height: 160px;
   border: solid 6px #ddd;
   display: none;
 }
@@ -1386,4 +1392,8 @@ form {
   border: solid 6px #eee;
   background: #eee;
   margin-top: 11px;
+  display: none;
+}
+.listing_map.show {
+  display: block;
 }

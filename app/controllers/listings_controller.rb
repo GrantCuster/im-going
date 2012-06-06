@@ -1,6 +1,6 @@
 class ListingsController < ApplicationController
   
-  def friend_feed
+  def friends_feed
     @data = Listing.from_users_followed_by(current_user)
     respond_to do |format|
       format.html { render 'listings/feed' }
@@ -8,7 +8,7 @@ class ListingsController < ApplicationController
     end
   end
   
-  def city_feed
+  def nyc_feed
     listings = Listing.all
     @data = listings
     

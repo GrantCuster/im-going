@@ -1,6 +1,4 @@
 window.Listing = Backbone.Model.extend
-  initialize: (options) ->
-    @urlRoot = '/listings'
 
   getID: -> @get "id"
   getName: -> @get "listing_name"
@@ -91,6 +89,7 @@ window.Listing = Backbone.Model.extend
 
 window.Listings = Backbone.Collection.extend
   model: Listing
+  url: "/listings"
   comparator: (listing) -> 
     d = new Date Date.parse(listing.get("date_and_time"))
     (d.getTime())

@@ -7,13 +7,13 @@ window.ListingView = Backbone.View.extend
     "click .going a" : "userLoad"
     "click .go_options li" : "intentionChoice"
     "click .edit" : "editListing"
+    "click .map_link" : "showMap"
 
   initialize: ->
     _.bindAll @, 'render'
     @model.bind 'change', @render, @
 
   listingToggle: ->
-    console.log ($ @el)
     if ($ @el).hasClass('expanded')
       ($ @el).removeClass('expanded')
       ($ @el).find('.main_bottom_container').css('height', '0')
@@ -22,9 +22,7 @@ window.ListingView = Backbone.View.extend
       ($ @el).addClass('expanded').find('.main_bottom_container').css('height',bottom_height)
       setTimeout ->
         ($ @el).find('.main_bottom_container').addClass('reverse')
-      if ($ @el).find('.listing_map').length > 0 && ($ @el).find('.listing_map div').length == 0
-        listing_map = ($ @el).find('.listing_map')
-        @showMap(listing_map)
+      , 0
 
   stopProp: (e) ->
     e.stopPropagation()
@@ -33,16 +31,25 @@ window.ListingView = Backbone.View.extend
     window.router.navigate ($ e.target).attr('href'), {trigger: true}
     return false
   
-  showMap: (el) ->
-    lat = @model.getLat()
-    lng = @model.getLng()
-    map = new GMaps
-      div: ($ el),
-      lat: lat,
-      lng: lng
-    map.addMarker
-      lat: lat,
-      lng: lng    
+  showMap: (e) ->
+    e.stopPropagation()
+    if ($ e.target).hasClass 'open'
+      ($ e.target).removeClass 'open'
+      ($ @el).find('.listing_map').removeClass 'show'
+    else
+      ($ e.target).addClass 'open'
+      ($ @el).find('.listing_map').addClass 'show'
+      unless ($ @el).find('.listing_map div').length > 0
+        $el = ($ @el).find('.listing_map')
+        lat = @model.getLat()
+        lng = @model.getLng()
+        map = new GMaps
+          div: $el,
+          lat: lat,
+          lng: lng
+        map.addMarker
+          lat: lat,
+          lng: lng    
   
   editListing: ->
     ($ @el).addClass 'transition'
@@ -56,7 +63,7 @@ window.ListingView = Backbone.View.extend
     @intentions.bind 'add', @render, @
     intent = ($ e.target).index() + 1
     listing_id = @model.getID()
-    user_id = oApp.currentUser.id
+    username = oApp.currentUser.user_id
     data = {}
     data["listing_id"] = listing_id
     data["user_id"] = user_id

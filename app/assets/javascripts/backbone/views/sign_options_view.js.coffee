@@ -89,14 +89,14 @@ window.SortOptionsView = Backbone.View.extend
     _.bindAll @, 'render'
   
   NYC: () ->
-    window.router.navigate '/', {trigger: true}
+    window.router.navigate '/nyc', {trigger: true}
   
   friends: () ->
-    window.router.navigate '/feed', {trigger: true}
+    window.router.navigate '/friends/feed', {trigger: true}
   
   you: () ->
-    user_id = oApp.currentUser.id
-    window.router.navigate "/users/#{user_id}", {trigger: true}
+    username = oApp.currentUser.username
+    window.router.navigate "/#{username}", {trigger: true}
     
   render: () ->
     HTML = @template

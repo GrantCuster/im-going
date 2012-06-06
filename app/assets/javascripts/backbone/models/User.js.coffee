@@ -1,7 +1,6 @@
 window.User = Backbone.Model.extend
   initialize: (options) ->
     _.bindAll @
-    @urlRoot = "/users"
   
   getEmail: -> @get "email"
   getName: -> @get "username"
@@ -15,6 +14,10 @@ window.User = Backbone.Model.extend
   getFbId: -> @get "fb_id"
   getFbToken: -> @get "fb_token"
   getFollowStatus: -> @get "followed_by_current_user"
+
+window.Users = Backbone.Collection.extend
+  model: User
+  url: "/users"
 
 window.FbUser = Backbone.Model.extend
   initialize: (options) ->
