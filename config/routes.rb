@@ -10,15 +10,17 @@ ImGoing::Application.routes.draw do
 
   root :to => redirect("/nyc")
   match "nyc" => "listings#nyc_feed"
-  resources :listings
-  match ":username" => "users#show"
+  match "friends" => "listings#friends_feed"
   match "users/:user_id/follow" => "users#follow"
   match "users/:user_id/unfollow" => "users#follow"
-  match "friends/feed" => "listings#friends_feed"
+  match ":username/find_friends" => "users#facebook_friends"
+  match ":username/show" => "users#show"
+  match ":username" => "listings#user"
+  resources :venues
+  resources :listings
 
   # resources :listings
   # resources :intentions
-  # resources :venues
   # 
   # root :to => "listings#city_feed"
   # match "listings/new" => "listings#new"

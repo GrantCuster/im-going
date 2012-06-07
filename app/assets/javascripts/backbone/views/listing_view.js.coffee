@@ -4,6 +4,7 @@ window.ListingView = Backbone.View.extend
   events: 
     "click" : 'listingToggle'
     "click a" : "stopProp"
+    "mouseenter a" : "stopProp"
     "click .going a" : "userLoad"
     "click .go_options li" : "intentionChoice"
     "click .edit" : "editListing"
@@ -28,7 +29,12 @@ window.ListingView = Backbone.View.extend
     e.stopPropagation()
 
   userLoad: (e) ->
-    window.router.navigate ($ e.target).attr('href'), {trigger: true}
+    username = ($ e.target).attr('href')
+    unless window.location.pathname == "#{username}"
+      ($ '#wrapper').addClass 'transition'
+      setTimeout =>
+        window.router.navigate username, {trigger: true}
+      , 100
     return false
   
   showMap: (e) ->
@@ -101,11 +107,11 @@ window.ListingView = Backbone.View.extend
       venue_map: @model.getIfMap()
       description: @model.getEventDescription()
       free: true if @model.getTicketOption() == 2
-      urgency: @model.getSellOut()
-      listing_month: @model.getSaleMonth()
-      listing_day: @model.getSaleDay()
+      # urgency: @model.getSellOut()
+      # listing_month: @model.getSaleMonth()
+      # listing_day: @model.getSaleDay()
       cost: @model.getCost()
-      ticket_display: true if (@model.getSaleMonth() || @model.getCost())
+      # ticket_display: true if (@model.getSaleMonth() || @model.getCost())
       ticket_url: @model.getTicketUrl()
       user_intent: user_intent.getText() if user_intent
       intentions: @intentions.order() if @intentions.length > 0
@@ -148,7 +154,7 @@ window.ListingsView = Backbone.View.extend
       listing_month = listing_view.model.getMonth()
       if me.month != listing_month
         me.month = listing_month
-        ($ me.el).append '<div class="month_container"><div class="month">' + listing_month + '</div></div>'
+        ($ me.el).append '<div class="month_container retract"><div class="month">' + listing_month + '</div></div>'
       ($ me.el).append listing_view.render().el
     )
     
@@ -157,11 +163,9 @@ window.ListingsView = Backbone.View.extend
       me = @
       month_conts = ($ '.month_container').get().reverse()
       $(month_conts).each (i) ->
-        if (($(this).offset().top - 25) < ($ window).scrollTop())
+        if (($(this).offset().top - 5) < ($ window).scrollTop())
           if !($ this).find('.month').hasClass 'active'
             ($ this).find('.month').addClass 'active'
-            # prev_month_cont = month_conts[i+1]
-            # ($ prev_month_cont).find('.month').addClass 'prev'
         else
           ($ this).find('.month').removeClass 'active'
 
@@ -181,7 +185,14 @@ window.ListingsHeader = Backbone.View.extend
     @options = options || ""
 
   base: ->
-    window.router.navigate '', {trigger: true}
+    unless window.location.pathname == "/nyc"
+      ($ '#wrapper').addClass 'transition'
+      setTimeout =>
+        ($ '#main_inner').addClass 'transparent'
+        setTimeout =>
+          window.router.navigate '/nyc', {trigger: true}
+        , 100
+      , 100
 
   render: ->
     me = @
@@ -535,7 +546,6 @@ window.ListingCreate = Backbone.View.extend
             object_before.after new_listing
             ($ new_listing).before month_insert
           else
-            console.log object_before.next()
             object_before.next().after new_listing
         else
           object_before.after new_listing
@@ -566,7 +576,6 @@ window.ListingCreate = Backbone.View.extend
     new_height = ($ new_listing).height()
     ($ new_listing).before '<div class="insertion_spacer"></div>'
     new_pos = ($ new_listing).offset().top
-    console.log ($ new_listing)
     insertion_pos = ($ '#new_listing').offset().top - ($ '#panel_container').offset().top
     scroll_pos = (new_pos - insertion_pos) + scroll_modifier
     ($ 'html, body').animate
@@ -593,7 +602,6 @@ window.ListingCreate = Backbone.View.extend
   
   submitEnter: (e) ->
     console.log @map
-    @checkRequired(false)
     if ($ e.target).hasClass 'not_ready'
       ($ '.error_msg').addClass 'show'
   
@@ -650,7 +658,6 @@ window.ListingCreate = Backbone.View.extend
     @map = false
 
   ticketCheck: (target) ->
-    console.log 'ticket check'
     if target.attr('id') == "listing_sale_day"
       date_list = window.getDates()
       setTimeout =>

@@ -88,15 +88,29 @@ window.SortOptionsView = Backbone.View.extend
     @options = options || ""
     _.bindAll @, 'render'
   
-  NYC: () ->
-    window.router.navigate '/nyc', {trigger: true}
+  NYC: (e) ->
+    unless window.location.pathname == "/nyc"
+      ($ '#wrapper').addClass 'transition'
+      setTimeout =>
+        window.router.navigate '/nyc', {trigger: true}
+      , 100
   
-  friends: () ->
-    window.router.navigate '/friends/feed', {trigger: true}
+  friends: (e) ->
+    ($ @el).find('li').removeClass 'active'
+    ($ e.target).addClass 'active'
+    unless window.location.pathname == "/friends"    
+      ($ '#wrapper').addClass 'transition'
+      setTimeout =>
+        window.router.navigate '/friends', {trigger: true}
+      , 100
   
-  you: () ->
+  you: (e) ->
     username = oApp.currentUser.username
-    window.router.navigate "/#{username}", {trigger: true}
+    unless window.location.pathname == "/#{username}"    
+      ($ '#wrapper').addClass 'transition'
+      setTimeout =>
+        window.router.navigate "/#{username}", {trigger: true}
+      , 100
     
   render: () ->
     HTML = @template

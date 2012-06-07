@@ -1,3 +1,10 @@
-<div>
-  {{name}}
+<div class="user_li_body group">
+  <div class="user_name">{{name}}</div>
+  {{#if followed}}
+    <div class="follow_status following"><span class="current">following</span><span class="unfollow">unfollow</span></div>
+  {{else}}
+    <div class="follow_status">follow</div>
+  {{/if}}
 </div>
+<div class="bottom_dot">
+  

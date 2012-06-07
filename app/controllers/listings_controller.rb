@@ -26,8 +26,10 @@ class ListingsController < ApplicationController
   end
   
   def user
-    user_id = params[:user_id]
-    @listings = Listing.where(:user_id => user_id)
+    @user = User.find_by_username(params["username"])
+    
+    user_id = @user.id
+    @data = Listing.where(:user_id => user_id)
     intentions = Intention.where(:user_id => user_id)
     intentions.each do |intention|
       listFromIntent = Listing.find(intention.listing_id)
@@ -35,7 +37,8 @@ class ListingsController < ApplicationController
     end
     
     respond_to do |format|
-      format.json { render :json => @listings }
+      format.html { render 'listings/feed' }
+      format.json { render :json => @data }
     end   
   end
   

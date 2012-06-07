@@ -1,84 +1,82 @@
-<div class="date">
-  <div class="day"><span class="day_wrapper"><span class="day_name">{{day}}</span> <strong>{{date}}th</strong></span></div>
-  <div class="time">{{time}}</div>
-</div>
-<div class="main">
-  {{dates}}
-  <div class="name">{{name}}</div>
-  <div class="going">
-    {{{intentions}}}
+<div class="listing_body">
+  <div class="date">
+    <div class="day"><span class="day_wrapper"><span class="day_name">{{day}}</span> <strong>{{date}}</strong></span></div>
+    <div class="time">{{time}}</div>
   </div>
-  <div class="main_bottom_container">
-    <div class="main_bottom">
-      <div class="main_supplement">
-        {{#if venue_name}}        
-          <div class="location">
-            At{{#if venue_name}}&nbsp;{{#if venue_url}}<a href="{{venue_url}}" target="_blank">{{/if}}{{venue_name}}{{#if venue_url}}</a>{{/if}}{{/if}}{{#if venue_name}}{{#if venue_address}},{{/if}}{{/if}}{{#if venue_address}}&nbsp;{{#if venue_map}}<span class="map_link">{{/if}}{{venue_address}}{{#if venue_map}}</span>{{/if}}{{/if}}
-            {{#if venue_map}}<div class="listing_map"></div>{{/if}}
+  <div class="main">
+    {{dates}}
+    <div class="name">{{name}}<div class="expand"><div class="expand_hor"></div></div></div>
+    <div class="going">
+      {{{intentions}}}
+    </div>
+    <div class="main_bottom_container">
+      <div class="main_bottom">
+        <div class="main_supplement">
+          {{#if venue_name}}        
+            <div class="location">
+              At{{#if venue_name}}&nbsp;{{#if venue_url}}<a href="{{venue_url}}" target="_blank">{{/if}}{{venue_name}}{{#if venue_url}}</a>{{/if}}{{/if}}{{#if venue_name}}{{#if venue_address}},{{/if}}{{/if}}{{#if venue_address}}&nbsp;{{#if venue_map}}<span class="map_link">{{/if}}{{venue_address}}{{#if venue_map}}</span>{{/if}}{{/if}}
+              {{#if venue_map}}<div class="listing_map"></div>{{/if}}
+            </div>
+          {{/if}}
+          <div class="description">
+            {{description}}
           </div>
-        {{/if}}
-        <div class="description">
-          {{description}}
         </div>
-      </div>
-      <div class="actions group">
-        <div class="left">
-          <div class="intent_option">
-            {{#if user_listing}}
-              <a class="edit" href="#">edit</a>
-              <a href-"#">delete</a>
-            {{else}}
-              {{#if intented}}
-                <a class="intenter" href="#">{{{user_intent}}}</a>
-                <ul class="go_options">
-                  <li>I'm not</li>
-                  <li>I am thinking about going</li>
-                  <li>I would go if somebody else do</li>
-                </ul>
+        <div class="actions group">
+          <div class="left">
+            <div class="intent_option">
+              {{#if user_listing}}
+                <a class="edit" href="#">edit</a>
+                <a href-"#">delete</a>
               {{else}}
-                <a class="intenter" href="#">want to go?</a>
-                {{#if current_user}}
+                {{#if intented}}
+                  <a class="intenter" href="#">{{{user_intent}}}</a>
                   <ul class="go_options">
-                    <li>I am going</li>
+                    <li>I'm not</li>
                     <li>I am thinking about going</li>
                     <li>I would go if somebody else do</li>
                   </ul>
+                {{else}}
+                  <a class="intenter" href="#">want to go?</a>
+                  {{#if current_user}}
+                    <ul class="go_options">
+                      <li>I am going</li>
+                      <li>I am thinking about going</li>
+                      <li>I would go if somebody else do</li>
+                    </ul>
+                  {{/if}}
                 {{/if}}
               {{/if}}
-            {{/if}}
+            </div>
+            <a href="#">comment</a>
           </div>
-          <a href="#">comment</a>
-        </div>
-        <div class="right hidden">
-          <a class="share">twitter</a>
-          <a class="share">tumblr</a>
-          <a class="share">facebook</a>
+          <div class="right hidden">
+            <a class="share">twitter</a>
+            <a class="share">tumblr</a>
+            <a class="share">facebook</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  {{#if ticket_display}}
-    <div class="ticket {{urgency}}">
-      {{#if ticket_url}}<a href="{{ticket_url}}">{{/if}}
-        <div class="ticket_end left"></div>
-          {{#if free}}
-            <div class="sale_date">FREE</div>
-          {{else}}
-            {{#if listing_month}}
-              <div class="sale_date">{{listing_month}}/{{listing_day}}</div>
+    {{#if ticket_display}}
+      <div class="ticket {{urgency}}">
+        {{#if ticket_url}}<a href="{{ticket_url}}">{{/if}}
+          <div class="ticket_end left"></div>
+            {{#if free}}
+              <div class="sale_date">FREE</div>
+            {{else}}
+              {{#if listing_month}}
+                <div class="sale_date">{{listing_month}}/{{listing_day}}</div>
+              {{/if}}
+              {{#if cost}}
+                <div class="ticket_price">{{cost}}</div>
+              {{/if}}
             {{/if}}
-            {{#if cost}}
-              <div class="ticket_price">{{cost}}</div>
-            {{/if}}
-          {{/if}}
-        <div class="ticket_end right"></div>
-      {{#if ticket_url}}</a>{{/if}}
-      <div class="ticket_tip">Tickets go on sale on March 1st and Grant thinks they will sell out more than a month from now.</div>
-    </div>
-  {{/if}}
-  <div class="expand">
-    <div class="expand_hor"></div>
-    <div class="expand_ver"></div>
+          <div class="ticket_end right"></div>
+        {{#if ticket_url}}</a>{{/if}}
+        <div class="ticket_tip">Tickets go on sale on March 1st and Grant thinks they will sell out more than a month from now.</div>
+      </div>
+    {{/if}}
   </div>
 </div>
 <div class="bottom_dot"></div>

@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
     if user = self.find_by_email(data.email)
       user
     else # Create a user with a stub password.
-      self.create(:email => data.email, :password => Devise.friendly_token[0,20], :fb_id => access_token.uid, :username => data.name, :image => data.image, :fb_token => access_token.credentials.token)
+      self.create(:email => data.email, :password => Devise.friendly_token[0,20], :fb_id => access_token.uid, :username => (data.name).gsub(/\s+/,""), :image => data.image, :fb_token => access_token.credentials.token)
     end
   end
   

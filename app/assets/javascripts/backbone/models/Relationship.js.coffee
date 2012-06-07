@@ -2,7 +2,7 @@ window.Relationship = Backbone.Model.extend
   
   url: -> 
     followed_id = @get "followed_id"
-    url = "/user/#{followed_id}/follow"
+    url = "/users/#{followed_id}/follow"
   
   getFollower: ->
     new User @get "follower_id"

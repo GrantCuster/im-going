@@ -18,13 +18,5 @@ window.User = Backbone.Model.extend
 window.Users = Backbone.Collection.extend
   model: User
   url: "/users"
-
-window.FbUser = Backbone.Model.extend
-  initialize: (options) ->
-    _.bindAll @
-    @url = "/friends/facebook"
-  
-  getName: -> @get "name"
-
-window.FbUsers = Backbone.Collection.extend
-  model: FbUser
+  comparator: (listing) -> 
+    0 - listing.getID()

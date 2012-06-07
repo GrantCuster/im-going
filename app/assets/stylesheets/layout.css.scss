@@ -155,7 +155,7 @@ form {
     font-size: 15px;
     margin-top: 10px;
     margin-bottom : 15px;
-    border-bottom: solid 1px #bbb;
+    border-bottom: solid 1px #ccc;
     text-transform: lowercase;
     color: #333;
     clear: both;
@@ -182,7 +182,7 @@ form {
     font-size: 18px;
     font-weight: normal;
     padding: 6px 6px 5px;
-    background: #ddd;
+    background: #eee;
     margin-bottom: 8px;
     margin-top: 0px;
     margin-left: 0;
@@ -363,7 +363,7 @@ form {
     display: inline-block;
     margin-bottom: -15px;
     .intention_selected {
-      background: #ddd;
+      background: #eee;
       padding: 8px 26px 6px 6px;
       font-size: 18px;
       line-height: 24px;
@@ -382,7 +382,7 @@ form {
       }
     }
     .fake_intention {
-      background: #ddd;
+      background: #eee;
       padding: 8px 6px 6px 6px;
       font-size: 18px;
       line-height: 24px;
@@ -475,7 +475,7 @@ form {
   padding-bottom: 5px;
   background: #fff;
   clear: both;
-  -moz-transition: height 0.2s linear;
+  -moz-transition: height 0.4s linear;
   .month {
     background: none repeat scroll 0 0 #000000;
     color: #FFFFFF;
@@ -494,11 +494,6 @@ form {
     font-weight: bold;
     z-index: 6;
     -moz-transition: width 0.1s linear;
-  }
-}
-.month_container.retract {
-  .month {
-    width: 400px;
   }
 }
 .month_container.inserted {
@@ -521,7 +516,7 @@ form {
 .listing_top {
   height: 120px;
   padding-top: 56px;
-  padding-left: 45px;
+  padding-left: 52px;
   background: #fff;
 }
 .listing {
@@ -531,6 +526,9 @@ form {
   position: relative;
   background: #fff;
   right: 0;
+  .listing_body {
+    -moz-transition: opacity 0.1s linear;
+  }
   .date {
     text-transform: lowercase;
     text-align: right;
@@ -574,15 +572,16 @@ form {
     cursor: pointer;
     font-size: 16px;
     line-height: 20px;
-    border-bottom: solid 1px #ddd;
     width: 678px;
-    padding: 20px 0 14px 10px;
+    padding: 20px 0 14px 11px;
     .name {
       font-size: 30px;
-      line-height: 1.4em;
+      line-height: 1.2em;
       font-weight: bold;
-      margin-top: -4px;
+      margin-top: -3px;
+      margin-bottom: 5px;
       float: left;
+      position: relative;
     }
     a {
       font-weight: bold;
@@ -743,15 +742,6 @@ form {
       display: none;
     }
   }
-  .bottom_dot {
-    background: #eee;
-    bottom: 0px;
-    height: 3px;
-    left: 100px;
-    position: absolute;
-    width: 3px;
-    display: none;
-  }
   .ticket.orange {
     background: darkorange;
   }
@@ -764,6 +754,15 @@ form {
     }
   }
 }
+.bottom_dot {
+  background: #ddd;
+  bottom: 0px;
+  height: 1px;
+  right: 0px;;
+  position: absolute;
+  width: 678px;
+  -moz-transition: width 0.2s linear;
+}
 .day_wrapper {
   -moz-transition: background 0.1s linear;
 }
@@ -771,12 +770,12 @@ form {
   .date {
     .day {
       .day_wrapper {
-        background: yellow;
       }
     }
   }
   .main {
     .name {
+      background: yellow;
     }
   }
   .main_bottom_container {
@@ -786,7 +785,7 @@ form {
     }
   }
   .expand {
-    top: 15px;
+    top: 2px;
     .expand_ver {
       display: none;
     }
@@ -798,7 +797,6 @@ form {
 }
 .listing.expanded:hover {
   .main .name {
-    text-decoration: none;
   }
   .expand .expand_hor {
     border-top: solid 10px transparent;
@@ -809,16 +807,10 @@ form {
   .main {
   }
 }
-.listing:hover {
-  .main {
-    .name {
-      text-decoration: underline;
-    }
-  }
+.name:hover {
+  background: yellow;
   .expand {
-    .expand_hor {
-      border-top: solid 10px #333;
-    }
+    display: block;
   }
 }
 .listing.editing {
@@ -952,7 +944,6 @@ form {
 }
 #side_column {
   width: 260px;
-  background: #eee;
   height: 100%;
   right: 0;
   top: 0;
@@ -960,6 +951,7 @@ form {
   -moz-transition: width 0.2s linear;
   z-index: 7;
   line-height: 1.4em;
+  border-left: solid 1px #ddd;
   overflow: auto;
   .sign_options {
     color: #aaa;
@@ -996,6 +988,7 @@ form {
     margin-top: 30px;
     font-size: 14px;
     line-height: 20px;
+    -moz-transition: opacity 0.1s linear;
     .user_view {
       width: 200px;
       .user_image { 
@@ -1050,7 +1043,25 @@ form {
           }
         }
         .follow.un {
-          background: #444;
+          background: #333;
+          .follow_hor {
+            -moz-transform: rotate(-45deg);
+            width: 17px;
+            height: 3px;
+            background: #fff;
+            position: absolute;
+            left: 13px;
+            top: 19px;
+          }
+          .follow_ver {
+            -moz-transform: rotate(-45deg);
+            height: 9px;
+            width: 3px;
+            background: #fff;
+            left: 13px;
+            top: 19px;
+            position: absolute;
+          }
         }
         .follow.un:hover {
           background: red;
@@ -1068,14 +1079,12 @@ form {
   }
   .side_listing {
     .title {
-      color: #444;
-      font-size: 18px;
+      color: #000;
+      font-size: 20px;
       font-weight: normal;
       line-height: 1.4em;
       text-transform: lowercase;
-      border-bottom: solid 1px #ccc;
-      padding-bottom: 5px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
     .listing {
       font-size: 15px;
@@ -1090,7 +1099,7 @@ form {
       }
     }
     .listing:hover span {
-      background: #ddd;
+      background: #FFFF00;
       color: #000;
     }
     .listing:last-child {
@@ -1118,7 +1127,7 @@ form {
   height: 100%;
   top: 0;
   right: 260px;
-  background: #ccc;
+  background: #ddd;
   position: fixed;
   z-index: 1;
   overflow: auto;
@@ -1130,7 +1139,7 @@ form {
   position: relative;
   clear: both;
   textarea {
-    background: #ddd;
+    background: #eee;
     padding: 6px 5px 5px;
     line-height: 22px;
     border: none;
@@ -1186,13 +1195,14 @@ form {
   }
   li {
     height: 41px;
-    padding: 12px 11px 0;
+    padding: 12px 15px 0;
     font-size: 18px;
     line-height: 18px;
     color: #000;
     float: left;
     text-transform: lowercase;
     cursor: pointer;
+    -moz-transition: background 0.1s linear;
   }
   li.active {
     background: black;
@@ -1202,7 +1212,7 @@ form {
     width: 200px;
   }
   li.city.signed_in {
-    width: 73px;
+    width: auto;
   }
   li:hover {
     background: #999;
@@ -1227,6 +1237,7 @@ form {
     z-index: 8;
     width: 200px;
     display: block;
+    -moz-transition: opacity 0.1s linear;
   }
 }
 .create_container:hover {
@@ -1290,26 +1301,23 @@ form {
 }
 
 .expand {
-  float: right;
   height: 24px;
   position: absolute;
-  right: 19px;
-  top: 27px;
+  right: -34px;
+  top: 11px;
   width: 24px;
-  div {
-  }
+  display: none;
   .expand_hor {
     border: solid 10px transparent;
-    border-top: solid 10px #ccc;
+    border-top: solid 10px #333;
     position: absolute;
     top: 0;
     left: 0;
   }
-  .expand_ver {
-    width: 6px;
-    height: 24px;
-    left: 9px;
-    display: none; 
+}
+.expand:hover {
+  .expand_hor {
+    border-top: solid 10px #222;
   }
 }
 .username {
@@ -1396,4 +1404,171 @@ form {
 }
 .listing_map.show {
   display: block;
+}
+#wrapper.transition {
+  #main_inner {
+    .month_container {
+      .month {
+        width: 400px;
+      }
+    }
+    .listing_body {
+      opacity: 0;
+    }
+    .bottom_dot {
+      width: 0;
+    }
+    .user_li {
+      opacity: 0;
+    }
+  }
+  #side_column {
+    .side_content {
+      opacity: 0;
+    }
+    #create_event {
+      opacity: 0;
+    }
+  }
+  #circleG {
+    display: inline-block;
+    .circleG {
+      -o-animation-name:bounce_circleG;
+      -moz-animation-name:bounce_circleG;
+      -webkit-animation-name:bounce_circleG;
+    }
+  }
+}
+
+#circleG {
+  width:46.666666666666664px;
+  height: 11px;
+  display: none;
+  margin-left: 6px;
+  .circleG {
+    background-color:#FFFFFF;
+    float:left;
+    height:8px;
+    margin-left: 4px;
+    width:8px;
+    -webkit-border-radius:7px;
+    -webkit-animation-duration:1s;
+    -webkit-animation-iteration-count:infinite;
+    -webkit-animation-direction:linear;
+    -moz-border-radius:7px;
+    -moz-animation-duration:1s;
+    -moz-animation-iteration-count:infinite;
+    -moz-animation-direction:linear;
+    opacity:0.3;
+    border-radius:7px;
+    -o-animation-duration:1s;
+    -o-animation-iteration-count:infinite;
+    -o-animation-direction:linear;
+    -ms-animation-name:bounce_circleG;
+    -ms-animation-duration:1s;
+    -ms-animation-iteration-count:infinite;
+    -ms-animation-direction:linear;
+    opacity:0.3
+  }
+}
+#circleG_1{
+  -webkit-animation-delay:0.25s;
+  -moz-animation-delay:0.25s;
+  -o-animation-delay:0.25s;
+  -ms-animation-delay:0.25s;
+}
+#circleG_2{
+  -webkit-animation-delay:0.5s;
+  -moz-animation-delay:0.5s;
+  -o-animation-delay:0.5s;
+  -ms-animation-delay:0.5s;
+}
+
+#circleG_3{
+  -webkit-animation-delay:0.75s;
+  -moz-animation-delay:0.75s;
+  -o-animation-delay:0.75s;
+  -ms-animation-delay:0.75s;
+}
+@-webkit-keyframes bounce_circleG{
+  0% {
+    opacity:0.3
+  }
+  50% {
+    opacity:1;
+    background-color:#000000
+  }
+  100% {
+    opacity:0.3
+  }
+}
+
+@-moz-keyframes bounce_circleG {
+  0% {
+    opacity:0.3
+  }
+  50% {
+    opacity:1;
+    background-color:#000000
+  }
+  100% {
+    opacity:0.3
+  }
+}
+
+@-o-keyframes bounce_circleG {
+  0% {
+    opacity:0.3
+  }
+  50% {
+    opacity:1;
+    background-color:#000000
+  }
+  100% {
+    opacity:0.3
+  }
+}
+
+.users_list {
+  margin-left: 160px;
+  .user_li {
+    position: relative;
+    .user_li_body { 
+      padding: 20px 0;
+      -moz-transition: opacity 0.1s linear;
+      .user_name {
+        float: left;
+        font-weight: bold;
+        font-size: 22px;
+      }
+      .follow_status {
+        float: right;
+        margin-right: 26px;
+        font-size: 18px;
+        padding: 0 6px; 
+        cursor: pointer;
+        text-align: center;
+        width: 120px;
+        margin-top: -2px;
+        background: green;
+        color: #fff;
+      }
+      .follow_status.following {
+        background: #000;
+        color: #fff;
+        .unfollow {
+          display: none;
+        }
+      }
+      .follow_status.following:hover {
+        background: red;
+        .current {
+          display: none;
+        }
+        .unfollow {
+          display: inline;
+        }
+      }
+    }
+  }
 }

@@ -1,24 +1,13 @@
 class UsersController < ApplicationController
 
   def show
-    @data = {}
     @user = User.find_by_username(params["username"])
-        
-    user_id = @user.id
-    @listings = Listing.where(:user_id => user_id)
-    intentions = Intention.where(:user_id => user_id)
-    intentions.each do |intention|
-      listFromIntent = Listing.find(intention.listing_id)
-      @listings.push(listFromIntent)
-    end
-    
     options = { :current_user => current_user }
-    @data["user"] = @user.as_json(options)
-    @data["listings"] = @listings
+    @user = @user.as_json(options)
     
     respond_to do |format|
       format.html { render 'listings/feed' }
-      format.json { render :json => @data }
+      format.json { render :json => @user }
     end
   end
   
@@ -44,8 +33,18 @@ class UsersController < ApplicationController
   end
   
   def facebook_friends
+    @data = []
+    options = { :current_user => current_user }
     @graph = User.client(current_user.fb_token)
-    @data = @graph.get_object('me/friends')
+    @fb_friends = @graph.get_object('me/friends')
+    fb_ids = @fb_friends.collect do |friend|
+      friend["id"]
+    end
+    @users = User.where('fb_id IN (?)', fb_ids)
+    @users.each do |user|
+      user_full = user.as_json(options)
+      @data.push user_full
+    end
     respond_to do |format|
       format.html { render 'listings/feed' }
       format.json { render :json => @data }

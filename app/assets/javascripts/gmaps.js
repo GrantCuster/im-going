@@ -1,5 +1,3 @@
-console.log('gmaps!')
-
 /*!
  * GMaps.js
  * http://hpneo.github.com/gmaps/
@@ -10,7 +8,6 @@ console.log('gmaps!')
 
 var GMaps = (function($) {
   "use strict";
-  console.log('gmaps loaded');
 
   var GMaps = function(options) {
     var self = this;
