@@ -13,11 +13,12 @@ ImGoing::Application.routes.draw do
   match "friends" => "listings#friends_feed"
   match "users/:user_id/follow" => "users#follow"
   match "users/:user_id/unfollow" => "users#follow"
+  resources :venues
+  resources :listings
   match ":username/find_friends" => "users#facebook_friends"
   match ":username/show" => "users#show"
   match ":username" => "listings#user"
-  resources :venues
-  resources :listings
+  
 
   # resources :listings
   # resources :intentions

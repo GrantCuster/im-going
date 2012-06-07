@@ -30,51 +30,77 @@ window.Listing = Backbone.Model.extend
     $.format.date(@getDateTime(), "h:mm a")
   getUser: -> @get "user"
   getUserID: -> @get "user_id"
-  
-  
-  getTicketOption: -> @get "ticket_option"
   getIfMap: -> if @get "lat" then true else false
   getLat: -> 
     lat_raw = @get "lat"
-    lat = lat_raw/1000000
-    lat
+    lat_raw/1000000
   getLng: ->
     lng_raw = @get "lng"
-    lng = lng_raw/1000000
-    lng
-  # getSellOut: -> 
-  #   option_num = @get "sell_out"
-  #   if option_num == 0
-  #     days = 0
-  #   else if option_num == 1
-  #     days = 7
-  #   else
-  #     days = 30
-  #   if !(days == "no_date")
-  #     current_date = new Date
-  #     sale_date = @getSaleDate()
-  #     if sale_date
-  #       d = new Date Date.parse(@getSaleDate())
-  #     else
-  #       d = new Date Date.parse(@get "created_at")
-  #     d.setDate(d.getDate() + days)
-  #     days_until = (d - current_date)/86400000
-  #     if days_until < 2
-  #       urgency = "red"
-  #     else if days_until < 7
-  #       urgency = "orange"
-  #     else
-  #       urgency = "green"
-  #     urgency
-  # getSaleDate: ->
-  #   sale_date = @get "sale_date"
-  #   sale_date
-  # getSaleMonth: ->
-  #   date = $.format.date(@getSaleDate(),"M")
-  #   date
-  # getSaleDay: ->
-  #   date = $.format.date(@getSaleDate(),"d")
-  #   date
+    lng_raw/1000000
+  getTicketOption: -> @get "ticket_option"
+  getUrgency: ->
+    if @getTicketOption() == "1" || @getTicketOption() == "2"
+      urgency = false
+    else
+      options_num = @get "sell_out"
+      if options_num == 3
+        urgency = "sold_out"
+      else if options_num == 4
+        urgency = "green"
+      else
+        if options_num == 0
+          days = 0
+        else if options_num == 1
+          days = 7
+        else if options_num == 2
+          days = 30
+        current_date = new Date
+        sale_date = @getSaleDate()
+        if sale_date
+          d = new Date Date.parse(@getSaleDate())
+        else
+          d = new Date Date.parse(@get "created_at")
+        d.setDate(d.getDate() + days)
+        days_until = (d - current_date)/86400000
+        if days_until < 2
+          urgency = "red"
+        else if days_until < 7
+          urgency = "orange"
+        else
+          urgency = "green"
+      urgency
+  getSaleDate: -> 
+    sale_date = @get "sale_date"
+    if sale_date
+      d = new Date Date.parse(sale_date)
+      current_date = new Date
+      if d < current_date
+        false
+      else
+        sale_date
+    else
+      false
+  getSaleMonth: ->
+    if @getSaleDate()
+      date = $.format.date(@getSaleDate(),"M")
+      date
+  getSaleDay: ->
+    if @getSaleDate()
+      date = $.format.date(@getSaleDate(),"d")
+      date
+  getSaleTip: ->
+    if @getSaleDate()
+      date = $.format.date(@getSaleDate(),"ddd, MMMM dd")
+      digit = date.charAt( date.length-1 )
+      if digit == '1'
+        date = date + 'st'
+      else if digit == '2'
+        date = date + 'nd'
+      else if digit == '3'
+        date = date + 'rd'
+      else
+        date = date + 'th'
+      date
   getCost: -> @get "cost"  
   getTicketUrl: -> @get "ticket_url"
   getUserID: -> @get "user_id"
@@ -84,14 +110,6 @@ window.Listing = Backbone.Model.extend
     other_intentions = @get "intentions"
     intentions.add(other_intentions)
     intentions
-
-  # getTicketDate: () ->
-  #   n = getSellOut()
-  #   d = new Date Date.parse(@get "date_and_time")
-  #   new_d = d.setDate(d.getDate() + n)
-  #   d.toString()
-  # getTicketMonth: -> $.format.date(@getTicketDate(),"MM")
-  # getTicketDay: -> $.format.date(@getTicketDate(),"dd")
   getVenueName: -> @get "venue_name"
   getVenueAddress: -> @get "venue_address"
   getVenueUrl: -> @get "venue_url"

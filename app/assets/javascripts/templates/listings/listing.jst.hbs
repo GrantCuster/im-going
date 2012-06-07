@@ -65,7 +65,7 @@
             {{#if free}}
               <div class="sale_date">FREE</div>
             {{else}}
-              {{#if listing_month}}
+              {{#if sale_date}}
                 <div class="sale_date">{{listing_month}}/{{listing_day}}</div>
               {{/if}}
               {{#if cost}}
@@ -74,7 +74,7 @@
             {{/if}}
           <div class="ticket_end right"></div>
         {{#if ticket_url}}</a>{{/if}}
-        <div class="ticket_tip">Tickets go on sale on March 1st and Grant thinks they will sell out more than a month from now.</div>
+        <div class="ticket_tip">Tickets {{#if sale_date}}go on sale <strong>{{tip_date}}</strong>{{else}}<strong>are on sale</strong>{{/if}}. {{username}} thinks they will <strong>sell out {{urgency_tip}}</strong>.</div>
       </div>
     {{/if}}
   </div>

@@ -94,7 +94,7 @@ body {
   font-family: "ff-meta-web-pro-1","ff-meta-web-pro-2",'Helvetica Neue';
   
   #wrapper {
-    margin: 0 260px 0 0;
+    margin: 0 261px 0 0;
     line-height: 1.4em;
     position: relative;
     
@@ -569,13 +569,13 @@ form {
   .main {
     float: left;
     margin-left: 0;
-    cursor: pointer;
     font-size: 16px;
     line-height: 20px;
     width: 678px;
     padding: 20px 0 14px 11px;
     .name {
       font-size: 30px;
+      cursor: pointer;
       line-height: 1.2em;
       font-weight: bold;
       margin-top: -3px;
@@ -684,7 +684,7 @@ form {
     float: right;
     height: 34px;
     position: absolute;
-    right: 58px;
+    right: 18px;
     top: 15px;
     font-size: 18px;
     padding: 0 15px 0;
@@ -730,16 +730,20 @@ form {
     }
     .ticket_tip {
       background: none repeat scroll 0 0 #000000;
-      color: #FFFFFF;
+      color: #aaa;
       font-size: 14px;
       line-height: 20px;
       padding: 10px;
-      width: 200px;
+      width: 260px;
       position: absolute;
-      top: 36px;
-      right: -44px;
+      top: 37px;
+      right: -18px;
       z-index: 999;
       display: none;
+      strong {
+        font-weight: normal;
+        color: #fff;
+      }
     }
   }
   .ticket.orange {
@@ -785,13 +789,13 @@ form {
     }
   }
   .expand {
-    top: 2px;
+    top: 3px;
     .expand_ver {
       display: none;
     }
     .expand_hor {
-      border-top: solid 10px transparent;
-      border-bottom: solid 10px #ccc;
+      border-top: solid 8px transparent;
+      border-bottom: solid 8px #ccc;
     }
   }
 }
@@ -799,8 +803,8 @@ form {
   .main .name {
   }
   .expand .expand_hor {
-    border-top: solid 10px transparent;
-    border-bottom: solid 10px #333;
+    border-top: solid 8px transparent;
+    border-bottom: solid 8px #333;
   }
 }
 .listing.last_of_month {
@@ -943,7 +947,7 @@ form {
   }  
 }
 #side_column {
-  width: 260px;
+  width: 261px;
   height: 100%;
   right: 0;
   top: 0;
@@ -1065,6 +1069,26 @@ form {
         }
         .follow.un:hover {
           background: red;
+        }
+        .follow.edit {
+          background: magenta;
+          .follow_hor {
+            -moz-transform: rotate(-45deg);  
+            height: 5px;
+            left: 12px;
+            top: 17px;
+            width: 17px;
+          }
+          .follow_ver {
+            -moz-transform: rotate(45deg);
+            width: 3px;
+            height: 3px;
+            border: solid 3px transparent;
+            background: transparent;
+            border-top: solid 3px #fff;
+            left: 9px;
+            top: 26px;
+          }
         }
         .follow:hover {
           .follow_hor, .follow_ver {
@@ -1304,12 +1328,12 @@ form {
   height: 24px;
   position: absolute;
   right: -34px;
-  top: 11px;
+  top: 12px;
   width: 24px;
   display: none;
   .expand_hor {
-    border: solid 10px transparent;
-    border-top: solid 10px #333;
+    border: solid 8px transparent;
+    border-top: solid 8px #333;
     position: absolute;
     top: 0;
     left: 0;
@@ -1317,7 +1341,7 @@ form {
 }
 .expand:hover {
   .expand_hor {
-    border-top: solid 10px #222;
+    border-top: solid 8px #222;
   }
 }
 .username {

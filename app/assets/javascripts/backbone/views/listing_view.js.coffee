@@ -2,7 +2,7 @@ window.ListingView = Backbone.View.extend
   template: JST["templates/listings/listing"]
   className: "listing group"
   events: 
-    "click" : 'listingToggle'
+    "click .name" : 'listingToggle'
     "click a" : "stopProp"
     "mouseenter a" : "stopProp"
     "click .going a" : "userLoad"
@@ -106,12 +106,15 @@ window.ListingView = Backbone.View.extend
       venue_url: @model.getVenueUrl()
       venue_map: @model.getIfMap()
       description: @model.getEventDescription()
+      urgency: @model.getUrgency()
+      ticket_display: true if (@model.getSaleDate() || @model.getCost())
       free: true if @model.getTicketOption() == 2
-      # urgency: @model.getSellOut()
-      # listing_month: @model.getSaleMonth()
-      # listing_day: @model.getSaleDay()
+      sale_date: @model.getSaleDate()
+      listing_month: @model.getSaleMonth()
+      listing_day: @model.getSaleDay()
+      tip_date: @model.getSaleTip()
+      urgency_tip: if @model.getUrgency() == "green" then "in more than a week" else if @model.getUrgency() == "orange" then "in less than a week" else if @model.getUrgency() == "red" then "very soon"
       cost: @model.getCost()
-      # ticket_display: true if (@model.getSaleMonth() || @model.getCost())
       ticket_url: @model.getTicketUrl()
       user_intent: user_intent.getText() if user_intent
       intentions: @intentions.order() if @intentions.length > 0
@@ -470,8 +473,8 @@ window.ListingCreate = Backbone.View.extend
       venue_name = ($ '#listing_venue_name').val()
       venue_address = ($ '#listing_venue_address').val()
       venue_url = ($ '#listing_venue_url').val()
-      lat = @map.lat * 1000000
-      lng = @map.lng * 1000000
+      lat = @map.lat * 1000000 if @map
+      lng = @map.lng * 1000000 if @map
       event_description = ($ '#listing_event_description').val()
       intention = ($ '#intention .intention_select').find('li.active').index()
       ticket_option = ($ '#ticket_option .intention_select').find('li.active').index()

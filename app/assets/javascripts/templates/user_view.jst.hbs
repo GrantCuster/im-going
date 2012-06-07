@@ -1,6 +1,12 @@
 <div class="user_container">
   <div class="username">{{name}}</div>
-  {{#unless current_user}}
+  {{#if current_user}}
+    <div class="follow edit">
+      <div class="follow_hor"></div>
+      <div class="follow_ver"></div>
+      <div class="follow_text">edit</div>
+    </div>    
+  {{else}}
     {{#if followed}}
       <div class="follow un">
         <div class="follow_hor"></div>
@@ -14,7 +20,7 @@
         <div class="follow_text">follow</div>
       </div>
     {{/if}}
-  {{/unless}}
+  {{/if}}
 </div>
 <div class="user_image"><img src="{{image}}" /></div>
 {{#if description}}<div class="user_description">{{description}}</div>{{/if}}
