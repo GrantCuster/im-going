@@ -3,7 +3,7 @@
     <h2>Your Profile</h2>
     <div class="modal_close">x</div>
   </div>
-  <form method="post" id="user_new" class="user_new" action="/user/update" accept-charset="UTF-8"><input type="hidden" value="✓" name="utf8"><input name="authenticity_token" type="hidden" value="{{token}}">
+  <form method="put" id="user_new" class="user_new" action="/users/{{current_user_id}}" accept-charset="UTF-8"><input type="hidden" value="✓" name="utf8"><input name="authenticity_token" type="hidden" value="{{token}}">
 
     <div class="form_group group">
       <input type="text" placeholder="name" size="30" name="user[username]" id="user_username" value="{{name}}">

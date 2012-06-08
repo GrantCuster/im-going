@@ -5,7 +5,7 @@
   <script type='text/javascript'>
     var oApp = {};
     <% if current_user %>
-      oApp.currentUser = <%= current_user.to_json.html_safe %>;
+      oApp.currentUser = <%= current_user.to_json({ :include_private => true }).html_safe %>;
     <% else %>
       oApp.currentUser = false
     <% end %>

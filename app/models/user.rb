@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   has_many :venues
 
   def serializable_hash(options = {})
-    options = (options || {}).merge(:only => [:id, :email, :username, :image, :description, :fb_id, :fb_token])
+    options = (options || {}).merge(:only => [:id, :username, :image, :description, :fb_id])
     hash = super options
     
     if options && options[:current_user]
@@ -26,6 +26,11 @@ class User < ActiveRecord::Base
       if current_user.following?(self)
         hash.merge!(:followed_by_current_user => current_user.following?(self))
       end
+    end
+    
+    if options && options[:include_private]
+      hash[:email] = email
+      hash[:fb_token] = fb_token
     end
        
     hash

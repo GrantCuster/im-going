@@ -7,6 +7,7 @@ window.UserView = Backbone.View.extend
 
   initialize: ->
     _.bindAll @
+    @model.bind 'change', @render, @
 
   followUser: (e) ->
     if ($ e.target).parents('.follow').hasClass 'un'
@@ -15,6 +16,11 @@ window.UserView = Backbone.View.extend
         success: (model, response) =>
           @model.set {followed_by_current_user: null}
           @render()
+    else if ($ e.target).parents('.follow').hasClass 'edit'
+      # get this out of here
+      ($ '#main_column').addClass('inactive')
+      view = new UserEditView model: @model
+      ($ '#panel_container').html view.render().el
     else
       data = {}
       data["followed_id"] = @model.getId()
@@ -55,7 +61,6 @@ window.FriendView = Backbone.View.extend
   followUp: (e) ->
     $target = ($ @el).find('.follow_status')
     if $target.hasClass 'following'
-      console.log 'here'
       relation = new Relationship @model.getFollowStatus()
       relation.destroy 
         success: (model, response) =>

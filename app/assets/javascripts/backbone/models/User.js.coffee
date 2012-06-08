@@ -1,4 +1,6 @@
 window.User = Backbone.Model.extend
+  urlRoot: "/users"
+
   initialize: (options) ->
     _.bindAll @
   
@@ -18,5 +20,3 @@ window.User = Backbone.Model.extend
 window.Users = Backbone.Collection.extend
   model: User
   url: "/users"
-  comparator: (listing) -> 
-    0 - listing.getID()

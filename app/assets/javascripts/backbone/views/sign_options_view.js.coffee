@@ -46,9 +46,9 @@ window.UserEditView = ListingCreate.extend
     'click .modal_close' : 'closeModal'
     'focus input' : 'inputFocus'
     'blur input' : 'inputBlur'
+    'click input[type="submit"]' : "save"
 
-  initialize: (collection) ->
-    console.log @model
+  initialize: () ->
     _.bindAll @
     if ($ '.text_container').length == 0
       ($ 'body').append '<div class="text_container"><div class="text_clone"></div></div>'
@@ -63,13 +63,31 @@ window.UserEditView = ListingCreate.extend
     if current_input.val().length == 0
       current_input.parent().removeClass('text_entered')
 
+  save: () ->
+    old_username = @model.getName()
+    username = ($ @el).find('#user_username').val()
+    email = ($ @el).find('user_email').val()
+    description = ($ @el).find('#user_description').val()
+    data = {}
+    data["username"] = username
+    data["email"] = email
+    data["description"] = description
+    @model.save data
+    ($ '#main_column').removeClass('inactive')
+    ($ '#panel_container').html ""
+    if username != old_username
+      window.location = "/#{username}"
+    return false
+
   render: ->
     token = ($ 'meta[name="csrf-token"]').attr('content')
     HTML = @template
       token: token
       name: @model.getName()
-      email: @model.getEmail()
+      email: oApp.currentUser.email
       imageURL: @model.getImageURL()
+      description: @model.getDescription()
+      current_user_id: if oApp.currentUser then oApp.currentUser.id else false
     ($ @el).html(HTML)
     ($ @el).find('input').not('input[type="submit"]').each (index, input) =>
       @placeholderSize(input)

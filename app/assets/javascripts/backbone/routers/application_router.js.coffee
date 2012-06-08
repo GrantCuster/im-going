@@ -4,6 +4,8 @@ window.ApplicationRouter = Backbone.Router.extend
     "/nyc" : "index"
     "friends" : "friends_feed"
     "/friends" : "friends_feed"
+    "nyc/create" : "createListing"
+    "friends/create" : "createListing"
     ":username/find_friends" : "find_friends"
     ":username" : "profile"
     "/:username" : "profile"

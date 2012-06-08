@@ -15,6 +15,7 @@ ImGoing::Application.routes.draw do
   match "users/:user_id/unfollow" => "users#follow"
   resources :venues
   resources :listings
+  resources :users
   match ":username/find_friends" => "users#facebook_friends"
   match ":username/show" => "users#show"
   match ":username" => "listings#user"
