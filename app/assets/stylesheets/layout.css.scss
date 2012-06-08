@@ -91,7 +91,7 @@ body {
   height: 100%;
   min-width: 600px;
   font-size: 20px;
-  font-family: "ff-meta-web-pro-1","ff-meta-web-pro-2",'Helvetica Neue';
+  font-family: "ff-meta-web-pro-1","ff-meta-web-pro-2","Helvetica Neue", sans-serif;
   
   #wrapper {
     margin: 0 261px 0 0;
@@ -540,7 +540,6 @@ form {
     font-size: 18px;
     font-weight: bold;
     margin-right: 12px;
-    cursor: pointer;
     .day {
       font-size: 20px;
       text-align: right;
@@ -596,19 +595,17 @@ form {
       clear: both;
     }
     .main_bottom_container {
-      height: 0;
-      overflow: hidden;
-      -moz-transition: height 0.1s ease 0s;
+      display: none;
       .main_bottom {
       }
     }
     .main_supplement {
-      padding: 12px 15px 3px;
+      padding: 8px 0 0 8px;
       margin-right: 49px;
-      margin-bottom: 11px;
+      margin-bottom: 8px;
     }
     .location {
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       a {
       }
       .map_link {
@@ -619,7 +616,7 @@ form {
       }
     }
     .description {
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
     .actions {
       margin-right: 49px;
@@ -730,7 +727,7 @@ form {
     }
     .ticket_tip {
       background: none repeat scroll 0 0 #000000;
-      color: #aaa;
+      color: #ccc;
       font-size: 14px;
       line-height: 20px;
       padding: 10px;
@@ -779,13 +776,6 @@ form {
   }
   .main {
     .name {
-      background: yellow;
-    }
-  }
-  .main_bottom_container {
-    overflow: visible;
-    .main_bottom {
-      height: auto;
     }
   }
   .expand {
@@ -804,7 +794,7 @@ form {
   }
   .expand .expand_hor {
     border-top: solid 8px transparent;
-    border-bottom: solid 8px #333;
+    border-bottom: solid 8px #000;
   }
 }
 .listing.last_of_month {
@@ -812,7 +802,7 @@ form {
   }
 }
 .name:hover {
-  background: yellow;
+  text-decoration: underline;
   .expand {
     display: block;
   }
@@ -1333,7 +1323,7 @@ form {
   display: none;
   .expand_hor {
     border: solid 8px transparent;
-    border-top: solid 8px #333;
+    border-top: solid 8px #000;
     position: absolute;
     top: 0;
     left: 0;

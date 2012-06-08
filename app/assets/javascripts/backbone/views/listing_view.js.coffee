@@ -17,13 +17,10 @@ window.ListingView = Backbone.View.extend
   listingToggle: ->
     if ($ @el).hasClass('expanded')
       ($ @el).removeClass('expanded')
-      ($ @el).find('.main_bottom_container').css('height', '0')
+      ($ @el).find('.main_bottom_container').slideUp(100)
     else
-      bottom_height = ($ '.main_bottom').height()
-      ($ @el).addClass('expanded').find('.main_bottom_container').css('height',bottom_height)
-      setTimeout ->
-        ($ @el).find('.main_bottom_container').addClass('reverse')
-      , 0
+      ($ @el).addClass('expanded')
+      ($ @el).find('.main_bottom_container').slideDown(100)
 
   stopProp: (e) ->
     e.stopPropagation()
