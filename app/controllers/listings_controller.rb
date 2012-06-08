@@ -19,9 +19,10 @@ class ListingsController < ApplicationController
   end
 
   def show
-    @listing = Listing.find(params[:listing_id])
+    @data = Listing.find(params[:id])
     respond_to do |format|
-      format.json { render :json => @listing }
+      format.html { render 'listings/feed' }
+      format.json { render :json => @data }
     end
   end
   
@@ -33,7 +34,7 @@ class ListingsController < ApplicationController
     intentions = Intention.where(:user_id => user_id)
     intentions.each do |intention|
       listFromIntent = Listing.find(intention.listing_id)
-      @listings.push(listFromIntent)
+      @data.push(listFromIntent)
     end
     
     respond_to do |format|

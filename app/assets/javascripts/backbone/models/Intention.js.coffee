@@ -1,6 +1,5 @@
 window.Intention = Backbone.Model.extend
-  initialize: (options) ->
-    @urlRoot = '/intentions'
+  urlRoot: '/intentions'
   
   getUserID: -> @get "user_id"
   getIntention: -> @get "intention"
@@ -8,14 +7,15 @@ window.Intention = Backbone.Model.extend
   getText: ->
     intent = @getIntention()
     if intent == 1
-      text = "You're going."
+      text = "I'm going."
     else if intent == 2
-      text = "You're thinking."
+      text = "I'm thinking."
     else
-      text = "You would."
+      text = "I would."
 
 window.Intentions = Backbone.Collection.extend
   model: Intention
+  url: '/intentions'
   
   order: () ->
     intention_one = []

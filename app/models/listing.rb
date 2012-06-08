@@ -17,6 +17,12 @@ class Listing < ActiveRecord::Base
   def self.from_users_followed_by(user)
     followed_user_ids = "SELECT followed_id FROM relationships
                         WHERE follower_id = :user_id"
-    where("user_id IN (#{followed_user_ids}) OR user_id = :user_id", user_id: user.id)
+    listings = where("user_id IN (#{followed_user_ids}) OR user_id = :user_id", user_id: user.id)
+    intentions = Intention.where("user_id = :user_id", user_id: user.id)
+    intentions.each do |intention|
+      listFromIntent = Listing.find(intention.listing_id)
+      listings.push listFromIntent
+    end
+    listings
   end
 end

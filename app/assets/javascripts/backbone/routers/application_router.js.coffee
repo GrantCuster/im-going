@@ -6,6 +6,8 @@ window.ApplicationRouter = Backbone.Router.extend
     "/friends" : "friends_feed"
     "nyc/create" : "createListing"
     "friends/create" : "createListing"
+    "listings/:id" : "permalink"
+    "/listings/:id" : "permalink"
     ":username/find_friends" : "find_friends"
     ":username" : "profile"
     "/:username" : "profile"
@@ -45,6 +47,26 @@ window.ApplicationRouter = Backbone.Router.extend
           side_listings = new SideListings response
           @populate_side_listings(side_listings)
           @populate_create_button(listings)
+ 
+  fetch_or_preload_listing: (id) ->
+    if preloaded_data? && !@data_loaded?
+      listing = new Listing preloaded_data
+      @populate_listing(listing)
+      @data_loaded = true
+    else
+      listing = new Listing
+      listing.fetch
+        url: "/listings/#{id}"
+        success: (listing, response) =>
+          @populate_listing(listing)
+ 
+  fetch_and_populate_side_listings: ->
+    listings = new Listings
+    listings.fetch
+      url: "/nyc"
+      success: (listings, response) =>
+        side_listings = new SideListings response
+        @populate_side_listings(side_listings)
  
   # Has to be a better way to do this
   fetch_user: (username) ->
@@ -90,6 +112,13 @@ window.ApplicationRouter = Backbone.Router.extend
       ($ '#wrapper').removeClass 'transition'
     , 100
 
+  populate_listing: (listing) ->
+    listing_view = new PermalinkView model: listing
+    ($ '#main_inner').html listing_view.render().el
+    setTimeout =>
+      ($ '#wrapper').removeClass 'transition'
+    , 100
+
   populate_friends: (friends) ->
     view = new FriendsView collection: friends
     ($ '#main_inner').html view.render().el
@@ -108,14 +137,15 @@ window.ApplicationRouter = Backbone.Router.extend
   populate_side: (options) ->
     view = new SortOptionsView(options)
     ($ ".sort_container").html view.render().el
-    if options and options.active == "you"
+    if options && options.active == "you"
       header = new ListingsHeader(active: oApp.currentUser.username)
     else
       header = new ListingsHeader(options)
     ($ '.listing_top').html header.render().el
     unless oApp.currentUser
       sign_view = new SignOptionsView
-      ($ ".sort_container").after sign_view.render().el
+      unless ($ '.sign_up_options').length > 0
+        ($ ".sort_container").after sign_view.render().el
 
   index: ->
     @fetch_or_preload_city_listings()
@@ -128,6 +158,12 @@ window.ApplicationRouter = Backbone.Router.extend
       @populate_side(active: "you")
     else
       @populate_side(active: username)
+    ($ '.side_create').html ''
+  
+  permalink: (id) ->
+    @fetch_or_preload_listing(id)
+    @fetch_and_populate_side_listings()
+    @populate_side()
     ($ '.side_create').html ''
    
   friends_feed: ->

@@ -9,6 +9,7 @@ window.ListingView = Backbone.View.extend
     "click .go_options li" : "intentionChoice"
     "click .edit" : "editListing"
     "click .map_link" : "showMap"
+    "click .permalink" : "loadPermalink"
 
   initialize: ->
     _.bindAll @, 'render'
@@ -34,6 +35,16 @@ window.ListingView = Backbone.View.extend
       , 100
     return false
   
+  loadPermalink: ->
+    id = @model.getID()
+    listing = "/listings/#{id}"
+    unless window.location.pathname == "listings/#{id}"
+      ($ '#wrapper').addClass 'transition'
+      setTimeout =>
+        window.router.navigate listing, {trigger: true}
+      , 100
+    return false
+
   showMap: (e) ->
     e.stopPropagation()
     if ($ e.target).hasClass 'open'
@@ -66,7 +77,7 @@ window.ListingView = Backbone.View.extend
     @intentions.bind 'add', @render, @
     intent = ($ e.target).index() + 1
     listing_id = @model.getID()
-    username = oApp.currentUser.user_id
+    user_id = oApp.currentUser.user_id
     data = {}
     data["listing_id"] = listing_id
     data["user_id"] = user_id
@@ -176,6 +187,57 @@ window.ListingsView = Backbone.View.extend
     @monthScroll()
     @
 
+window.PermalinkView = window.ListingView.extend
+  template: JST["templates/listings/permalink"]
+  className: "permalink group listing"
+
+  render: ->
+    user = @model.getUser()
+    @intentions || = @model.getIntentions()
+    if oApp.currentUser.id == @model.getUserID()
+      user_listing = true
+    else
+      user_listing = false
+    intented = false
+    user_intent = false
+    unless user_listing
+      @intentions.each (intention) =>
+        if intention.getUserID() == oApp.currentUser.id 
+          intented = true
+          user_intent = intention
+    HTML = @template
+      current_user: oApp.currentUser
+      user_listing: user_listing if user_listing == true
+      name: @model.getName()
+      full_date: @model.getPermalinkDate()
+      intented: intented if intented == true
+      username: user.username
+      user_id: @model.getUserID()
+      day: @model.getDay()
+      date: @model.getDate()
+      time: @model.getFullTime()
+      venue_name: @model.getVenueName()
+      venue_address: @model.getVenueAddress()
+      venue_url: @model.getVenueUrl()
+      venue_map: @model.getIfMap()
+      description: @model.getEventDescription()
+      urgency: @model.getUrgency()
+      ticket_display: true if (@model.getSaleDate() || @model.getCost())
+      free: true if @model.getTicketOption() == 2
+      sale_date: @model.getSaleDate()
+      listing_month: @model.getSaleMonth()
+      listing_day: @model.getSaleDay()
+      tip_date: @model.getSaleTip()
+      urgency_tip: if @model.getUrgency() == "green" then "in more than a week" else if @model.getUrgency() == "orange" then "in less than a week" else if @model.getUrgency() == "red" then "very soon"
+      cost: @model.getCost()
+      ticket_url: @model.getTicketUrl()
+      user_intent: user_intent.getText() if user_intent
+      intentions: @intentions.order() if @intentions.length > 0
+      listing_id: @model.getID()
+    ($ @el).html HTML
+    ($ @el).attr 'data-id', @model.getID()
+    @
+
 window.ListingsHeader = Backbone.View.extend
   template: JST["templates/listings/header"]
   events:
@@ -198,6 +260,7 @@ window.ListingsHeader = Backbone.View.extend
     me = @
     HTML = @template
       active: @options.active
+      current_user: oApp.currentUser
     ($ @el).html HTML        
     @
 

@@ -449,16 +449,20 @@ form {
   color: #000;
   .base {
     display: inline-block;
-    padding: 8px 4px 0;
-    height: 49px;
+    padding: 8px 0 0;
+    margin-bottom: 0px;
+    margin-left: 5px;
     font-size: 24px;
     color: #000;
     cursor: pointer;
-    margin-right: 1px;
+    margin-right: 5px;
     span {
       color: #000;
       font-weight: bold;
     }
+  }
+  .base:hover {
+    text-decoration: underline;
   }
 }
 #tagline {
@@ -514,10 +518,38 @@ form {
   opacity: 0;
 }
 .listing_top {
-  height: 120px;
-  padding-top: 56px;
+  padding-top: 30px;
   padding-left: 52px;
   background: #fff;
+  .tagline {
+    display: inline-block;
+    color: #000;
+    font-size: 20px;
+    margin-left: 6px;
+    position: relative;
+    color: #888;
+    top: -1px;
+  }
+  .description {
+    font-size: 16px;
+    line-height: 25px;
+    margin: 10px 90px 0 6px;
+    .yellow {
+      background: yellow;
+      cursor: pointer;
+    }
+    .twitter {
+      background: #53BEE2;
+      padding: 0 2px;
+      color: #fff;
+      cursor: pointer;
+    }
+    .facebook {
+      background: #395B9B;
+      color: #fff;
+      cursor: pointer;
+    }
+  }
 }
 .listing {
   clear: both;
@@ -610,6 +642,7 @@ form {
       }
       .map_link {
         font-weight: bold;
+        cursor: pointer;
       }
       .map_link:hover {
         text-decoration: underline;
@@ -619,46 +652,62 @@ form {
       margin-bottom: 8px;
     }
     .actions {
-      margin-right: 49px;
+      margin-right: 20px;
       a {
         color: #999;
         font-weight: normal;
-      }
-      a.share {
-        font-weight: bold;
       }
       .intent_option {
         position: relative;
         display: inline-block;
         a.intenter {
           color: #0066ce;
-          text-transform: lowercase;
-          margin-right: 8px;
-          padding: 8px 12px;
-          margin-top: -8px;
+          margin-right: 4px;
+          padding: 10px 12px 8px;
+          margin-top: -10px;
           margin-left: -12px;
           font-weight: bold;
+          display: inline-block;
+          text-align: center;
         }  
         .go_options {
           display: none;
           position: absolute;
           left: -12px;
           top: 28px;
-          width: 250px;
+          width: 260px;
           padding: 0;
-          background: #fff;
+          background: #eee;
           border: solid 4px #000;
           li {
             padding: 8px 10px;
+            cursor: pointer;
             color: #000;
           }
+        }
+      }
+      .shares {
+        a {
+          font-weight: bold;
+          margin-left: 3px;
+        }
+        a.permalink {
+          color: #777;
+          padding: 0 2px;
+        }
+        a.facebook {
+          color: #395B9B;
+          padding: 0 2px;
+        }
+        a.twitter {
+          color: #53BEE2;
+          padding: 0 2px;
         }
       }
       .intent_option:hover {
         a.intenter {
           background: #000;
           color: #fff;
-          font-weight: normal;
           text-decoration: none;
         }
         .go_options {
@@ -681,7 +730,7 @@ form {
     float: right;
     height: 34px;
     position: absolute;
-    right: 18px;
+    right: 20px;
     top: 15px;
     font-size: 18px;
     padding: 0 15px 0;
@@ -710,7 +759,7 @@ form {
     .ticket_price {
       float: left;
       height: 36px;
-      padding-top: 8px;
+      padding-top: 9px;
     }
     .ticket_end {
       background: none repeat scroll 0 0 #FFFFFF;
@@ -733,8 +782,8 @@ form {
       padding: 10px;
       width: 260px;
       position: absolute;
-      top: 37px;
-      right: -18px;
+      top: 39px;
+      right: -21px;
       z-index: 999;
       display: none;
       strong {
@@ -1113,8 +1162,7 @@ form {
       }
     }
     .listing:hover span {
-      background: #FFFF00;
-      color: #000;
+      text-decoration: underline;
     }
     .listing:last-child {
       .side_separator {
@@ -1260,7 +1308,9 @@ form {
 #create_event.active {
   background: #000;
 }
-
+#create_event.active:hover {
+  background: red;
+}
 .one_quarter {
   width: 100px;
   float: left;
@@ -1365,7 +1415,6 @@ form {
 #logo {
   font-size: 24px;
   color: #bbb;
-  text-transform: lowercase;
   .location {
     text-transform: none;
     background: yellow;
@@ -1421,6 +1470,9 @@ form {
   display: block;
 }
 #wrapper.transition {
+  .date_container {
+    margin-left: -600px;
+  }
   #main_inner {
     .month_container {
       .month {
@@ -1456,10 +1508,12 @@ form {
 }
 
 #circleG {
-  width:46.666666666666664px;
+  width:37px;
   height: 11px;
   display: none;
-  margin-left: 6px;
+  float: right;
+  margin-right: 26px;
+  margin-top: 20px;
   .circleG {
     background-color:#FFFFFF;
     float:left;
@@ -1583,6 +1637,141 @@ form {
         .unfollow {
           display: inline;
         }
+      }
+    }
+  }
+}
+.listing.permalink {
+  margin-left: 148px;
+  margin-top: 22px;
+  a {
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  .name {
+    font-size: 50px;
+    line-height: 52px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    clear: both;
+    cursor: text;
+  }
+  .name:hover {
+    text-decoration: none;
+  }
+  .date_container {
+    height: 37px;
+    margin-left: 0px;
+    position: relative;
+    -moz-transition: margin-left 0.1s linear;
+    .date_backer {
+      height: 36px;
+      width: 740px;
+      background: #000;
+      position: absolute;
+      left: -650px;
+      z-index: 6;
+    }
+    .date {
+      background: none repeat scroll 0 0 #000000;
+      color: #FFFFFF;
+      float: left;
+      font-size: 15px;
+      height: 36px;
+      letter-spacing: 2px;
+      line-height: 1em;
+      padding: 12px 12px 0;
+      text-transform: uppercase;
+      font-weight: bold;
+      z-index: 7;
+      position: relative;
+      width: auto;
+      margin-top: 0;
+      margin-right: 0;
+      margin-left: -94px;
+    } 
+    .time {
+      color: #777;
+      float: left;
+      font-size: 18px;
+      margin-left: 12px;
+      margin-top: 5px;
+    }
+  }
+  .going {
+    margin-top: 6px;
+    clear: both;
+    a {
+      font-weight: bold;
+      color: #000;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+  .main_supplement {
+    margin: 16px 0 20px 26px;
+    .location {
+      margin-bottom: 16px;
+      .map_link {
+        font-weight: normal;
+        cursor: text;
+      }
+      .map_link:hover {
+        text-decoration: none;
+      }
+    }
+    .listing_map {
+      margin-top: 14px;
+      display: block;
+    }
+  }
+  .main {
+    font-size: 18px;
+    padding-top: 24px;
+    .location {
+      margin-bottom: 14px;
+    }
+    .main_bottom_container {
+      display: block;
+    }
+    .actions {
+      .intent_option {
+        a.intenter {
+        }
+        .go_options {
+          width: 300px;
+        }
+      }
+    }
+    .ticket {
+      height: 46px;
+      padding: 0 26px;
+      position: absolute;
+      top: 54px;
+      right: 30px;
+      .ticket_end {
+        height: 20px;
+        width: 20px;
+        top: 13px;
+        left: -11px;
+      }
+      .ticket_end.right {
+        left: auto;
+        right: -11px;
+      }
+      .ticket_price {
+        font-size: 26px;
+        padding-top: 15px;
+      }
+      .ticket_tip {
+        top: 52px;
+        right: -31px;
       }
     }
   }

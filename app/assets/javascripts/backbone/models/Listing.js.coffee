@@ -7,6 +7,7 @@ window.Listing = Backbone.Model.extend
     d = new Date Date.parse(@get "date_and_time")
     d.toString()
   getDay: -> $.format.date(@getDateTime(),"ddd").substr(0,3)
+  getFullDay: -> $.format.date(@getDateTime(),"ddd")
   getDate: -> 
     date = $.format.date(@getDateTime(),"d")
     digit = date.charAt( date.length-1 )
@@ -23,7 +24,9 @@ window.Listing = Backbone.Model.extend
     time = $.format.date(@getDateTime(),"ha").toString()
     time_stripped = time.replace("M", "")
     time_stripped
+  getFullTime: -> $.format.date(@getDateTime(),"h:mm a").toString()
   getMonth: -> $.format.date(@getDateTime(),"MMMM")
+  getPermalinkDate: -> @getFullDay() + ", " + @getMonth() + " " + @getDate()
   getFormDay: ->
     $.format.date(@getDateTime(), "ddd, MMMM dd")
   getFormTime: ->
