@@ -11,6 +11,14 @@ class UsersController < ApplicationController
     end
   end
   
+  def new
+    @data = session[:omniauth]
+    
+    respond_to do |format|
+      format.html { render 'listings/feed' }
+    end    
+  end
+  
   def index
     @users = User.all
   end
@@ -25,8 +33,14 @@ class UsersController < ApplicationController
 
   def update
     options = params[:user]
-    @user = User.find(current_user.id)
-    @user.update_attributes(options)
+    if current_user
+      @user = User.find(current_user.id)
+      @user.update_attributes(options)
+    else
+      if @user = User.find_by_email(options[:email])
+        @user.update_attributes(options)
+      end
+    end
     respond_to do |format|
       format.json { render :json => @user }
     end

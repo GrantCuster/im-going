@@ -33,6 +33,8 @@ Devise.setup do |config|
   # config.request_keys = []
   require "omniauth-facebook"
   config.omniauth :facebook, "344764858922116", "318bba1c93acad568d38909636bacc42"
+  require "omniauth-twitter"
+  config.omniauth :twitter, "YAY8FFbW6ssYwqY11OJFOQ", "I5szFahp3K61YYJA7X6zJx813qWEhKow70nYfg3m4"
 
   # Configure which authentication keys should be case-insensitive.
   # These keys will be downcased upon creating or modifying a user and when used

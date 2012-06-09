@@ -521,6 +521,7 @@ form {
   padding-top: 30px;
   padding-left: 52px;
   background: #fff;
+  margin-bottom: 4px;
   .tagline {
     display: inline-block;
     color: #000;
@@ -533,21 +534,27 @@ form {
   .description {
     font-size: 16px;
     line-height: 25px;
-    margin: 10px 90px 0 6px;
+    margin: 10px 50px 16px 6px;
     .yellow {
-      background: yellow;
       cursor: pointer;
     }
     .twitter {
       background: #53BEE2;
-      padding: 0 2px;
       color: #fff;
+      padding: 0 2px;
       cursor: pointer;
+    }
+    .twitter:hover {
+      background: #0087B4;
     }
     .facebook {
       background: #395B9B;
       color: #fff;
+      padding: 0 2px;
       cursor: pointer;
+    }
+    .facebook:hover {
+      background: #233B69;
     }
   }
 }
@@ -914,6 +921,7 @@ form {
     width: 130px;
     background: magenta;
     padding: 12px 6px 0;
+    color: #fff;
     -moz-transition: all 0.1s linear;
     .left_pointer {
       border: solid 12px transparent;
@@ -952,13 +960,14 @@ form {
 .sign_up_options.facebooked {
   li#sign_up_overlay {
     left: 100px;
-    width: 75px;
+    width: 105px;
     .left_pointer {
       display: block;
     }
   }
   li.facebook {
-    text-align: left;
+    text-align: center;
+    background: #233B69;
     span {
       display: none;
     }
@@ -969,14 +978,15 @@ form {
 }
 .sign_up_options.twittered {
   li#sign_up_overlay {
-    left: 30px;
-    width: 75px;
+    left: 0px;
+    width: 105px;
     .right_pointer {
       display: block;
     }
   }
   li.twitter {
-    text-align: right;
+    text-align: center;
+    background: #0087B4;
     span {
       display: none;
     }
@@ -1300,6 +1310,9 @@ form {
     width: 200px;
     display: block;
     -moz-transition: opacity 0.1s linear;
+  }
+  #create_event:hover {
+    background: #004CC0;
   }
 }
 .create_container:hover {
@@ -1643,7 +1656,7 @@ form {
 }
 .listing.permalink {
   margin-left: 148px;
-  margin-top: 22px;
+  margin-top: 34px;
   a {
     font-weight: bold;
     color: #000;
@@ -1734,6 +1747,7 @@ form {
   .main {
     font-size: 18px;
     padding-top: 24px;
+    padding-bottom: 24px;
     .location {
       margin-bottom: 14px;
     }

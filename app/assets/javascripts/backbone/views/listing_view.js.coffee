@@ -242,9 +242,19 @@ window.ListingsHeader = Backbone.View.extend
   template: JST["templates/listings/header"]
   events:
     'click .base' : 'base'
+    'click .facebook' : 'facebook'
+    'click .twitter' : 'twitter'
 
   initialize: (options) ->
     @options = options || ""
+
+  facebook: ->
+    l = (screen.width - 500) / 2
+    t = (screen.height - 500) / 2
+    window.open 'http://localhost:3000/users/auth/facebook', "im_going_popup", "width=500, height=500, left=#{l}, top=#{t}, scrollbars=yes"
+
+  twitter: ->
+    window.open 'http://localhost:3000/users/auth/twitter'
 
   base: ->
     unless window.location.pathname == "/nyc"
@@ -664,7 +674,6 @@ window.ListingCreate = Backbone.View.extend
         , 400
   
   submitEnter: (e) ->
-    console.log @map
     if ($ e.target).hasClass 'not_ready'
       ($ '.error_msg').addClass 'show'
   

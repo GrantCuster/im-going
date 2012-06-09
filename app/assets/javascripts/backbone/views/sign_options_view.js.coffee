@@ -63,6 +63,21 @@ window.UserEditView = ListingCreate.extend
     if current_input.val().length == 0
       current_input.parent().removeClass('text_entered')
 
+  inputBlur: (e) ->
+    input = ($ e.target)
+    if input.val().length > 0
+      characters = input.val()
+      ($ '.text_clone').text(characters)
+      new_width = ($ '.text_clone').width() + 15
+      input.width(new_width)
+      if ($ e.target).attr('id') == "user_email"
+        ($ e.target).removeClass 'invalid'
+        ($ 'input[type="submit"]').removeClass 'not_ready'
+    else
+      @placeholderSize(input)
+      if ($ e.target).attr('id') == "user_email"
+        ($ e.target).addClass 'invalid'
+
   save: () ->
     old_username = @model.getName()
     username = ($ @el).find('#user_username').val()
@@ -145,7 +160,7 @@ window.SignOptionsView = Backbone.View.extend
   tagName: "ul"
   events:
     "click .facebook_target" : "facebook"
-    "click .twitter_target" : "sign_in"
+    "click .twitter_target" : "twitter"
     "mouseenter .facebook_target" : "facebookEnter"
     "mouseleave .facebook_target" : "facebookLeave"
     "mouseenter .twitter_target" : "twitterEnter"
@@ -154,10 +169,8 @@ window.SignOptionsView = Backbone.View.extend
   initialize: ->
     _.bindAll @, 'render'
 
-  sign_in: ->
-    ($ '#main_column').addClass('inactive')
-    view = new SignUpView
-    ($ '#panel_container').html view.render().el
+  twitter: ->
+    window.open 'http://localhost:3000/users/auth/twitter'
 
   facebook: ->
     window.open 'http://localhost:3000/users/auth/facebook'
