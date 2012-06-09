@@ -36,9 +36,9 @@ class User < ActiveRecord::Base
     hash
   end
 
-  def self.new_with_session(params, session)
-    logger.debug 'session new'
-  end
+  # def self.new_with_session(params, session)
+  #   logger.debug 'session new'
+  # end
 
   def self.find_for_facebook_oauth(access_token)
     data = access_token.info
@@ -56,6 +56,17 @@ class User < ActiveRecord::Base
     else
       session[:omniauth] = data
       redirect_to :root
+    end
+  end
+  
+  def self.check_twitter_or_create(params)
+    data = params
+    logger.debug data
+    if user = self.find_by_email(data.email)
+      logger.debug 'will need to add twitter authentication then'
+      user
+    else
+      logger.debug 'made it this far'
     end
   end
   

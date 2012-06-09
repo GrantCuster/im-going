@@ -108,6 +108,56 @@ window.UserEditView = ListingCreate.extend
       @placeholderSize(input)
     @
 
+window.UserNewView = ListingCreate.extend
+  template: JST["templates/users/edit_user"]
+  events:
+    'click .modal_close' : 'closeModal'
+    'focus input' : 'inputFocus'
+    'blur input' : 'inputBlur'
+
+  initialize: () ->
+    _.bindAll @
+    if ($ '.text_container').length == 0
+      ($ 'body').append '<div class="text_container"><div class="text_clone"></div></div>'
+
+  typeCheck: (e) ->
+    current_input = ($ ".line.focus input")
+    if (!($ ".line.focus").hasClass('text_entered')) && (e.which != 8)
+      current_input.parent().addClass('text_entered')
+
+  textCheck: (e) ->
+    current_input = ($ ".line.focus input")
+    if current_input.val().length == 0
+      current_input.parent().removeClass('text_entered')
+
+  inputBlur: (e) ->
+    input = ($ e.target)
+    if input.val().length > 0
+      characters = input.val()
+      ($ '.text_clone').text(characters)
+      new_width = ($ '.text_clone').width() + 15
+      input.width(new_width)
+      if ($ e.target).attr('id') == "user_email"
+        ($ e.target).removeClass 'invalid'
+        ($ 'input[type="submit"]').removeClass 'not_ready'
+    else
+      @placeholderSize(input)
+      if ($ e.target).attr('id') == "user_email"
+        ($ e.target).addClass 'invalid'
+
+  render: ->
+    token = ($ 'meta[name="csrf-token"]').attr('content')
+    HTML = @template
+      token: token
+      name: @model.getName()
+      email: oApp.currentUser.email
+      imageURL: @model.getImageURL()
+      description: @model.getDescription()
+    ($ @el).html(HTML)
+    ($ @el).find('input').not('input[type="submit"]').each (index, input) =>
+      @placeholderSize(input)
+    @
+
 window.SortOptionsView = Backbone.View.extend
   template: JST["templates/sort_options"]
   className: "sort_options"

@@ -249,12 +249,10 @@ window.ListingsHeader = Backbone.View.extend
     @options = options || ""
 
   facebook: ->
-    l = (screen.width - 500) / 2
-    t = (screen.height - 500) / 2
-    window.open 'http://localhost:3000/users/auth/facebook', "im_going_popup", "width=500, height=500, left=#{l}, top=#{t}, scrollbars=yes"
-
+    window.location = 'http://localhost:3000/users/auth/facebook'
+    
   twitter: ->
-    window.open 'http://localhost:3000/users/auth/twitter'
+    window.location = 'http://localhost:3000/users/auth/twitter'
 
   base: ->
     unless window.location.pathname == "/nyc"
@@ -320,8 +318,10 @@ window.SideListingView = Backbone.View.extend
     offset = listing_target.offset().top - 40
     ($ 'html, body').animate
       scrollTop: offset
-    , 200, ->
-      listing_target.addClass 'expanded'
+    , 200
+    unless listing_target.hasClass('expanded')
+      listing_target.addClass('expanded')
+      listing_target.find('.main_bottom_container').slideDown(100)
 
   render: ->
     user = @model.getUser()

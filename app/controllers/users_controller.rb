@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     
     respond_to do |format|
       format.html { render 'listings/feed' }
-    end    
+    end
   end
   
   def index

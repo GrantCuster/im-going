@@ -5,7 +5,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @user = User.find_for_facebook_oauth(data)
     
     if @user.persisted?
-      sign_in_and_redirect @user, :event => :authentication
+      sign_in_and_redirect @user
     else
       session["devise.facebook_data"] = data
     end
