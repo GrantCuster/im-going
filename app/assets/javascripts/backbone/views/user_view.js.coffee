@@ -3,7 +3,6 @@ window.UserView = Backbone.View.extend
   className: "user_view"
   events:
     "click .follow" : "followUser"
-    "click .find_friends" : "findFriends"
 
   initialize: ->
     _.bindAll @
@@ -31,14 +30,6 @@ window.UserView = Backbone.View.extend
           @model.set {followed_by_current_user: response}
           @render()
 
-  findFriends: ->
-    username = @model.getName()
-    unless window.location.pathname == "/#{username}/find_friends"    
-      ($ '#wrapper').addClass 'transition'
-      setTimeout =>
-        window.router.navigate "#{username}/find_friends", {trigger: true}
-      , 100
-
   render: ->
     HTML = @template
       name: @model.getName()
@@ -46,6 +37,28 @@ window.UserView = Backbone.View.extend
       description: @model.getDescription()
       followed: @model.getFollowStatus()
       current_user: true if oApp.currentUser.id == @model.getId()
+    ($ @el).html HTML
+    @
+
+window.FindFriends = Backbone.View.extend
+  template: JST["templates/find_friends"]
+  className: "find_friends side_button"
+  events:
+    "click" : "findFriends"
+  
+  initialize: ->
+    _.bindAll @, 'render'
+
+  findFriends: ->
+    username = oApp.currentUser.username
+    unless window.location.pathname == "/#{username}/find_friends"    
+      ($ '#wrapper').addClass 'transition'
+      setTimeout =>
+        window.router.navigate "#{username}/find_friends", {trigger: true}
+      , 100
+  
+  render: ->
+    HTML = @template
     ($ @el).html HTML
     @
 

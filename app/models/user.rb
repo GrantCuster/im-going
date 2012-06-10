@@ -82,6 +82,7 @@ class User < ActiveRecord::Base
   
   def self.init_twitter(token, secret)
     unless @twitter_user
+      logger.debug 'in twitter user'
       @twitter_user = Twitter::Client.new(:consumer_key => "YAY8FFbW6ssYwqY11OJFOQ",  :consumer_secret => "I5szFahp3K61YYJA7X6zJx813qWEhKow70nYfg3m4", :oauth_token => token, :oauth_token_secret => secret)
     end
     @twitter_user

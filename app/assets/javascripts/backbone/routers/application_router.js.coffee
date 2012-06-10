@@ -94,18 +94,19 @@ window.ApplicationRouter = Backbone.Router.extend
         success: (listings, response) =>
           @populate_listings(listings)
 
-  fetch_or_preload_find_facebook_friends: (username) ->
-    if preloaded_data? && !@data_loaded?
-      friends = new Users preloaded_data
-      friends.reset(preloaded_data)
-      @populate_friends(friends)
-      @data_loaded = true
-    else
-      friends = new Users
-      friends.fetch
-        url: "/#{oApp.currentUser.username}/find_friends.json"
-        success: (friends, response) =>
-          @populate_friends(friends)
+  fetch_facebook_friends: (username) ->
+    friends = new Users
+    friends.fetch
+      url: "/#{oApp.currentUser.username}/find_facebook_friends.json"
+      success: (friends, response) =>
+        @populate_friends(friends, "facebook")
+
+  fetch_twitter_friends: (username) ->
+    friends = new Users
+    friends.fetch
+      url: "/#{oApp.currentUser.username}/find_twitter_friends.json"
+      success: (friends, response) =>
+        @populate_friends(friends, "twitter")
 
   populate_user: (user) ->
     view = new UserView model: user
@@ -125,9 +126,14 @@ window.ApplicationRouter = Backbone.Router.extend
       ($ '#wrapper').removeClass 'transition'
     , 100
 
-  populate_friends: (friends) ->
+  populate_friends: (friends, service) ->
     view = new FriendsView collection: friends
-    ($ '#main_inner').html view.render().el
+    if service == "facebook" && ($ '.facebook_friends').length == 0
+      ($ '#main_inner').append '<div class="facebook_friends"></div>'
+      ($ '.facebook_friends').html view.render().el
+    else if ($ '.twitter_friends').length == 0
+      ($ '#main_inner').append '<div class="twitter_friends"></div>'
+      ($ '.twitter_friends').html view.render().el
     setTimeout =>
       ($ '#wrapper').removeClass 'transition'
     , 100
@@ -188,12 +194,14 @@ window.ApplicationRouter = Backbone.Router.extend
   friends_feed: ->
     @fetch_or_preload_friends_feed_listings()
     @populate_side(active: "friends")
+    findbutton = new FindFriends
+    ($ '.sort_container').after findbutton.render().el
 
   find_friends: (username) ->
-    @fetch_or_preload_find_facebook_friends()
-    @fetch_or_preload_find_twitter_friends()
-    @fetch_user(username)
+    @fetch_facebook_friends()
+    @fetch_twitter_friends()
     @populate_side(active: "find_friends")
+    ($ '.side_create').html ''
 
   # editUser: ->
   #   user = new User(oApp.currentUser)
