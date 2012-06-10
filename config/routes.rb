@@ -18,6 +18,7 @@ ImGoing::Application.routes.draw do
   resources :users
   resources :intentions
   match ":username/find_friends" => "users#facebook_friends"
+  match ":username/find_twitter_friends" => "users#twitter_friends"
   match ":username/show" => "users#show"
   match ":username" => "listings#user"
   

@@ -109,7 +109,7 @@ window.UserEditView = ListingCreate.extend
     @
 
 window.UserNewView = ListingCreate.extend
-  template: JST["templates/users/edit_user"]
+  template: JST["templates/users/new_user"]
   events:
     'click .modal_close' : 'closeModal'
     'focus input' : 'inputFocus'

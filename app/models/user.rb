@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :username, :image, :description, :fb_id, :fb_token, :tw_id, :tw_token
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :username, :image, :description, :fb_id, :fb_token, :tw_id, :tw_token, :tw_secret
 
   has_many :listings, :dependent => :destroy
   has_many :intentions, :dependent => :destroy
@@ -43,6 +43,7 @@ class User < ActiveRecord::Base
   def self.find_for_facebook_oauth(access_token)
     data = access_token.info
     if user = self.find_by_email(data.email)
+      user.update_attributes(:fb_token => access_token.credentials.token, :fb_id => access_token.uid)
       user
     else # Create a user with a stub password.
       self.create(:email => data.email, :password => Devise.friendly_token[0,20], :fb_id => access_token.uid, :username => (data.name).gsub(/\s+/,""), :image => data.image, :fb_token => access_token.credentials.token)
@@ -59,19 +60,31 @@ class User < ActiveRecord::Base
     end
   end
   
-  def self.check_twitter_or_create(params)
-    data = params
-    logger.debug data
-    if user = self.find_by_email(data.email)
-      logger.debug 'will need to add twitter authentication then'
+  def self.check_twitter_or_create(options)
+    access_token = options["session"]
+    data = access_token.info
+    params = options["params"]
+    user_data = params["user"]
+    
+    if user = self.find_by_email((user_data["email"]).downcase!)
+      user.update_attributes(:tw_token => access_token.credentials.token, :tw_secret => access_token.credentials.secret, :tw_id => access_token.uid)
       user
     else
-      logger.debug 'made it this far'
+      email = (user_data["email"])
+      email.downcase!
+      self.create(:email => email, :password => Devise.friendly_token[0,20], :tw_id => access_token.uid, :username => data.nickname, :image => data.image, :tw_token => access_token.credentials.token, :tw_secret => access_token.credentials.secret)
     end
   end
   
   def self.client(token)
     Koala::Facebook::API.new(token)
+  end
+  
+  def self.init_twitter(token, secret)
+    unless @twitter_user
+      @twitter_user = Twitter::Client.new(:consumer_key => "YAY8FFbW6ssYwqY11OJFOQ",  :consumer_secret => "I5szFahp3K61YYJA7X6zJx813qWEhKow70nYfg3m4", :oauth_token => token, :oauth_token_secret => secret)
+    end
+    @twitter_user
   end
   
   def following?(other_user)

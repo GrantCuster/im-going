@@ -13,7 +13,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   
   def twitter
     data = request.env["omniauth.auth"].except('extra')
-
+    logger.debug data
     if user = User.find_by_tw_id(data.uid)
       @user = user
       if @user.persisted?

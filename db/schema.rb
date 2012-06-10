@@ -11,14 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120609022011) do
+ActiveRecord::Schema.define(:version => 20120610002207) do
 
   create_table "intentions", :force => true do |t|
     t.integer  "intention"
     t.integer  "user_id"
-    t.integer  "listing_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "listing_id"
   end
 
   create_table "listings", :force => true do |t|
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(:version => 20120609022011) do
     t.text     "fb_friends"
     t.string   "tw_token"
     t.integer  "tw_id"
+    t.string   "tw_secret"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

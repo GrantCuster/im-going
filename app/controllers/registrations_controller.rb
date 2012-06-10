@@ -1,10 +1,14 @@
 class RegistrationsController < Devise::RegistrationsController
   
   def create
-    data = session["omniauth"]
-    logger.debug data
-    logger.debug 'run this one'
-    @user = User.check_twitter_or_create(params)
+    data = {}
+    data["params"] = params
+    data["session"] = session["omniauth"]
+    @user = User.check_twitter_or_create(data)
+    if @user.persisted?
+      sign_in_and_redirect @user
+    end
+    session[:omniauth] = nil unless @user.new_record?   
   end
 
 end

@@ -94,7 +94,7 @@ window.ApplicationRouter = Backbone.Router.extend
         success: (listings, response) =>
           @populate_listings(listings)
 
-  fetch_or_preload_find_friends: (username) ->
+  fetch_or_preload_find_facebook_friends: (username) ->
     if preloaded_data? && !@data_loaded?
       friends = new Users preloaded_data
       friends.reset(preloaded_data)
@@ -176,8 +176,7 @@ window.ApplicationRouter = Backbone.Router.extend
     data["description"] = preloaded_data.info.description
     data["tw_token"] = preloaded_data.info.tw_token
     user = new User data
-    console.log user
-    view = new UserEditView model: user
+    view = new UserNewView model: user
     ($ '#panel_container').html view.render().el
   
   permalink: (id) ->
@@ -191,7 +190,8 @@ window.ApplicationRouter = Backbone.Router.extend
     @populate_side(active: "friends")
 
   find_friends: (username) ->
-    @fetch_or_preload_find_friends()
+    @fetch_or_preload_find_facebook_friends()
+    @fetch_or_preload_find_twitter_friends()
     @fetch_user(username)
     @populate_side(active: "find_friends")
 
