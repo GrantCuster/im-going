@@ -3,7 +3,7 @@
     <h2>Edit Event</h2>
     <div class="modal_close">x</div>
   </div>
-  <form method="post" id="update_listing" class="udpate_listing" action="/listings/update" accept-charset="UTF-8">
+  <form method="post" id="update_listing" class="udpate_listing" action="/listings/{{id}}" accept-charset="UTF-8">
     <div style="margin:0;padding:0;display:inline">
       <input type="hidden" value="✓" name="utf8"><input name="authenticity_token" type="hidden" value="{{token}}">
     </div>
@@ -29,55 +29,73 @@
       
     <div class="form_group group">
       <div class="form_heading">location</div>
-      <input type="text" size="30" id="listing_venue_name" name="listing[venue_name]" placeholder="Venue Name" /> 
-      <input type="text" size="30" id="listing_venue_address" name="listing[venue_address]" placeholder="Address" />
-      <input type="text" size="30" id="listing_venue_url" name="listing[venue_url]" placeholder="URL" />
+      <input type="text" size="30" id="listing_venue_name" name="listing[venue_name]" placeholder="Venue Name" value="{{venue_name}}" /> 
+      <input type="text" size="30" id="listing_venue_address" name="listing[venue_address]" placeholder="Address" value="{{venue_address}}" />
+      <input type="text" size="30" id="listing_venue_url" name="listing[venue_url]" placeholder="URL" value="{{venue_url}}"/>
     </div>
     
     <div class="form_group group">
       <div class="form_heading">event description</div>
-      <textarea id="listing_event_description" name="listing[event_description]"></textarea>
+      <textarea id="listing_event_description" name="listing[event_description]">{{description}}</textarea>
     </div>
     
     <div class="form_group group">
       <div class="form_heading">tickets</div>
       <div id="ticket_option" class="intention_container">
-        <div class="intention_selected">Tickets are on sale <div class="intention_triangle"></div></div>
+        <div class="intention_selected">{{selected_text}}<div class="intention_triangle"></div></div>
         <ul class="intention_select">
-          <li class="active">Tickets are on sale</li>
-          <li>Tickets will go on sale</li>
-          <li>It's free!</li>
+          <li {{#if ticket_0}}class="active"{{/if}}>Tickets are on sale</li>
+          <li {{#if ticket_1}}class="active"{{/if}}>Tickets will go on sale</li>
+          <li {{#if ticket_2}}class="active"{{/if}}>It's free!</li>
+          <li {{#if ticket_3}}class="active"{{/if}}>no ticket info</li>
         </ul>
         <input type="hidden" id="listing_ticket_option" name="listing[ticket_option]" />
       </div>
-      <span class="not_free">
-        <span class="future_sale hidden">
-          <input type="text" class="required" size="30" id="listing_sale_day" placeholder="Tuesday, December 18" />
+      <span class="not_free {{#if ticket_3}}hidden{{/if}}{{#if ticket_4}}hidden{{/if}}">
+        <span class="future_sale {{#unless ticket_1}}hidden{{/unless}}">
+          <input type="text" class="required" size="30" id="listing_sale_day" placeholder="Tuesday, December 18" value="{{sale_day}}" />
           &nbsp;&nbsp;at&nbsp;&nbsp;
-          <input type="text" class="short required" size="30" id="listing_sale_time" placeholder="8:00 PM" />
+          <input type="text" class="short required" size="30" id="listing_sale_time" placeholder="8:00 PM" value="{{sale_time}}" />
           <input type="hidden" id="listing_sale_date" name="listing[sale_date]" />
         </span>
         &nbsp;&nbsp;and I think they will&nbsp;
         <div id="sell_out" class="intention_container">
-          <div class="intention_selected">not sell out
+          <div class="intention_selected">{{sell_text}}
             <div class="intention_triangle"></div>
           </div>
           <ul class="intention_select">
-            <li>sell out immediately</li>
-            <li>sell out within a week</li>
-            <li>sell out within a month</li>
-            <li class="active">not sell out</li>
-            <li>they sold out</li>
+            <li {{#if sell_0}}class="active"{{/if}}>sell out immediately</li>
+            <li {{#if sell_1}}class="active"{{/if}}>sell out within a week</li>
+            <li {{#if sell_2}}class="active"{{/if}}>sell out within a month</li>
+            <li {{#if sell_3}}class="active"{{/if}}>not sell out</li>
+            <li {{#if sell_4}}class="active"{{/if}}>they sold out</li>
           </ul>
           <input type="hidden" id="listing_sell_out" name="listing[sell_out]" />
         </div>.
         &nbsp;&nbsp;They cost&nbsp;&nbsp;
-        <input type="text" class="required" size="30" class="short" name="listing[cost]" id="listing_cost" placeholder="$0" />
+        <input type="text" class="required" size="30" class="short" name="listing[cost]" id="listing_cost" placeholder="$0" value="{{cost}}" />
         &nbsp;&nbsp;and you can get them at&nbsp;
-        <input type="text" size="30" name="listing[ticket_url]" id="listing_ticket_url" placeholder="Ticket URL" />
+        <input type="text" size="30" name="listing[ticket_url]" id="listing_ticket_url" placeholder="Ticket URL" value="{{ticket_url}}" />
       </span>
     </div>
-    
+
+    <div class="form_group group intention_fix">
+      <div class="form_heading">show to</div>
+      <div id="city" class="intention_container">
+        <div class="fake_intention">nyc</div>
+      </div>
+      <div id="privacy" class="intention_container">
+        <div class="intention_selected">everyone
+          <div class="intention_triangle"></div>
+        </div>
+        <ul class="intention_select">
+          <li class="active">everyone</li>
+          <li>friends only</li>
+        </ul>
+        <input type="hidden" id="listing_privacy" name="listing[privacy]" />
+      </div>
+    </div>
+
     <div class="form_group group"><input type="submit" value="Create Event" name="commit"></div>
   </form>
 </div>

@@ -1,4 +1,7 @@
 window.Listing = Backbone.Model.extend
+  urlRoot: ->
+    id = @get "id"
+    "/listings/#{id}"
 
   getID: -> @get "id"
   getName: -> @get "listing_name"
@@ -11,14 +14,17 @@ window.Listing = Backbone.Model.extend
   getDate: -> 
     date = $.format.date(@getDateTime(),"d")
     digit = date.charAt( date.length-1 )
-    if digit == '1'
-      date = date + 'st'
-    else if digit == '2'
-      date = date + 'nd'
-    else if digit == '3'
-      date = date + 'rd'
-    else
+    if date.length == 2 && date.charAt(0) == "1"
       date = date + 'th'
+    else
+      if digit == '1'
+        date = date + 'st'
+      else if digit == '2'
+        date = date + 'nd'
+      else if digit == '3'
+        date = date + 'rd'
+      else
+        date = date + 'th'
     date
   getTime: -> 
     time = $.format.date(@getDateTime(),"ha").toString()
@@ -72,6 +78,7 @@ window.Listing = Backbone.Model.extend
         else
           urgency = "green"
       urgency
+  getSellOut: -> @get "sell_out"
   getSaleDate: -> 
     sale_date = @get "sale_date"
     if sale_date
@@ -91,6 +98,12 @@ window.Listing = Backbone.Model.extend
     if @getSaleDate()
       date = $.format.date(@getSaleDate(),"d")
       date
+  getFormSaleDay: ->
+    if @getSaleDate()
+      $.format.date(@getSaleDate(), "ddd, MMMM dd")
+  getFormSaleTime: ->
+    if @getSaleDate()
+      $.format.date(@getSaleDate(), "h:mm a")
   getSaleTip: ->
     if @getSaleDate()
       date = $.format.date(@getSaleDate(),"ddd, MMMM dd")
@@ -118,6 +131,7 @@ window.Listing = Backbone.Model.extend
   getVenueUrl: -> @get "venue_url"
   getEventDescription: -> @get "event_description"
   getShortDate: -> $.format.date(@getDateTime(),"M/d")
+  getComments: -> @get "comments"
 
 window.Listings = Backbone.Collection.extend
   model: Listing

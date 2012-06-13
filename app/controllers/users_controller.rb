@@ -47,9 +47,17 @@ class UsersController < ApplicationController
   end
   
   def find_friends
+    @data = []
+    options = { :current_user => current_user }
+    @users = User.find(:all, :conditions => ["id != ?", current_user.id])
+    @users.each do |user|
+      user_full = user.as_json(options)
+      @data.push user_full
+    end
     respond_to do |format|
       format.html { render 'listings/feed' }
-    end    
+      format.json { render :json => @data }
+    end   
   end
   
   def facebook_friends

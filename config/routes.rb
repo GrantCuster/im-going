@@ -17,13 +17,13 @@ ImGoing::Application.routes.draw do
   resources :listings
   resources :users
   resources :intentions
+  resources :comments
   match ":username/find_friends" => "users#find_friends"
   match ":username/find_facebook_friends" => "users#facebook_friends"
   match ":username/find_twitter_friends" => "users#twitter_friends"
   match ":username/show" => "users#show"
   match ":username" => "listings#user"
   
-
   # resources :listings
   # resources :intentions
   # 

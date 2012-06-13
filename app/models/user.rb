@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
                                    dependent:   :destroy
   has_many :followers, through: :reverse_relationships, source: :follower
   has_many :venues
+  has_many :comments, :dependent => :destroy
 
   def serializable_hash(options = {})
     options = (options || {}).merge(:only => [:id, :username, :image, :description, :fb_id])
@@ -31,6 +32,8 @@ class User < ActiveRecord::Base
     if options && options[:include_private]
       hash[:email] = email
       hash[:fb_token] = fb_token
+      hash[:tw_token] = tw_token
+      hash[:tw_secret] = tw_secret
     end
        
     hash
@@ -82,7 +85,6 @@ class User < ActiveRecord::Base
   
   def self.init_twitter(token, secret)
     unless @twitter_user
-      logger.debug 'in twitter user'
       @twitter_user = Twitter::Client.new(:consumer_key => "YAY8FFbW6ssYwqY11OJFOQ",  :consumer_secret => "I5szFahp3K61YYJA7X6zJx813qWEhKow70nYfg3m4", :oauth_token => token, :oauth_token_secret => secret)
     end
     @twitter_user

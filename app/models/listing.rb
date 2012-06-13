@@ -3,11 +3,12 @@ class Listing < ActiveRecord::Base
   
   belongs_to :user
   has_many :intentions, :dependent => :destroy
+  has_many :comments, :dependent => :destroy
   
   def serializable_hash(options = null)
     options = {}
     
-    options.reverse_merge!(:include => [:user, :intentions])
+    options.reverse_merge!(:include => [:user, :intentions, :comments])
     
     hash = super options
     

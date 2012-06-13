@@ -8,20 +8,27 @@ window.ListingView = Backbone.View.extend
     "click .going a" : "userLoad"
     "click .go_options li" : "intentionChoice"
     "click .edit" : "editListing"
+    "click .delete" : "deleteListing"
     "click .map_link" : "showMap"
     "click .permalink" : "loadPermalink"
+    "click a.intenter" : "intenterFalse"
 
   initialize: ->
     _.bindAll @, 'render'
     @model.bind 'change', @render, @
 
+  initSubViews: ->
+    comments = new Comments @model.getComments()
+    view = new CommentsView collection: comments, listing: @model
+    ($ @el).find('.comment_container').html view.render().el
+
   listingToggle: ->
     if ($ @el).hasClass('expanded')
-      ($ @el).removeClass('expanded')
-      ($ @el).find('.main_bottom_container').slideUp(100)
+      ($ @el).find('.main_bottom_container').slideUp 100, =>
+        ($ @el).removeClass('expanded')
     else
-      ($ @el).addClass('expanded')
-      ($ @el).find('.main_bottom_container').slideDown(100)
+      ($ @el).find('.main_bottom_container').slideDown 100, =>
+        ($ @el).addClass('expanded')
 
   stopProp: (e) ->
     e.stopPropagation()
@@ -66,39 +73,72 @@ window.ListingView = Backbone.View.extend
           lng: lng    
   
   editListing: ->
-    ($ @el).addClass 'transition'
     ($ @el).addClass 'editing'
-    listing_id = @model.getID()
-    window.router.navigate "listing/#{listing_id}/edit", {trigger: true}
+    view = new ListingEdit model: @model
+    ($ '#panel_container').html view.render().el
+    ($ '#main_column').addClass 'inactive'
+    return false
+  
+  deleteListing: ->
+    ($ @el).addClass 'editing'
+    @model.destroy
+      success: (model, response) =>
+        ($ @el).slideUp 200, =>
+          ($ @el).remove()
+  
+  intenterFalse: ->
     return false
   
   intentionChoice: (e) ->
     @intentions = @model.getIntentions()
+    current_intention = false
+    @intentions.each (intention) ->
+      if intention.getUserID() == oApp.currentUser.id
+        current_intention = intention
     @intentions.bind 'add', @render, @
+    @intentions.bind 'change', @render, @
+    @intentions.bind 'remove', @render, @
     intent = ($ e.target).index() + 1
     listing_id = @model.getID()
-    user_id = oApp.currentUser.user_id
+    user_id = oApp.currentUser.id
     data = {}
     data["listing_id"] = listing_id
     data["user_id"] = user_id
     data["intention"] = intent
-    @intentions.create data
+    if current_intention
+      if intent == 4
+        current_intention.destroy()
+      else
+        current_intention.save data
+    else
+      @intentions.create data
+    @model.fetch()
     return false
 
   render: ->
     user = @model.getUser()
-    @intentions || = @model.getIntentions()
+    @intentions = @model.getIntentions()
     if oApp.currentUser.id == @model.getUserID()
       user_listing = true
     else
       user_listing = false
     intented = false
     user_intent = false
+    intention_1 = false
+    intention_2 = false
+    intention_3 = false
     unless user_listing
       @intentions.each (intention) =>
-        if intention.getUserID() == oApp.currentUser.id 
+        if intention.getUserID() == oApp.currentUser.id
           intented = true
           user_intent = intention
+          intention_num = intention.getIntention()
+          if intention_num == 1
+            intention_1 = true
+          else if intention_num == 2
+            intention_2 = true
+          else
+            intention_3 = true
     HTML = @template
       current_user: oApp.currentUser
       user_listing: user_listing if user_listing == true
@@ -126,8 +166,12 @@ window.ListingView = Backbone.View.extend
       ticket_url: @model.getTicketUrl()
       user_intent: user_intent.getText() if user_intent
       intentions: @intentions.order() if @intentions.length > 0
+      intention_1: true if intention_1
+      intention_2: true if intention_2
+      intention_3: true if intention_3
       listing_id: @model.getID()
     ($ @el).html HTML
+    @initSubViews()
     ($ @el).attr 'data-id', @model.getID()
     @
 
@@ -165,7 +209,7 @@ window.ListingsView = Backbone.View.extend
       listing_month = listing_view.model.getMonth()
       if me.month != listing_month
         me.month = listing_month
-        ($ me.el).append '<div class="month_container retract"><div class="month">' + listing_month + '</div></div>'
+        ($ me.el).append '<div class="month_container"><div class="month">' + listing_month + '</div></div>'
       ($ me.el).append listing_view.render().el
     )
     
@@ -279,10 +323,8 @@ window.SideListingsView = Backbone.View.extend
   initialize: ->
     window.side_listings = @collection
     _.bindAll @, 'initSubViews', 'render'
-    @collection.bind 'add', @addSide, @
-
-  addSide: (listing) ->
-    @render()
+    @collection.bind 'add', @render, @
+    @collection.bind 'remove', @render, @
 
   initSubViews: ->
     me = @
@@ -491,14 +533,20 @@ window.ListingCreate = Backbone.View.extend
           @placeholderSize($ '#listing_venue_url')
 
   showIntentions: (e) ->
-    ($ e.target).next().addClass 'active'
-    ($ e.target).addClass('active')
+    target = ($ e.target)
+    options  = ($ e.target).next()
+    if options.hasClass 'active'
+      options.removeClass 'active'
+      target.removeClass 'active'
+    else
+      options.addClass 'active'
+      target.addClass 'active'
   
   closeModal: ->
     ($ @el).remove()
     ($ '#main_column').removeClass('inactive')
+    ($ '.listing.editing').removeClass 'editing'
     ($ '#create_event').removeClass('active').text('new event')
-    ($ '.month_container').removeClass 'retract'
     return false
   
   intentionSelect: (e) ->
@@ -591,19 +639,39 @@ window.ListingCreate = Backbone.View.extend
         venue_data["venue_url"] = venue_url
         venue_data["user_id"] = oApp.currentUser.id
         @venues.create venue_data
-      ($ '#panel_container').addClass('creating').find('#listing_listing_name').addClass('transition').width(500)
+      input_offset = ($ '#panel_container #listing_listing_name').offset().left
+      panel_offset = ($ '#panel_container').offset().left
+      keep_stable = input_offset - panel_offset
+      ($ '#panel_container #listing_listing_name').css 
+        left: keep_stable,
+        position: 'absolute',
+        width: 'auto',
+        top: '0px',
+        background: 'transparent'
+      ($ '#panel_container').addClass('creating').animate {scrollTop: 0}, 100
       return false
   
   addTransition: (listing, collection) ->
     scroll_modifier = 0
     new_listing = false
+    ($ '#panel_container #listing_listing_name').css(
+      left: '135px',
+      top: '9px'
+    ).addClass 'transform'
     collection.find (model, index) =>
       if model.getID() == listing.getID()
         @insert_index = index
     collection_length = collection.length
-    view = new ListingView(model: listing)
+    view = new ListingView model: listing
+    view_clone = new ListingView model: listing
     new_listing = view.render().el
-    ($ new_listing).addClass 'expanded prepare'
+    new_listing_clone = view_clone.render().el
+    ($ new_listing).addClass 'expanded space_holder'
+    ($ new_listing_clone).addClass 'prepare expanded'
+    ($ '#panel_container').after new_listing_clone
+    setTimeout =>
+      ($ new_listing_clone).addClass 'transform'
+    , 200
     listing_month = listing.getMonth()
     if @insert_index != 0
       object_before = ($ ".events_listing .listing:eq(#{@insert_index - 1})")
@@ -645,33 +713,33 @@ window.ListingCreate = Backbone.View.extend
           ($ '.events_listing').prepend new_listing
           ($ new_listing).before month_insert
         else
-          ($ '.events_listing .month_container').first().after new_listing          
-    new_height = ($ new_listing).height()
-    ($ new_listing).before '<div class="insertion_spacer"></div>'
-    new_pos = ($ new_listing).offset().top
-    insertion_pos = ($ '#new_listing').offset().top - ($ '#panel_container').offset().top
-    scroll_pos = (new_pos - insertion_pos) + scroll_modifier
-    ($ 'html, body').animate
-      'scrollTop' : scroll_pos
-    , 400, ->
-      ($ '.month_container').removeClass 'inserted'
-      ($ '.insertion_spacer').animate
-        'height' : new_height
+          ($ '.events_listing .month_container').first().after new_listing
+    clone_pos = ($ '.listing.prepare').offset().top
+    listing_pos = ($ '.listing.space_holder').offset().top
+    scroll_pos = (listing_pos - clone_pos)
+    new_height = ($ '.listing.prepare').height()
+    setTimeout =>
+      ($ '#listing_listing_name').addClass 'done'
+      ($ 'html, body').animate
+        'scrollTop' : scroll_pos
       , 200, ->
-        ($ new_listing).addClass 'transition'
+        ($ '.month_container').removeClass 'inserted'
+        ($ '.listing.space_holder').animate
+          'height' : new_height
+        , 200
         setTimeout =>
-          ($ new_listing).addClass 'move_it'
+          ($ new_listing_clone).addClass 'move_it'
           ($ '#main_column').removeClass 'inactive'
-          setTimeout ->
-            ($ '#panel_container').removeClass('creating').html ''
-            ($ '#create_event').removeClass('active').text 'new event'
-            ($ '.insertion_spacer').remove()
-            ($ '.month_container').removeClass 'retract'
-            setTimeout ->
-              ($ '.listing.prepare').removeClass 'prepare transition move_it'
-            , 200
+        , 200
+        setTimeout =>
+          ($ '#panel_container').removeClass('creating').html ''
+          ($ '#create_event').removeClass('active').text 'new event'
+          setTimeout =>
+            ($ new_listing).removeClass('space_holder').height 'auto'
+            ($ '.listing.prepare').remove()
           , 200
         , 400
+    , 600
   
   submitEnter: (e) ->
     if ($ e.target).hasClass 'not_ready'
@@ -805,11 +873,11 @@ window.ListingCreate = Backbone.View.extend
     , 200
 
   placeholderSize: (input) ->
+    placeholder = ($ input).attr('placeholder')
+    ($ '.text_clone').text(placeholder)
     if !($ input).attr('data-og-width')
       og_width = ($ input).css('width')
       ($ input).attr('data-og-width',og_width)
-    placeholder = ($ input).attr('placeholder')
-    ($ '.text_clone').text(placeholder)
     if ($ input).val().length > 0
       characters = ($ input).val()
       ($ '.text_clone').text(characters)
@@ -830,18 +898,157 @@ window.ListingCreate = Backbone.View.extend
 
 window.ListingEdit = ListingCreate.extend
   template: JST["templates/listings/edit"]
+  events:
+    'click input[type="submit"]' : "createListing"
+    'click .intention_selected' : "showIntentions"
+    'click .intention_select li' : "intentionSelect"
+    'click .modal_close' : 'closeModal'
+    'click #map_option' : 'removeMap'
+    'focus input' : 'inputFocus'
+    'blur input' : 'inputBlur'
+    'click input[type="submit"]' : 'saveListing'
   
   initialize: () ->
     _.bindAll @
-  
+    if ($ '.text_container').length == 0
+      ($ 'body').append '<div class="text_container"><div class="text_clone"></div></div>'
+    @venues = new Venues
+    @venues.fetch
+      url: "venues.json"
+      success: (collection, response) => 
+        @venues = collection
+        @venue_list = collection.models
+        @venue_names = []
+        _.each(@venue_list, (venue) =>
+          @venue_names.push venue.attributes.venue_name
+          venue.label = venue.attributes.venue_name
+        )
+        ($ '#listing_venue_name').autocomplete("option", "source", @venue_list)
+
+  saveListing: (e) ->
+    if ($ e.target).hasClass 'not_ready'
+      return false
+    else
+      me = @
+      selected_day = ($ '#listing_day').val().toString()
+      strip_day = selected_day.substr(selected_day.indexOf(" ") + 1)
+      full_day = strip_day + " 2012"
+      selected_time = ($ '#listing_time').val()
+      selected_date = new Date(full_day + " " + selected_time)
+      formatted_date = 
+        if (selected_day.length > 0)
+          $.format.date(selected_date,"yyyy-MM-dd HH:mm:ss GMT+0400")
+        else
+          false
+      venue_name = ($ '#listing_venue_name').val()
+      venue_address = ($ '#listing_venue_address').val()
+      venue_url = ($ '#listing_venue_url').val()
+      lat = @map.lat * 1000000 if @map
+      lng = @map.lng * 1000000 if @map
+      event_description = ($ '#listing_event_description').val()
+      intention = ($ '#intention .intention_select').find('li.active').index()
+      ticket_option = ($ '#ticket_option .intention_select').find('li.active').index()
+      sell_out = ($ '#sell_out .intention_select').find('li.active').index()
+      cost = ($ '#listing_cost').val()
+      selected_sale_day = ($ '#listing_sale_day').val().toString()
+      sale_strip_day = selected_sale_day.substr(selected_sale_day.indexOf(" ") + 1)
+      full_sale_day = sale_strip_day + " 2012"
+      selected_sale_time = ($ '#listing_time').val()
+      selected_sale_date = new Date(full_sale_day + " " + selected_sale_time)
+      formatted_sale_date = 
+        if (selected_sale_day.length > 0)
+          $.format.date(selected_sale_date,"yyyy-MM-dd HH:mm:ss GMT+0400")
+        else
+          false
+      ticket_url = ($ '#listing_ticket_url').val()
+      ($ '#listing_sale_date').val formatted_date
+      ($ '#listing_intention').val intention
+      ($ '#listing_date_and_time').val formatted_date
+      ($ '#listing_ticket_option').val ticket_option
+      ($ '#listing_sell_out').val sell_out
+      data = {}
+      data["listing_name"] = ($ "#listing_listing_name").val()
+      data["user_id"] = oApp.currentUser.id
+      data["date_and_time"] = formatted_date
+      data["intention"] = intention
+      data["venue_name"] = venue_name
+      data["venue_address"] = venue_address
+      data["venue_url"] = venue_url
+      data["lat"] = lat
+      data["lng"] = lng
+      data["event_description"] = event_description
+      data["intention"] = intention
+      data["ticket_option"] = ticket_option
+      data["cost"] = cost
+      data["sell_out"] = sell_out
+      data["ticket_url"] = ticket_url
+      data["sale_date"] = formatted_sale_date
+      @model.save data
+      unless _.include(@venue_names, venue_name)
+        venue_data = {}
+        venue_data["venue_name"] = venue_name
+        venue_data["venue_address"] = venue_address
+        venue_data["venue_url"] = venue_url
+        venue_data["user_id"] = oApp.currentUser.id
+        @venues.create venue_data
+      ($ '#main_column').removeClass 'inactive'
+      ($ '#panel_container').html ''
+      setTimeout ->
+        ($ '.listing.editing').removeClass 'editing'
+      , 200
+      return false
+
   render: ->
     token = ($ 'meta[name="csrf-token"]').attr('content')
+    ticket_option = @model.getTicketOption()
+    if ticket_option == 0 
+      selected_text = "Tickets are on sale"
+    else if ticket_option == 1 
+      selected_text = "Tickets will go on sale" 
+    else if ticket_option == 2
+      selected_text = "It's free!"
+    else
+      selected_text = "Select a ticket option"
+    sell_out = @model.getSellOut()
+    if sell_out == 0 
+      sell_text = "sell out immediately"
+    else if sell_out == 1 
+      sell_text = "sell out within a week" 
+    else if sell_out == 2
+      sell_text = "sell out within a month"
+    else if sell_out == 3
+      sell_text = "not sell out"
+    else
+      sell_text = "it sold out"
     HTML = @template
       token: token
       name: @model.getName()
+      id: @model.getID()
       day: @model.getFormDay()
       time: @model.getFormTime()
+      venue_name: @model.getVenueName()
+      venue_address: @model.getVenueAddress()
+      venue_url: @model.getVenueUrl()
+      description: @model.getEventDescription()
+      ticket_0: true if ticket_option == 0
+      ticket_1: true if ticket_option == 1
+      ticket_2: true if ticket_option == 2
+      ticket_3: true if ticket_option == 3
+      sale_day: @model.getFormSaleDay()
+      sale_time: @model.getFormSaleTime()
+      sell_0: true if sell_out == 0
+      sell_1: true if sell_out == 1
+      sell_2: true if sell_out == 2
+      sell_3: true if sell_out == 3
+      sell_4: true if sell_out == 4
+      sell_0: true if sell_out == 5
+      cost: @model.getCost()
+      ticket_url: @model.getTicketUrl()
+      selected_text: selected_text
+      sell_text: sell_text;
     ($ @el).html(HTML)
+    ($ @el).find('input').not('input[type="submit"]').each (index, input) =>
+      @placeholderSize(input)
     @
 
 window.CreateButton = Backbone.View.extend
@@ -855,12 +1062,10 @@ window.CreateButton = Backbone.View.extend
       ($ e.target).removeClass('active').text 'create event'
       ($ '#panel_container').html ''
       ($ '#main_column').removeClass('inactive')
-      ($ '.month_container').removeClass 'retract'
       return false
     else
       ($ e.target).addClass('active').text 'close form'
       ($ '#main_column').addClass('inactive')
-      ($ '.month_container').addClass 'retract'
       listing_create = new ListingCreate @collection
       ($ '#panel_container').html listing_create.render().el  
       return false
