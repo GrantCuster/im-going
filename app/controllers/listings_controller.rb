@@ -26,6 +26,16 @@ class ListingsController < ApplicationController
     end
   end
   
+  def update
+    options = params[:listing]
+    @listing = Listing.find(options[:id])
+    @listing.update_attributes(options)
+    respond_to do |format|
+      format.html { render 'listings/feed' }
+      format.json { render :json => @listing }
+    end
+  end
+  
   def user
     @user = User.find_by_username(params["username"])
     
@@ -45,6 +55,15 @@ class ListingsController < ApplicationController
   
   def edit
     @listing = Listing.find(params[:listing_id])
+    respond_to do |format|
+      format.html { render 'listings/feed' }
+      format.json { render :json => @listing }
+    end
+  end
+  
+  def destroy
+    @listing = Listing.find(params[:id])
+    @listing.destroy
     respond_to do |format|
       format.html { render 'listings/feed' }
       format.json { render :json => @listing }

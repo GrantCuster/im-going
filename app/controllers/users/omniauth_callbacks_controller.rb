@@ -2,19 +2,23 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def facebook
     data = request.env["omniauth.auth"].except('extra')
     
-    @user = User.find_for_facebook_oauth(data)
-    
-    if @user.persisted?
-      sign_in_and_redirect @user
+    if current_user
+      @user = current_user.update_attributes(:fb_token => access_token.credentials.token, :fb_id => access_token.uid)
     else
-      session["devise.facebook_data"] = data
+      @user = User.find_for_facebook_oauth(data)
+      if @user.persisted?
+        sign_in_and_redirect @user
+      else
+        session["devise.facebook_data"] = data
+      end
     end
   end
   
   def twitter
     data = request.env["omniauth.auth"].except('extra')
-    logger.debug data
-    if user = User.find_by_tw_id(data.uid)
+    if current_user
+      @user = current_user.update_attributes(:tw_token => data.credentials.token, :tw_secret => data.credentials.secret, :tw_id => data.uid)
+    elsif user = User.find_by_tw_id(data.uid)
       @user = user
       if @user.persisted?
         sign_in_and_redirect @user, :event => :authentication

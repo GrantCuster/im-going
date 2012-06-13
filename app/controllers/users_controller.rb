@@ -46,6 +46,20 @@ class UsersController < ApplicationController
     end
   end
   
+  def find_friends
+    @data = []
+    options = { :current_user => current_user }
+    @users = User.find(:all, :conditions => ["id != ?", current_user.id])
+    @users.each do |user|
+      user_full = user.as_json(options)
+      @data.push user_full
+    end
+    respond_to do |format|
+      format.html { render 'listings/feed' }
+      format.json { render :json => @data }
+    end   
+  end
+  
   def facebook_friends
     @data = []
     options = { :current_user => current_user }
@@ -69,10 +83,8 @@ class UsersController < ApplicationController
     @data = []
     options = { :current_user => current_user }
     @twitter = User.init_twitter(current_user.tw_token, current_user.tw_secret)
-    logger.debug @twitter
     tw_ids = @twitter.friend_ids['ids']
-    logger.debug friend_ids
-    @users = User.where('tw_id IN (?)', fb_ids)
+    @users = User.where('tw_id IN (?)', tw_ids)
     @users.each do |user|
       user_full = user.as_json(options)
       @data.push user_full

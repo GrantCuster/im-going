@@ -145,6 +145,11 @@ body {
     }
     #main_column.inactive {
       margin-right: 780px;
+      .month_container {
+        .month {
+          width: 400px;
+        }
+      }
     }
   }
 }
@@ -270,66 +275,84 @@ form {
   -moz-transition: all 0.1s linear;
   color: #444;
 }
-
-
+#listing_listing_name {
+  left: 0;
+  top: 0;
+  -moz-transition: all 0.2s linear;
+}
 #panel_container.creating {
+  overflow: hidden;
   .main_form {
     form {
       .form_group {
-        display: none;
+        opacity: 0;
       }
       .required_info {
-        color: #ccc;
-        div, input {
+        input, div, span {
           opacity: 0;
-          -moz-transition: none;
         }
-      }
-      #listing_listing_name {
-        opacity: 1;
-        background: transparent;
-        width: 500px;
-        line-height: 1.4em;
-        font-size: 30px;
-        margin-top: 9px;
-        margin-left: -2px;
-        font-weight: bold;
-        -moz-transition: font-size 0.2s linear, font-weight 0.2s linear, margin-top 0.2s linear, margin-left 0.2s linear;
+        #listing_listing_name {
+          opacity: 1;
+        }
+        #listing_listing_name.transform {
+          font-size: 30px;
+          font-weight: bold;
+          background: transparent;
+        }
+        #listing_listing_name.done {
+          display: none;
+        }
       }
     }
   }
 }
 .listing.prepare {
-  background: #fff;
+  position: fixed;
+  right: 290px;
+  top: 80px;
+  opacity: 0;
+  -moz-transition: all 0.2s linear;
   width: 720px;
   z-index: 9;
-  position: relative;
-  padding-left: 30px;
-  margin-left: 0;
-  opacity: 0;
-  position: absolute;
-  right: -859px;
-  clear: none;
   .main {
-    border-bottom: solid 1px #ddd;
+    -moz-transition: all 0.2s linear;
     width: 588px;
   }
 }
-.listing.transition {
-  position: relative;
-  -moz-transition: all 0.2s linear;
-  opacity: 1; 
+.listing.transform {
+  opacity: 1;
 }
-.listing.transition.move_it {
-  right: 0;
+.listing.move_it {
   padding-left: 50px;
   width: 830px;
+  right: 261px;
+  .main {
+    width: 667px;
+  }
+}
+.listing.space_holder {
+  background: #ddd;
+  border-right: solid 1px #ddd;
+  margin-right: -1px;
+  height: 1px;
+  overflow: hidden;
+  .listing_body {
+    opacity: 0;
+  }
+}
+.listing.editing {
+  background: #ddd;
+  border-right: solid 1px #ddd;
+  margin-right: -1px;
+  .listing_body {
+    opacity: 0;
+  }
 }
 .insertion_spacer {
-  width: 780px;
+  width: 781px;
   height: 1px;
   margin-bottom: -1px;
-  background: #ccc;
+  background: #ddd;
   margin-left: 50px;
   margin-right: -829px;
   float: left;
@@ -402,6 +425,13 @@ form {
         border-top: solid 6px #fff;
       }
     }
+    .intention_selected.active:hover {
+      .intention_triangle {
+        border-top: solid 6px transparent;
+        border-bottom: solid 6px #fff;
+        top: 10px;
+      }
+    }
     .intention_select {
       font-size: 18px;
       position: absolute;
@@ -434,6 +464,8 @@ form {
 .required_info {
   padding: 0 30px;
   font-size: 18px;
+  opacity: 1;
+  -moz-transition: opacity 0.1s linear;
 }
 .left_group {
   float: left;
@@ -479,7 +511,7 @@ form {
   padding-bottom: 5px;
   background: #fff;
   clear: both;
-  -moz-transition: height 0.4s linear;
+  -moz-transition: height 0.2s linear;
   .month {
     background: none repeat scroll 0 0 #000000;
     color: #FFFFFF;
@@ -558,6 +590,23 @@ form {
     }
   }
 }
+.title_description {
+  font-size: 16px;
+  line-height: 25px;
+  margin: 14px 50px 16px 58px;
+  .facebook {
+    background: #395B9B;
+    padding: 0 2px;
+    color: #fff;
+    cursor: pointer;
+  }
+  .twitter {
+    background: #53BEE2;
+    padding: 0 2px;
+    color: #fff;
+    cursor: pointer;
+  }
+}
 .listing {
   clear: both;
   padding: 0;
@@ -565,6 +614,7 @@ form {
   position: relative;
   background: #fff;
   right: 0;
+  -moz-transition: background 0.2s linear;
   .listing_body {
     -moz-transition: opacity 0.1s linear;
   }
@@ -695,19 +745,19 @@ form {
       }
       .shares {
         a {
-          font-weight: bold;
           margin-left: 3px;
+          font-weight: bold;
         }
         a.permalink {
           color: #777;
           padding: 0 2px;
         }
         a.facebook {
-          color: #395B9B;
+          color: #233B69;
           padding: 0 2px;
         }
         a.twitter {
-          color: #53BEE2;
+          color: #0087B4;
           padding: 0 2px;
         }
       }
@@ -724,6 +774,9 @@ form {
           li:hover {
             background: #000;
             color: #fff;
+          }
+          li.active {
+            display: none;
           }
         }
       }
@@ -809,6 +862,102 @@ form {
       display: block;
     }
   }
+  .comment_container {
+    font-size: 15px;
+    .comments {
+      .comment {
+        position: relative;
+        padding: 0 20px 10px 50px;
+        margin-top: 10px;
+        min-height: 40px;
+        .avatar {
+          height: 40px;
+          width: 40px;
+          overflow: hidden;
+          position: absolute;
+          left: 0;
+          top: 0;
+          background-position: center center;
+          background-size: auto 100%;
+        }
+        .comment_body {
+          textarea {
+            background: #eee;
+            border: none;
+            font-size: 15px;
+            line-height: 20px;
+            margin: 0;
+            padding: 11px 10px 0;
+            width: 122px;
+            height: 41px;
+            line-height: 1.3em;
+            font-family: "ff-meta-web-pro-1","ff-meta-web-pro-2",'Helvetica Neue';
+            -moz-transition: all 0.1s linear;
+            cursor: pointer;
+            z-index: 8;
+            position: relative;
+          }
+          textarea:hover {
+            background: #e5e5e5;
+          }
+          textarea.active {
+            width: 595px;
+            background: #eaeaea;
+            height: 81px;
+            cursor: text;
+            margin-bottom: 50px;
+          }
+          .user_link {
+            font-weight: bold;
+            cursor: pointer;
+            display: inline;
+          }
+          .user_link:hover {
+            text-decoration: underline;
+          }
+          .timestamp {
+            color: #aaa;
+            font-size: 13px;
+            text-transform: lowercase;
+            display: inline;
+          }
+          .actions {
+            color: #999;
+            display: inline;
+            margin: 0;
+            margin-left: 2px;
+            cursor: pointer;
+          }
+          .actions:hover {
+            color: red;
+          }
+          .post {
+            height: 41px;
+            width: 200px;
+            background: #0066FF;
+            text-align: center;
+            color: #fff;
+            float: right;
+            font-size: 18px;
+            padding-top: 12px;
+            position: absolute;
+            right: 20px;
+            opacity: 0;
+            -moz-transition: opacity 0.1s linear;
+            bottom: 10px;
+            z-index: 7;
+            cursor: pointer;
+          }
+          .post.active {
+            opacity: 1;
+          }
+          .post.active:hover {
+            background: #004CC0;
+          }
+        }
+      }
+    }
+  }
 }
 .bottom_dot {
   background: #ddd;
@@ -818,6 +967,7 @@ form {
   position: absolute;
   width: 678px;
   -moz-transition: width 0.2s linear;
+  z-index: 5;
 }
 .day_wrapper {
   -moz-transition: background 0.1s linear;
@@ -830,7 +980,8 @@ form {
     }
   }
   .main {
-    .name {
+    .main_bottom_container {
+      display: block;
     }
   }
   .expand {
@@ -860,12 +1011,6 @@ form {
   text-decoration: underline;
   .expand {
     display: block;
-  }
-}
-.listing.editing {
-  background: #ccc;
-  div {
-    opacity: 0;
   }
 }
 .events_listing {
@@ -1292,6 +1437,25 @@ form {
     background: black;
   }
 }
+.side_button {
+  background: #000;
+  padding: 12px 10px 0;
+  font-size: 18px;
+  color: #fff;
+  line-height: 18px;
+  height: 41px;
+  text-align: center;
+  text-decoration: none;
+  z-index: 8;
+  width: 200px;
+  display: block;
+  -moz-transition: opacity 0.1s linear;  
+  cursor: pointer;
+}
+.side_button.find_friends {
+  background: green;
+  margin-bottom: 30px;
+}
 .create_container {
   padding: 0 30px;
   margin-top: 30px;
@@ -1336,7 +1500,9 @@ form {
 .form_group {
   padding: 0 30px 2px;
   clear: both;
+  opacity: 1;
   font-size: 18px;
+  -moz-transition: opacity 0.1s linear;
 }
 .form_group.intention_fix {
   min-height: 100px;
@@ -1488,6 +1654,9 @@ form {
   #main_inner {
     .month_container {
       .month {
+        width: 400px;
+      }
+      .month.active {
         width: 400px;
       }
     }
@@ -1787,5 +1956,13 @@ form {
         right: -31px;
       }
     }
+  }
+}
+.user_li_body {
+  .user_name {
+    cursor: pointer;
+  }
+  .user_name:hover {
+    text-decoration: underline;
   }
 }

@@ -29,14 +29,15 @@
             <div class="intent_option">
               {{#if user_listing}}
                 <a class="edit" href="#">edit</a>
-                <a href-"#">delete</a>
+                <a class="delete" href="#">delete</a>
               {{else}}
                 {{#if intented}}
                   <a class="intenter" href="#">{{{user_intent}}}</a>
                   <ul class="go_options">
+                    <li {{#if intention_1}}class="active"{{/if}}>I am going</li>
+                    <li {{#if intention_2}}class="active"{{/if}}>I am thinking about going</li>
+                    <li {{#if intention_3}}class="active"{{/if}}>I would go if somebody else does</li>
                     <li>I'm not</li>
-                    <li>I am thinking about going</li>
-                    <li>I would go if somebody else does</li>
                   </ul>
                 {{else}}
                   <a class="intenter" href="#">want to go?</a>
@@ -50,7 +51,6 @@
                 {{/if}}
               {{/if}}
             </div>
-            <a href="#">comment</a>
           </div>
           <div class="right shares">
             <a href="#" class="permalink share">link</a>
@@ -58,6 +58,7 @@
             <a href="#" class="twitter share">tweet</a>
           </div>
         </div>
+        <div class="comment_container"></div>
       </div>
     </div>
     {{#if ticket_display}}

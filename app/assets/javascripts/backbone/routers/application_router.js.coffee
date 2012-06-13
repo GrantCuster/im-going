@@ -41,8 +41,9 @@ window.ApplicationRouter = Backbone.Router.extend
       @populate_listings(listings)
       side_listings = new SideListings preloaded_data
       @populate_side_listings(side_listings)
-      if oApp.currentUser
-        @populate_create_button(listings)
+      @populate_create_button(listings)
+      findbutton = new FindFriends
+      ($ '.side_content').prepend findbutton.render().el
       @data_loaded = true
     else
       listings.fetch
@@ -51,8 +52,9 @@ window.ApplicationRouter = Backbone.Router.extend
           @populate_listings(listings)
           side_listings = new SideListings response
           @populate_side_listings(side_listings)
-          if oApp.currentUser
-            @populate_create_button(listings)
+          @populate_create_button(listings)
+          findbutton = new FindFriends
+          ($ '.side_content').prepend findbutton.render().el
  
   fetch_or_preload_listing: (id) ->
     if preloaded_data? && !@data_loaded?
@@ -94,19 +96,6 @@ window.ApplicationRouter = Backbone.Router.extend
         success: (listings, response) =>
           @populate_listings(listings)
 
-  fetch_or_preload_find_facebook_friends: (username) ->
-    if preloaded_data? && !@data_loaded?
-      friends = new Users preloaded_data
-      friends.reset(preloaded_data)
-      @populate_friends(friends)
-      @data_loaded = true
-    else
-      friends = new Users
-      friends.fetch
-        url: "/#{oApp.currentUser.username}/find_friends.json"
-        success: (friends, response) =>
-          @populate_friends(friends)
-
   populate_user: (user) ->
     view = new UserView model: user
     ($ '.side_content').html view.render().el
@@ -125,9 +114,22 @@ window.ApplicationRouter = Backbone.Router.extend
       ($ '#wrapper').removeClass 'transition'
     , 100
 
-  populate_friends: (friends) ->
-    view = new FriendsView collection: friends
+  populate_friends: (username) ->
+    view = new FindFriendsView
     ($ '#main_inner').html view.render().el
+    if preloaded_data? && !@data_loaded?
+      users = new Users
+      users.reset(preloaded_data)
+      all_view = new FriendsView collection: users
+      ($ '#main_inner .all').html all_view.render().el
+      @data_loaded = true
+    else
+      users = new Users
+      users.fetch
+        url: "/#{username}/find_friends"
+        success: (users, response) =>
+          all_view = new FriendsView collection: users
+          ($ '#main_inner .all').html all_view.render().el
     setTimeout =>
       ($ '#wrapper').removeClass 'transition'
     , 100
@@ -190,10 +192,9 @@ window.ApplicationRouter = Backbone.Router.extend
     @populate_side(active: "friends")
 
   find_friends: (username) ->
-    @fetch_or_preload_find_facebook_friends()
-    @fetch_or_preload_find_twitter_friends()
-    @fetch_user(username)
+    @populate_friends()
     @populate_side(active: "find_friends")
+    ($ '.side_create').html ''
 
   # editUser: ->
   #   user = new User(oApp.currentUser)
