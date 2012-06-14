@@ -717,13 +717,15 @@ form {
       .intent_option {
         position: relative;
         display: inline-block;
+        a {
+          margin-right: 4px;
+        }
         a.intenter {
           color: #0066ce;
           margin-right: 4px;
           padding: 10px 12px 8px;
           margin-top: -10px;
           margin-left: -12px;
-          font-weight: bold;
           display: inline-block;
           text-align: center;
         }  
@@ -746,7 +748,6 @@ form {
       .shares {
         a {
           margin-left: 3px;
-          font-weight: bold;
         }
         a.permalink {
           color: #777;
@@ -864,10 +865,12 @@ form {
   }
   .comment_container {
     font-size: 15px;
+    margin-top: 20px;
+    display: none;
     .comments {
       .comment {
         position: relative;
-        padding: 0 20px 10px 50px;
+        padding: 2px 20px 10px 50px;
         margin-top: 10px;
         min-height: 40px;
         .avatar {
@@ -882,29 +885,26 @@ form {
         }
         .comment_body {
           textarea {
-            background: #eee;
+            background: #fff;
             border: none;
             font-size: 15px;
-            line-height: 20px;
             margin: 0;
-            padding: 11px 10px 0;
-            width: 122px;
-            height: 41px;
+            width: 100%;
             line-height: 1.3em;
             font-family: "ff-meta-web-pro-1","ff-meta-web-pro-2",'Helvetica Neue';
-            -moz-transition: all 0.1s linear;
-            cursor: pointer;
             z-index: 8;
             position: relative;
+            margin-top: -2px;
+            padding-top: 6px;
+            height: 41px;
           }
           textarea:hover {
-            background: #e5e5e5;
+            background: #f5f5f5;
           }
           textarea.active {
             width: 595px;
-            background: #eaeaea;
+            background: #f5f5f5;
             height: 81px;
-            cursor: text;
             margin-bottom: 50px;
           }
           .user_link {
@@ -922,28 +922,28 @@ form {
             display: inline;
           }
           .actions {
-            color: #999;
+            color: #aaa;
             display: inline;
             margin: 0;
-            margin-left: 2px;
+            font-size: 13px;
+            margin-left: 4px;
             cursor: pointer;
           }
           .actions:hover {
             color: red;
           }
           .post {
-            height: 41px;
-            width: 200px;
+            height: 37px;
+            width: 140px;
             background: #0066FF;
             text-align: center;
             color: #fff;
             float: right;
-            font-size: 18px;
-            padding-top: 12px;
+            font-size: 16px;
+            padding-top: 10px;
             position: absolute;
             right: 20px;
             opacity: 0;
-            -moz-transition: opacity 0.1s linear;
             bottom: 10px;
             z-index: 7;
             cursor: pointer;
@@ -957,6 +957,9 @@ form {
         }
       }
     }
+  }
+  .comment_container.show {
+    display: block;
   }
 }
 .bottom_dot {

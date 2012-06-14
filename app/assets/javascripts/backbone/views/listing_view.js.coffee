@@ -12,6 +12,7 @@ window.ListingView = Backbone.View.extend
     "click .map_link" : "showMap"
     "click .permalink" : "loadPermalink"
     "click a.intenter" : "intenterFalse"
+    "click .comment_show" : "showComments"
 
   initialize: ->
     _.bindAll @, 'render'
@@ -51,6 +52,10 @@ window.ListingView = Backbone.View.extend
         window.router.navigate listing, {trigger: true}
       , 100
     return false
+
+  showComments: (e) ->
+    ($ @el).find('.comment_container').addClass('show').find('textarea').focus()
+    ($ e.target).hide()
 
   showMap: (e) ->
     e.stopPropagation()
@@ -117,6 +122,7 @@ window.ListingView = Backbone.View.extend
 
   render: ->
     user = @model.getUser()
+    comment_number = @model.getComments().length
     @intentions = @model.getIntentions()
     if oApp.currentUser.id == @model.getUserID()
       user_listing = true
@@ -170,6 +176,7 @@ window.ListingView = Backbone.View.extend
       intention_2: true if intention_2
       intention_3: true if intention_3
       listing_id: @model.getID()
+      no_comments: true if comment_number == 0
     ($ @el).html HTML
     @initSubViews()
     ($ @el).attr 'data-id', @model.getID()

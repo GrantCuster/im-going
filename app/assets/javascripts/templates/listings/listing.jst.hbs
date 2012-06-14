@@ -30,6 +30,7 @@
               {{#if user_listing}}
                 <a class="edit" href="#">edit</a>
                 <a class="delete" href="#">delete</a>
+                {{#if no_comments}}<a class="comment_show" href="#">comment</a>{{/if}}
               {{else}}
                 {{#if intented}}
                   <a class="intenter" href="#">{{{user_intent}}}</a>
@@ -47,6 +48,11 @@
                       <li>I am thinking about going</li>
                       <li>I would go if somebody else does</li>
                     </ul>
+                  {{else}}
+                    <ul class="go_options">
+                      <li>Sign in with facebook</li>
+                      <li>Sign in with twitter</li>
+                    </ul>
                   {{/if}}
                 {{/if}}
               {{/if}}
@@ -58,7 +64,7 @@
             <a href="#" class="twitter share">tweet</a>
           </div>
         </div>
-        <div class="comment_container"></div>
+        <div class="comment_container {{#unless no_comments}}show{{/unless}}"></div>
       </div>
     </div>
     {{#if ticket_display}}

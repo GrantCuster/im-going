@@ -7,9 +7,7 @@ window.Comment = Backbone.Model.extend
   getUser: -> new User(@get "user")
   getDateTime: -> 
     d = new Date Date.parse(@get "created_at")
-    date = $.format.date(d,"M/d ha")
-    date = date.slice(0, (date.length - 1))
-    date
+    $.timeago(d)
 
 window.Comments = Backbone.Collection.extend
   model: Comment
