@@ -56,6 +56,7 @@ window.ListingView = Backbone.View.extend
   showComments: (e) ->
     ($ @el).find('.comment_container').addClass('show').find('textarea').focus()
     ($ e.target).hide()
+    return false
 
   showMap: (e) ->
     e.stopPropagation()
