@@ -83,7 +83,7 @@ window.ListingView = Backbone.View.extend
   
   share: (e) ->
     if ($ e.target).hasClass 'not_connected'
-      window.location = 'http://localhost:3000/users/auth/twitter'
+      window.location = '/users/auth/twitter'
     else
       if ($ e.target).hasClass 'share_twitter'
         view = new ShareView listing: @model, service: "twitter"
@@ -125,9 +125,9 @@ window.ListingView = Backbone.View.extend
   intentionChoice: (e) ->
     if ($ @el).find('.go_options').hasClass 'signed_out'
       if ($ e.target).hasClass 'facebook_sign'
-        window.location = 'http://localhost:3000/users/auth/facebook'
+        window.location = '/users/auth/facebook'
       else
-        window.location = 'http://localhost:3000/users/auth/twitter'
+        window.location = '/users/auth/twitter'
     else
       @intentions = @model.getIntentions()
       current_intention = false
@@ -337,10 +337,10 @@ window.ListingsHeader = Backbone.View.extend
     @options = options || ""
 
   facebook: ->
-    window.location = 'http://localhost:3000/users/auth/facebook'
+    window.location = '/users/auth/facebook'
     
   twitter: ->
-    window.location = 'http://localhost:3000/users/auth/twitter'
+    window.location = '/users/auth/twitter'
 
   base: ->
     unless window.location.pathname == "/nyc"

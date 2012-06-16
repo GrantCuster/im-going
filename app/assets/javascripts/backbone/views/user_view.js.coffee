@@ -55,10 +55,10 @@ window.FindFriendsView = Backbone.View.extend
     _.bindAll @, 'render'
   
   connectFacebook: ->
-    window.location = 'http://localhost:3000/users/auth/facebook'
+    window.location = '/users/auth/facebook'
 
   connectTwitter: ->
-    window.location = 'http://localhost:3000/users/auth/twitter'
+    window.location = '/users/auth/twitter'
     
   initSubViews: ->
     if oApp.currentUser.tw_token

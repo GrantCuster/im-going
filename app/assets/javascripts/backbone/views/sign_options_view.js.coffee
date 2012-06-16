@@ -69,7 +69,7 @@ window.UserEditView = ListingCreate.extend
         data["tw_secret"] = null
         @model.save data
       else
-        window.location = 'http://localhost:3000/users/auth/twitter'
+        window.location = '/users/auth/twitter'
     else
       if ($ e.target).hasClass 'share_it'
         ($ e.target).removeClass 'share_it'
@@ -78,7 +78,7 @@ window.UserEditView = ListingCreate.extend
         data["fb_token"] = null
         @model.save data
       else
-        window.location = 'http://localhost:3000/users/auth/facebook'
+        window.location = '/users/auth/facebook'
 
   textCheck: (e) ->
     current_input = ($ ".line.focus input")
@@ -249,10 +249,10 @@ window.SignOptionsView = Backbone.View.extend
     _.bindAll @, 'render'
 
   twitter: ->
-    window.open 'http://localhost:3000/users/auth/twitter'
+    window.open '/auth/twitter'
 
   facebook: ->
-    window.open 'http://localhost:3000/users/auth/facebook'
+    window.open '/auth/facebook'
 
   facebookEnter: ->
     ($ '.sign_up_options').addClass 'facebooked'
