@@ -13,6 +13,8 @@ ImGoing::Application.routes.draw do
   match "friends" => "listings#friends_feed"
   match "users/:user_id/follow" => "users#follow"
   match "users/:user_id/unfollow" => "users#follow"
+  match "share/twitter" => "listings#share"
+  match "share/facebook" => "listings#share"
   resources :venues
   resources :listings
   resources :users

@@ -82,11 +82,8 @@
     </div>
 
     <div class="form_group group intention_fix">
-      <div class="form_heading">show to</div>
-      <div id="city" class="intention_container">
-        <div class="fake_intention">nyc</div>
-      </div>
-      <div id="privacy" class="intention_container">
+      <div class="form_heading">share to</div>
+      <!-- <div id="privacy" class="intention_container">
         <div class="intention_selected">everyone
           <div class="intention_triangle"></div>
         </div>
@@ -94,8 +91,10 @@
           <li class="active">everyone</li>
           <li>friends only</li>
         </ul>
-        <input type="hidden" id="listing_privacy" name="listing[privacy]" />
       </div>
+      <div class="spacer"></div> -->
+      {{#if fb_connect}}<div class="new_share facebook {{#if fb_default}}share_it{{/if}}">facebook</div>{{/if}}
+      {{#if tw_connect}}<div class="new_share twitter {{#if tw_default}}share_it{{/if}}">twitter</div>{{/if}}
     </div>
   
     <div class="form_group group"><input type="submit" value="Create Event" class="not_ready" name="commit"><div class="error_msg"></div></div>

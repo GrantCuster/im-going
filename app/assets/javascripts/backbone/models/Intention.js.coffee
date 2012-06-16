@@ -47,7 +47,7 @@ window.Intentions = Backbone.Collection.extend
     _.each intention_two, (intention, i) ->
       username = intention.getUser().getName()
       user_id = intention.getUserID()
-      if intention_one_count == 1
+      if intention_two_count == 1
         intention_choices = intention_choices + "<a href='/#{username}'>#{username}</a> is thinking about it. "
       else
         if i == intention_two_count - 1
@@ -56,11 +56,11 @@ window.Intentions = Backbone.Collection.extend
           intention_choices = intention_choices + "<a href='/#{username}'>#{username}</a> "
         else
           intention_choices = intention_choices + "<a href='/#{username}'>#{username}</a>, "
-    intention_three_count = intention_two.length
+    intention_three_count = intention_three.length
     _.each intention_three, (intention, i) ->
       username = intention.getUser().getName()
       user_id = intention.getUserID()
-      if intention_one_count == 1
+      if intention_three_count == 1
         intention_choices = intention_choices + "<a href='/#{username}'>#{username}</a> would go if somebody else does. "
       else
         if i == intention_three_count - 1

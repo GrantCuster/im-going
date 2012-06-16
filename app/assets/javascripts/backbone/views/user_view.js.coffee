@@ -3,6 +3,7 @@ window.UserView = Backbone.View.extend
   className: "user_view"
   events:
     "click .follow" : "followUser"
+    "click .sign_out" : "signOut"
 
   initialize: ->
     _.bindAll @
@@ -29,6 +30,9 @@ window.UserView = Backbone.View.extend
         success: (model, response) =>
           @model.set {followed_by_current_user: response}
           @render()
+
+  signOut: ->
+    window.location = "/signout"
 
   render: ->
     HTML = @template

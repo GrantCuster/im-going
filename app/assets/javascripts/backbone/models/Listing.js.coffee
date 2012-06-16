@@ -132,6 +132,24 @@ window.Listing = Backbone.Model.extend
   getEventDescription: -> @get "event_description"
   getShortDate: -> $.format.date(@getDateTime(),"M/d")
   getComments: -> @get "comments"
+  getSnippet: ->
+    intentions = @getIntentions()
+    @text = ""
+    intentions.each (intention) =>
+      if intention.getUserID() == oApp.currentUser.id
+        intent_num = @getIntention()
+        if intent_num == 0
+          @text = "I am going to "
+        else if intent_num == 1
+          @text = "I am thinking about going to "
+        else
+          @text = "I would go, if somebody else does, to "
+    if @text == ""
+      @text = "Event: "
+    name = @getName()
+    url = "http://going.im/listings/#{@getID()}"
+    message = @text + name + ": " + url
+    message
 
 window.Listings = Backbone.Collection.extend
   model: Listing

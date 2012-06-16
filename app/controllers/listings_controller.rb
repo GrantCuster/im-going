@@ -80,10 +80,42 @@ class ListingsController < ApplicationController
     @listing = Listing.new
   end
   
+  def share
+    client = params[:client]
+    message = params[:message]
+    if client == "twitter"
+      @twitter = User.init_twitter(current_user.tw_token, current_user.tw_secret)
+      @twitter.update(message)
+    end
+    if client == "facebook"
+      @graph = User.client(current_user.fb_token)
+      @graph.put_wall_post(message)
+    end
+    render :json => params
+  end
+  
   def create
     @listing = current_user.listings.build(params[:listing])
     @listing.save
     render :json => @listing
+    
+    if params[:twitter_share] == true
+      message = Listing.share_message(@listing)
+      @twitter = User.init_twitter(current_user.tw_token, current_user.tw_secret)
+      @twitter.update(message)
+      User.toggle_share_default(current_user, true, "twitter")
+    else
+      User.toggle_share_default(current_user, false, "twitter")
+    end
+    
+    if params[:facebook_share] == true
+      message = Listing.share_message(@listing)
+      @graph = User.client(current_user.fb_token)
+      @graph.put_wall_post(message)
+      User.toggle_share_default(current_user, true, "facebook")
+    else
+      User.toggle_share_default(current_user, false, "facebook")
+    end
   end
   
 end

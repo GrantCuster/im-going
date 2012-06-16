@@ -4,7 +4,10 @@
     <div class="modal_close">x</div>
   </div>
   <form method="post" id="user_new" class="user_new" action="/users" accept-charset="UTF-8"><input type="hidden" value="✓" name="utf8"><input name="authenticity_token" type="hidden" value="{{token}}">
-
+    <div class="email_alert group">
+      Almost there! We just need your email.
+    </div>
+    
     <div class="form_group group">
       <input type="text" placeholder="name" size="30" name="user[username]" id="user_username" value="{{name}}">
     </div>
@@ -24,7 +27,7 @@
     </div>
     
     <div class="form_group group">
-      <input type="submit" class="not_ready" value="update" name="commit">
+      <input type="submit" class="not_ready" value="create" name="commit"><div class="error_msg">email is required</div>
     </div>
   </form>
 </div>

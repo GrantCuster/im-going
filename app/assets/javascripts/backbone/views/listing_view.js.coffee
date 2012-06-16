@@ -3,8 +3,6 @@ window.ListingView = Backbone.View.extend
   className: "listing group"
   events: 
     "click .name" : 'listingToggle'
-    "click a" : "stopProp"
-    "mouseenter a" : "stopProp"
     "click .going a" : "userLoad"
     "click .go_options li" : "intentionChoice"
     "click .edit" : "editListing"
@@ -12,7 +10,10 @@ window.ListingView = Backbone.View.extend
     "click .map_link" : "showMap"
     "click .permalink" : "loadPermalink"
     "click a.intenter" : "intenterFalse"
+    "click a.share" : "intenterFalse"
     "click .comment_show" : "showComments"
+    "click .share_twitter" : "share"
+    "click .share_facebook" : "share"
 
   initialize: ->
     _.bindAll @, 'render'
@@ -30,9 +31,6 @@ window.ListingView = Backbone.View.extend
     else
       ($ @el).find('.main_bottom_container').slideDown 100, =>
         ($ @el).addClass('expanded')
-
-  stopProp: (e) ->
-    e.stopPropagation()
 
   userLoad: (e) ->
     username = ($ e.target).attr('href')
@@ -78,6 +76,23 @@ window.ListingView = Backbone.View.extend
           lat: lat,
           lng: lng    
   
+  share: (e) ->
+    if ($ e.target).hasClass 'not_connected'
+      window.location = 'http://localhost:3000/users/auth/twitter'
+    else
+      if ($ e.target).hasClass 'share_twitter'
+        view = new ShareView listing: @model, service: "twitter"
+      else
+        view = new ShareView listing: @model, service: "facebook"
+      $share_container = ($ @el).find('.share_container')
+      $share_container.html(view.render().el)
+      value = $share_container.find('textarea').text()
+      $share_container.find('textarea').focus().text(value)
+      ($ @el).find('.share_option').addClass 'click'
+      setTimeout =>
+        ($ @el).find('.share_option').removeClass 'click'
+      , 50
+  
   editListing: ->
     ($ @el).addClass 'editing'
     view = new ListingEdit model: @model
@@ -91,34 +106,41 @@ window.ListingView = Backbone.View.extend
       success: (model, response) =>
         ($ @el).slideUp 200, =>
           ($ @el).remove()
+    return false
   
   intenterFalse: ->
     return false
   
   intentionChoice: (e) ->
-    @intentions = @model.getIntentions()
-    current_intention = false
-    @intentions.each (intention) ->
-      if intention.getUserID() == oApp.currentUser.id
-        current_intention = intention
-    @intentions.bind 'add', @render, @
-    @intentions.bind 'change', @render, @
-    @intentions.bind 'remove', @render, @
-    intent = ($ e.target).index() + 1
-    listing_id = @model.getID()
-    user_id = oApp.currentUser.id
-    data = {}
-    data["listing_id"] = listing_id
-    data["user_id"] = user_id
-    data["intention"] = intent
-    if current_intention
-      if intent == 4
-        current_intention.destroy()
+    if ($ @el).find('.go_options').hasClass 'signed_out'
+      if ($ e.target).hasClass 'facebook_sign'
+        window.location = 'http://localhost:3000/users/auth/facebook'
       else
-        current_intention.save data
+        window.location = 'http://localhost:3000/users/auth/twitter'
     else
-      @intentions.create data
-    @model.fetch()
+      @intentions = @model.getIntentions()
+      current_intention = false
+      @intentions.each (intention) ->
+        if intention.getUserID() == oApp.currentUser.id
+          current_intention = intention
+      @intentions.bind 'add', @render, @
+      @intentions.bind 'change', @render, @
+      @intentions.bind 'remove', @render, @
+      intent = ($ e.target).index() + 1
+      listing_id = @model.getID()
+      user_id = oApp.currentUser.id
+      data = {}
+      data["listing_id"] = listing_id
+      data["user_id"] = user_id
+      data["intention"] = intent
+      if current_intention
+        if intent == 4
+          current_intention.destroy()
+        else
+          current_intention.save data
+      else
+        @intentions.create data
+      @model.fetch()
     return false
 
   render: ->
@@ -178,6 +200,8 @@ window.ListingView = Backbone.View.extend
       intention_3: true if intention_3
       listing_id: @model.getID()
       no_comments: true if comment_number == 0
+      fb_connected: true if oApp.currentUser && oApp.currentUser.fb_token
+      tw_connected: true if oApp.currentUser && oApp.currentUser.tw_token
     ($ @el).html HTML
     @initSubViews()
     ($ @el).attr 'data-id', @model.getID()
@@ -394,14 +418,16 @@ window.ListingCreate = Backbone.View.extend
     'click #map_option' : 'removeMap'
     'focus input' : 'inputFocus'
     'blur input' : 'inputBlur'
+    'click .new_share' : 'toggleShare'
     'mouseenter input[type="submit"]' : 'submitEnter'
   
-  initialize: (collection) ->
+  initialize: (options) ->
     _.bindAll @
     if ($ '.text_container').length == 0
       ($ 'body').append '<div class="text_container"><div class="text_clone"></div></div>'
-    @collection = collection
+    @collection = options.collection
     @collection.unbind()
+    @side_listings = options.side_listings
     @collection.bind 'add', @addTransition, @
     @venues = new Venues
     @venues.fetch
@@ -540,6 +566,9 @@ window.ListingCreate = Backbone.View.extend
           ($ '#listing_venue_url').val url
           @placeholderSize($ '#listing_venue_url')
 
+  toggleShare: (e) ->
+    ($ e.target).toggleClass 'share_it'
+
   showIntentions: (e) ->
     target = ($ e.target)
     options  = ($ e.target).next()
@@ -586,6 +615,7 @@ window.ListingCreate = Backbone.View.extend
       return false
     else
       me = @
+      listing_name = ($ "#listing_listing_name").val()
       selected_day = ($ '#listing_day').val().toString()
       strip_day = selected_day.substr(selected_day.indexOf(" ") + 1)
       full_day = strip_day + " 2012"
@@ -616,6 +646,8 @@ window.ListingCreate = Backbone.View.extend
           $.format.date(selected_sale_date,"yyyy-MM-dd HH:mm:ss GMT+0400")
         else
           false
+      twitter_share = if ($ '.new_share.twitter').hasClass 'share_it' then true else false
+      facebook_share = if ($ '.new_share.facebook').hasClass 'share_it' then true else false
       ticket_url = ($ '#listing_ticket_url').val()
       ($ '#listing_sale_date').val formatted_date
       ($ '#listing_intention').val intention
@@ -623,7 +655,7 @@ window.ListingCreate = Backbone.View.extend
       ($ '#listing_ticket_option').val ticket_option
       ($ '#listing_sell_out').val sell_out
       data = {}
-      data["listing_name"] = ($ "#listing_listing_name").val()
+      data["listing_name"] = listing_name
       data["user_id"] = oApp.currentUser.id
       data["date_and_time"] = formatted_date
       data["intention"] = intention
@@ -639,7 +671,10 @@ window.ListingCreate = Backbone.View.extend
       data["sell_out"] = sell_out
       data["ticket_url"] = ticket_url
       data["sale_date"] = formatted_sale_date
+      data["twitter_share"] = twitter_share
+      data["facebook_share"] = facebook_share
       @collection.create data
+      # @side_listings.add data
       unless _.include(@venue_names, venue_name)
         venue_data = {}
         venue_data["venue_name"] = venue_name
@@ -896,6 +931,10 @@ window.ListingCreate = Backbone.View.extend
     token = ($ 'meta[name="csrf-token"]').attr('content')
     HTML = @template
       token: token
+      fb_connect: true if oApp.currentUser.fb_token
+      fb_default: oApp.currentUser.fb_default
+      tw_connect: true if oApp.currentUser.tw_token
+      tw_default: oApp.currentUser.tw_default
     ($ @el).html(HTML)
     setTimeout =>
       @initializeAutocomplete()
@@ -969,6 +1008,7 @@ window.ListingEdit = ListingCreate.extend
         else
           false
       ticket_url = ($ '#listing_ticket_url').val()
+      privacy = ($ '#privacy .intention_select').find('li.active').index()
       ($ '#listing_sale_date').val formatted_date
       ($ '#listing_intention').val intention
       ($ '#listing_date_and_time').val formatted_date
@@ -1065,6 +1105,10 @@ window.CreateButton = Backbone.View.extend
   events:
     "click #create_event" : "showCreate"
   
+  initialize: (options) ->
+    @collection = options.collection
+    @side_listings = options.side_listings
+  
   showCreate: (e) ->
     if ($ e.target).hasClass 'active'
       ($ e.target).removeClass('active').text 'create event'
@@ -1074,7 +1118,7 @@ window.CreateButton = Backbone.View.extend
     else
       ($ e.target).addClass('active').text 'close form'
       ($ '#main_column').addClass('inactive')
-      listing_create = new ListingCreate @collection
+      listing_create = new ListingCreate collection: @collection, side_listings: @side_listings
       ($ '#panel_container').html listing_create.render().el  
       return false
   

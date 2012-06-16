@@ -39,7 +39,7 @@
       <textarea id="listing_event_description" name="listing[event_description]">{{description}}</textarea>
     </div>
     
-    <div class="form_group group">
+    <div class="form_group group intention_fix">
       <div class="form_heading">tickets</div>
       <div id="ticket_option" class="intention_container">
         <div class="intention_selected">{{selected_text}}<div class="intention_triangle"></div></div>
@@ -77,23 +77,6 @@
         &nbsp;&nbsp;and you can get them at&nbsp;
         <input type="text" size="30" name="listing[ticket_url]" id="listing_ticket_url" placeholder="Ticket URL" value="{{ticket_url}}" />
       </span>
-    </div>
-
-    <div class="form_group group intention_fix">
-      <div class="form_heading">show to</div>
-      <div id="city" class="intention_container">
-        <div class="fake_intention">nyc</div>
-      </div>
-      <div id="privacy" class="intention_container">
-        <div class="intention_selected">everyone
-          <div class="intention_triangle"></div>
-        </div>
-        <ul class="intention_select">
-          <li class="active">everyone</li>
-          <li>friends only</li>
-        </ul>
-        <input type="hidden" id="listing_privacy" name="listing[privacy]" />
-      </div>
     </div>
 
     <div class="form_group group"><input type="submit" value="Create Event" name="commit"></div>

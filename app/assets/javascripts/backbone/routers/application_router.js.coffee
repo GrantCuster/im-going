@@ -18,7 +18,7 @@ window.ApplicationRouter = Backbone.Router.extend
     listings = new Listings
     if preloaded_data? && !@data_loaded?
       listings.reset(preloaded_data)
-      @populate_listings(listings)
+      @populate_listings(listings, side_listings)
       side_listings = new SideListings preloaded_data
       @populate_side_listings(side_listings)
       if oApp.currentUser
@@ -100,7 +100,7 @@ window.ApplicationRouter = Backbone.Router.extend
     view = new UserView model: user
     ($ '.side_content').html view.render().el
     
-  populate_listings: (listings) ->
+  populate_listings: (listings, side_listings) ->
     listings_view = new ListingsView collection: listings
     ($ '#main_inner').html listings_view.render().el
     setTimeout =>
@@ -139,7 +139,7 @@ window.ApplicationRouter = Backbone.Router.extend
     ($ '.side_content').html view.render().el
 
   populate_create_button: (listings) ->
-    view = new CreateButton collection: listings
+    view = new CreateButton collection: listings, side_listings: side_listings
     ($ '.side_create').html view.render().el
 
   populate_side: (options) ->
@@ -150,10 +150,6 @@ window.ApplicationRouter = Backbone.Router.extend
     else
       header = new ListingsHeader(options)
     ($ '.listing_top').html header.render().el
-    # unless oApp.currentUser
-    #   sign_view = new SignOptionsView
-    #   unless ($ '.sign_up_options').length > 0
-    #     ($ ".sort_container").after sign_view.render().el
 
   index: ->
     @fetch_or_preload_city_listings()

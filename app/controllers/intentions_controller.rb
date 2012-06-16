@@ -25,7 +25,16 @@ class IntentionsController < ApplicationController
   def create
     @intention = current_user.intentions.build(params)
     @intention.save
-
+    
+    listing_id = params[:listing_id]
+    @listing = Listing.find(listing_id)
+    notify_list = Listing.notify_list(@listing)
+    notify_list.each do |user|
+      if user.id != current_user.id
+        UserMailer.intention_notification(user, @listing, @intention).deliver
+      end
+    end
+    
     render :json => @intention
   end
 

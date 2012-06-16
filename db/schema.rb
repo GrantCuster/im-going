@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120612172204) do
+ActiveRecord::Schema.define(:version => 20120614212304) do
 
   create_table "comments", :force => true do |t|
     t.text     "comment"
@@ -83,6 +83,8 @@ ActiveRecord::Schema.define(:version => 20120612172204) do
     t.string   "tw_token"
     t.integer  "tw_id"
     t.string   "tw_secret"
+    t.boolean  "tw_default"
+    t.boolean  "fb_default"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

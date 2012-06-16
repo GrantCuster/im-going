@@ -114,6 +114,7 @@ window.UserNewView = ListingCreate.extend
     'click .modal_close' : 'closeModal'
     'focus input' : 'inputFocus'
     'blur input' : 'inputBlur'
+    'click input[type="submit"]' : 'createUser'
 
   initialize: () ->
     _.bindAll @
@@ -144,6 +145,10 @@ window.UserNewView = ListingCreate.extend
       @placeholderSize(input)
       if ($ e.target).attr('id') == "user_email"
         ($ e.target).addClass 'invalid'
+
+  createUser: (e) ->
+    if ($ e.target).hasClass 'not_ready'
+      return false
 
   render: ->
     token = ($ 'meta[name="csrf-token"]').attr('content')

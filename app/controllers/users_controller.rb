@@ -100,6 +100,9 @@ class UsersController < ApplicationController
       follower_id = params[:follower_id]
       followed_id = params[:followed_id]
       relationship = Relationship.create!(followed_id: followed_id, follower_id: follower_id)
+      @user = User.find(followed_id)
+      logger.debug @user
+      UserMailer.follow_notification(@user).deliver
       respond_to do |format|
         format.json { render :json => relationship }
       end

@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :username, :image, :description, :fb_id, :fb_token, :tw_id, :tw_token, :tw_secret
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :username, :image, :description, :fb_id, :fb_token, :fb_default, :tw_id, :tw_token, :tw_secret, :tw_default
 
   has_many :listings, :dependent => :destroy
   has_many :intentions, :dependent => :destroy
@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
 
   def serializable_hash(options = {})
-    options = (options || {}).merge(:only => [:id, :username, :image, :description, :fb_id])
+    options = (options || {}).merge(:only => [:id, :username, :image, :description, :fb_id, :tw_id, :fb_default, :tw_default])
     hash = super options
     
     if options && options[:current_user]
@@ -37,6 +37,17 @@ class User < ActiveRecord::Base
     end
        
     hash
+  end
+
+  def self.toggle_share_default(user, value, client)
+    logger.debug 'did we make it'
+    if client == "twitter"
+      user.tw_default = value
+      user.save
+    elsif client == "facebook"
+      user.fb_default = value
+      user.save
+    end
   end
 
   # def self.new_with_session(params, session)
@@ -75,6 +86,7 @@ class User < ActiveRecord::Base
     else
       email = (user_data["email"])
       email.downcase!
+      @twitter_user = Twitter::Client.new(:consumer_key => "YAY8FFbW6ssYwqY11OJFOQ",  :consumer_secret => "I5szFahp3K61YYJA7X6zJx813qWEhKow70nYfg3m4", :oauth_token => access_token.credentials.token, :oauth_token_secret => access_token.credentials.secret)
       self.create(:email => email, :password => Devise.friendly_token[0,20], :tw_id => access_token.uid, :username => data.nickname, :image => data.image, :tw_token => access_token.credentials.token, :tw_secret => access_token.credentials.secret)
     end
   end
