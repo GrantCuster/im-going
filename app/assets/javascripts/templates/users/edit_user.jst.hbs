@@ -23,6 +23,12 @@
       <textarea size="30" name="user[description]" id="user_description">{{description}}</textarea>
     </div>
     
+    <div class="form_group group intention_fix">
+      <div class="form_heading">connected</div>
+      <div class="new_share facebook {{#if fb_connect}}share_it{{/if}}">facebook</div>
+      <div class="new_share twitter {{#if tw_connect}}share_it{{/if}}">twitter</div>
+    </div>
+    
     <div class="form_group group">
       <input type="submit" class="not_ready" value="update" name="commit">
     </div>

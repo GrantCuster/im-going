@@ -427,7 +427,6 @@ window.ListingCreate = Backbone.View.extend
       ($ 'body').append '<div class="text_container"><div class="text_clone"></div></div>'
     @collection = options.collection
     @collection.unbind()
-    @side_listings = options.side_listings
     @collection.bind 'add', @addTransition, @
     @venues = new Venues
     @venues.fetch
@@ -673,8 +672,8 @@ window.ListingCreate = Backbone.View.extend
       data["sale_date"] = formatted_sale_date
       data["twitter_share"] = twitter_share
       data["facebook_share"] = facebook_share
-      @collection.create data
-      # @side_listings.add data
+      @collection.create data, success: (data) =>
+        window.side_listings.add data
       unless _.include(@venue_names, venue_name)
         venue_data = {}
         venue_data["venue_name"] = venue_name
@@ -1107,7 +1106,6 @@ window.CreateButton = Backbone.View.extend
   
   initialize: (options) ->
     @collection = options.collection
-    @side_listings = options.side_listings
   
   showCreate: (e) ->
     if ($ e.target).hasClass 'active'
@@ -1118,7 +1116,7 @@ window.CreateButton = Backbone.View.extend
     else
       ($ e.target).addClass('active').text 'close form'
       ($ '#main_column').addClass('inactive')
-      listing_create = new ListingCreate collection: @collection, side_listings: @side_listings
+      listing_create = new ListingCreate collection: @collection
       ($ '#panel_container').html listing_create.render().el  
       return false
   

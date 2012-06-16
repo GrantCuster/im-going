@@ -139,7 +139,7 @@ window.ApplicationRouter = Backbone.Router.extend
     ($ '.side_content').html view.render().el
 
   populate_create_button: (listings) ->
-    view = new CreateButton collection: listings, side_listings: side_listings
+    view = new CreateButton collection: listings
     ($ '.side_create').html view.render().el
 
   populate_side: (options) ->

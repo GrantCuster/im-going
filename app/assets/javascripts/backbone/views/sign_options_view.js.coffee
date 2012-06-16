@@ -47,6 +47,7 @@ window.UserEditView = ListingCreate.extend
     'focus input' : 'inputFocus'
     'blur input' : 'inputBlur'
     'click input[type="submit"]' : "save"
+    'click .new_share' : 'connect'
 
   initialize: () ->
     _.bindAll @
@@ -57,6 +58,12 @@ window.UserEditView = ListingCreate.extend
     current_input = ($ ".line.focus input")
     if (!($ ".line.focus").hasClass('text_entered')) && (e.which != 8)
       current_input.parent().addClass('text_entered')
+
+  connect: (e) ->
+    if ($ e.target).hasClass 'facebook'
+      window.location = 'http://localhost:3000/users/auth/facebook'
+    else
+      window.location = 'http://localhost:3000/users/auth/twitter'
 
   textCheck: (e) ->
     current_input = ($ ".line.focus input")
@@ -102,6 +109,8 @@ window.UserEditView = ListingCreate.extend
       email: oApp.currentUser.email
       imageURL: @model.getImageURL()
       description: @model.getDescription()
+      fb_connect: true if oApp.currentUser && oApp.currentUser.fb_token
+      tw_connect: true if oApp.currentUser && oApp.currentUser.tw_token
       current_user_id: if oApp.currentUser then oApp.currentUser.id else false
     ($ @el).html(HTML)
     ($ @el).find('input').not('input[type="submit"]').each (index, input) =>
