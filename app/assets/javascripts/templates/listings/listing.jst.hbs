@@ -73,13 +73,17 @@
                   {{else}}
                     <li class="share_twitter not_connected">connect to twitter</li>
                   {{/if}}
-                  <li>permalink</li>
+                  {{#unless permalink}}
+                    <li class="permalink">permalink</li>
+                  {{/unless}}
                 </ul>
               {{else}}
                 <ul class="share_options">
                   <li class="share_facebook not_connected">sign in with facebook</li>
                   <li class="share_twitter not_connected">sign in with twitter</li>
-                  <li>permalink</li>
+                  {{#unless permalink}}
+                    <li class="permalink">permalink</li>
+                  {{/unless}}
                 </ul>
               {{/if}}
             </div>

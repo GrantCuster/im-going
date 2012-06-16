@@ -60,10 +60,25 @@ window.UserEditView = ListingCreate.extend
       current_input.parent().addClass('text_entered')
 
   connect: (e) ->
-    if ($ e.target).hasClass 'facebook'
-      window.location = 'http://localhost:3000/users/auth/facebook'
+    if ($ e.target).hasClass 'twitter'
+      if ($ e.target).hasClass 'share_it'
+        ($ e.target).removeClass 'share_it'
+        data = {}
+        data["tw_id"] = null
+        data["tw_token"] = null
+        data["tw_secret"] = null
+        @model.save data
+      else
+        window.location = 'http://localhost:3000/users/auth/twitter'
     else
-      window.location = 'http://localhost:3000/users/auth/twitter'
+      if ($ e.target).hasClass 'share_it'
+        ($ e.target).removeClass 'share_it'
+        data = {}
+        data["fb_id"] = null
+        data["fb_token"] = null
+        @model.save data
+      else
+        window.location = 'http://localhost:3000/users/auth/facebook'
 
   textCheck: (e) ->
     current_input = ($ ".line.focus input")
