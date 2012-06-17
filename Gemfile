@@ -8,6 +8,7 @@ gem 'rails', '3.1.1'
 gem 'will_paginate'
 gem "rails-backbone"
 gem 'devise'
+gem 'sqlite3'
 gem 'hbs'
 gem 'handlebars_assets'
 gem 'omniauth'
@@ -16,7 +17,6 @@ gem 'omniauth-twitter'
 gem 'koala'
 gem 'twitter'
 gem 'omniauth-twitter'
-gem 'sqlite3'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -41,14 +41,12 @@ gem 'jquery-rails'
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
 group :development do
-  gem 'sqlite3'
   gem 'rspec-rails'
   gem 'annotate'
   gem 'faker'
 end
 
 group :test do
-  gem 'sqlite3'
   gem 'rspec-rails'
   gem 'webrat'
   gem 'spork'
