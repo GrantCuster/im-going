@@ -16,7 +16,7 @@ gem 'omniauth-twitter'
 gem 'koala'
 gem 'twitter'
 gem 'omniauth-twitter'
-gem 'activerecord-postgresql-adapter'
+gem 'sqlite3'
 
 # Gems used only for assets and not required
 # in production environments by default.
