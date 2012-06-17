@@ -32,7 +32,7 @@ Devise.setup do |config|
   # The same considerations mentioned for authentication_keys also apply to request_keys.
   # config.request_keys = []
   require "omniauth-facebook"
-  config.omniauth :facebook, "344764858922116", "318bba1c93acad568d38909636bacc42", {:scope => 'publish_stream,offline_access,email', :client_options => {:ssl => {:ca_file => '/usr/lib/ssl/certs/ca-certificates.crt'}}} }
+  config.omniauth :facebook, "344764858922116", "318bba1c93acad568d38909636bacc42", {:scope => 'publish_stream,offline_access,email', :client_options => {:ssl => {:ca_file => '/usr/lib/ssl/certs/ca-certificates.crt'}}}
   require "omniauth-twitter"
   config.omniauth :twitter, "YAY8FFbW6ssYwqY11OJFOQ", "I5szFahp3K61YYJA7X6zJx813qWEhKow70nYfg3m4"
 
