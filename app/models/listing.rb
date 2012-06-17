@@ -59,7 +59,7 @@ class Listing < ActiveRecord::Base
     intentions = Intention.where("user_id IN (#{followed_user_ids}) OR user_id = :user_id", user_id: user.id)
     intentions.each do |intention|
       listFromIntent = Listing.find(intention.listing_id)
-      unless listing_ids.include?(listinFromIntent.id)
+      unless listing_ids.include?(listFromIntent.id)
         listings.push listFromIntent
       end
     end
