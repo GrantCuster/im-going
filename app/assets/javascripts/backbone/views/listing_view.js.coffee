@@ -14,9 +14,13 @@ window.ListingView = Backbone.View.extend
     "click .comment_show" : "showComments"
     "click .share_twitter" : "share"
     "click .share_facebook" : "share"
+    "click .permalink" : "permalink"
 
-  initialize: ->
+  initialize: (options) ->
     _.bindAll @, 'render'
+    @permalink = true if options.permalink == true
+    if @permalink == true
+      ($ @el).addClass 'expanded'
     @model.bind 'change', @render, @
 
   initSubViews: ->
@@ -25,12 +29,13 @@ window.ListingView = Backbone.View.extend
     ($ @el).find('.comment_container').html view.render().el
 
   listingToggle: ->
-    if ($ @el).hasClass('expanded')
-      ($ @el).find('.main_bottom_container').slideUp 100, =>
-        ($ @el).removeClass('expanded')
-    else
-      ($ @el).find('.main_bottom_container').slideDown 100, =>
-        ($ @el).addClass('expanded')
+    unless @permalink == true
+      if ($ @el).hasClass('expanded')
+        ($ @el).find('.main_bottom_container').slideUp 100, =>
+          ($ @el).removeClass('expanded')
+      else
+        ($ @el).find('.main_bottom_container').slideDown 100, =>
+          ($ @el).addClass('expanded')
 
   userLoad: (e) ->
     username = ($ e.target).attr('href')
@@ -78,7 +83,7 @@ window.ListingView = Backbone.View.extend
   
   share: (e) ->
     if ($ e.target).hasClass 'not_connected'
-      window.location = 'http://localhost:3000/users/auth/twitter'
+      window.location = '/users/auth/twitter'
     else
       if ($ e.target).hasClass 'share_twitter'
         view = new ShareView listing: @model, service: "twitter"
@@ -111,12 +116,18 @@ window.ListingView = Backbone.View.extend
   intenterFalse: ->
     return false
   
+  permalink: ->
+    ($ '#wrapper').addClass 'transition'
+    setTimeout =>
+      window.router.navigate "/listings/#{@model.getID()}", {trigger: true}
+    , 100
+  
   intentionChoice: (e) ->
     if ($ @el).find('.go_options').hasClass 'signed_out'
       if ($ e.target).hasClass 'facebook_sign'
-        window.location = 'http://localhost:3000/users/auth/facebook'
+        window.location = '/users/auth/facebook'
       else
-        window.location = 'http://localhost:3000/users/auth/twitter'
+        window.location = '/users/auth/twitter'
     else
       @intentions = @model.getIntentions()
       current_intention = false
@@ -202,6 +213,7 @@ window.ListingView = Backbone.View.extend
       no_comments: true if comment_number == 0
       fb_connected: true if oApp.currentUser && oApp.currentUser.fb_token
       tw_connected: true if oApp.currentUser && oApp.currentUser.tw_token
+      permalink: true if @permalink == true
     ($ @el).html HTML
     @initSubViews()
     ($ @el).attr 'data-id', @model.getID()
@@ -263,56 +275,56 @@ window.ListingsView = Backbone.View.extend
     @monthScroll()
     @
 
-window.PermalinkView = window.ListingView.extend
-  template: JST["templates/listings/permalink"]
-  className: "permalink group listing"
-
-  render: ->
-    user = @model.getUser()
-    @intentions || = @model.getIntentions()
-    if oApp.currentUser.id == @model.getUserID()
-      user_listing = true
-    else
-      user_listing = false
-    intented = false
-    user_intent = false
-    unless user_listing
-      @intentions.each (intention) =>
-        if intention.getUserID() == oApp.currentUser.id 
-          intented = true
-          user_intent = intention
-    HTML = @template
-      current_user: oApp.currentUser
-      user_listing: user_listing if user_listing == true
-      name: @model.getName()
-      full_date: @model.getPermalinkDate()
-      intented: intented if intented == true
-      username: user.username
-      user_id: @model.getUserID()
-      day: @model.getDay()
-      date: @model.getDate()
-      time: @model.getFullTime()
-      venue_name: @model.getVenueName()
-      venue_address: @model.getVenueAddress()
-      venue_url: @model.getVenueUrl()
-      venue_map: @model.getIfMap()
-      description: @model.getEventDescription()
-      urgency: @model.getUrgency()
-      ticket_display: true if (@model.getSaleDate() || @model.getCost())
-      free: true if @model.getTicketOption() == 2
-      sale_date: @model.getSaleDate()
-      listing_month: @model.getSaleMonth()
-      listing_day: @model.getSaleDay()
-      tip_date: @model.getSaleTip()
-      urgency_tip: if @model.getUrgency() == "green" then "in more than a week" else if @model.getUrgency() == "orange" then "in less than a week" else if @model.getUrgency() == "red" then "very soon"
-      cost: @model.getCost()
-      ticket_url: @model.getTicketUrl()
-      user_intent: user_intent.getText() if user_intent
-      intentions: @intentions.order() if @intentions.length > 0
-      listing_id: @model.getID()
-    ($ @el).html HTML
-    ($ @el).attr 'data-id', @model.getID()
-    @
+# window.PermalinkView = window.ListingView.extend
+#   template: JST["templates/listings/permalink"]
+#   className: "permalink group listing"
+# 
+#   render: ->
+#     user = @model.getUser()
+#     @intentions || = @model.getIntentions()
+#     if oApp.currentUser.id == @model.getUserID()
+#       user_listing = true
+#     else
+#       user_listing = false
+#     intented = false
+#     user_intent = false
+#     unless user_listing
+#       @intentions.each (intention) =>
+#         if intention.getUserID() == oApp.currentUser.id 
+#           intented = true
+#           user_intent = intention
+#     HTML = @template
+#       current_user: oApp.currentUser
+#       user_listing: user_listing if user_listing == true
+#       name: @model.getName()
+#       full_date: @model.getPermalinkDate()
+#       intented: intented if intented == true
+#       username: user.username
+#       user_id: @model.getUserID()
+#       day: @model.getDay()
+#       date: @model.getDate()
+#       time: @model.getFullTime()
+#       venue_name: @model.getVenueName()
+#       venue_address: @model.getVenueAddress()
+#       venue_url: @model.getVenueUrl()
+#       venue_map: @model.getIfMap()
+#       description: @model.getEventDescription()
+#       urgency: @model.getUrgency()
+#       ticket_display: true if (@model.getSaleDate() || @model.getCost())
+#       free: true if @model.getTicketOption() == 2
+#       sale_date: @model.getSaleDate()
+#       listing_month: @model.getSaleMonth()
+#       listing_day: @model.getSaleDay()
+#       tip_date: @model.getSaleTip()
+#       urgency_tip: if @model.getUrgency() == "green" then "in more than a week" else if @model.getUrgency() == "orange" then "in less than a week" else if @model.getUrgency() == "red" then "very soon"
+#       cost: @model.getCost()
+#       ticket_url: @model.getTicketUrl()
+#       user_intent: user_intent.getText() if user_intent
+#       intentions: @intentions.order() if @intentions.length > 0
+#       listing_id: @model.getID()
+#     ($ @el).html HTML
+#     ($ @el).attr 'data-id', @model.getID()
+#     @
 
 window.ListingsHeader = Backbone.View.extend
   template: JST["templates/listings/header"]
@@ -325,10 +337,10 @@ window.ListingsHeader = Backbone.View.extend
     @options = options || ""
 
   facebook: ->
-    window.location = 'http://localhost:3000/users/auth/facebook'
+    window.location = '/users/auth/facebook'
     
   twitter: ->
-    window.location = 'http://localhost:3000/users/auth/twitter'
+    window.location = '/users/auth/twitter'
 
   base: ->
     unless window.location.pathname == "/nyc"
@@ -698,7 +710,7 @@ window.ListingCreate = Backbone.View.extend
     new_listing = false
     ($ '#panel_container #listing_listing_name').css(
       left: '135px',
-      top: '9px'
+      top: '5px'
     ).addClass 'transform'
     collection.find (model, index) =>
       if model.getID() == listing.getID()
@@ -756,19 +768,20 @@ window.ListingCreate = Backbone.View.extend
           ($ new_listing).before month_insert
         else
           ($ '.events_listing .month_container').first().after new_listing
-    clone_pos = ($ '.listing.prepare').offset().top
+    clone_pos = parseInt(($ '.listing.prepare').css 'top')
     listing_pos = ($ '.listing.space_holder').offset().top
-    scroll_pos = (listing_pos - clone_pos)
+    scroll_pos = (listing_pos - clone_pos) + 1 + scroll_modifier
     new_height = ($ '.listing.prepare').height()
     setTimeout =>
       ($ '#listing_listing_name').addClass 'done'
-      ($ 'html, body').animate
+      ($ 'html').animate
         'scrollTop' : scroll_pos
-      , 200, ->
+      , 200, =>        
         ($ '.month_container').removeClass 'inserted'
         ($ '.listing.space_holder').animate
           'height' : new_height
-        , 200
+        , 200, =>
+          ($ '.listing.space_holder').height('auto')
         setTimeout =>
           ($ new_listing_clone).addClass 'move_it'
           ($ '#main_column').removeClass 'inactive'
@@ -776,8 +789,8 @@ window.ListingCreate = Backbone.View.extend
         setTimeout =>
           ($ '#panel_container').removeClass('creating').html ''
           ($ '#create_event').removeClass('active').text 'new event'
+          ($ new_listing).removeClass('space_holder')
           setTimeout =>
-            ($ new_listing).removeClass('space_holder').height 'auto'
             ($ '.listing.prepare').remove()
           , 200
         , 400

@@ -108,8 +108,9 @@ window.ApplicationRouter = Backbone.Router.extend
     , 100
 
   populate_listing: (listing) ->
-    listing_view = new PermalinkView model: listing
+    listing_view = new ListingView model: listing, permalink: true
     ($ '#main_inner').html listing_view.render().el
+    ($ '#main_inner').prepend '<div class="month_container"><div class="month">' + listing.getMonth() + '</div></div>'
     setTimeout =>
       ($ '#wrapper').removeClass 'transition'
     , 100

@@ -23,37 +23,67 @@
         </div>
         <div class="actions group">
           <div class="left">
-            <div class="intent_option">
-              {{#if user_listing}}
-                <a class="edit" href="#">edit</a>
-                <a href-"#">delete</a>
-              {{else}}
+            {{#if user_listing}}
+              <a class="edit" href="#">edit</a>
+              <a class="delete" href="#">delete</a>
+            {{else}}
+              <div class="intent_option">
                 {{#if intented}}
-                  <a class="intenter" href="#">{{{user_intent}}}</a>
+                  <a class="intenter" href="#">{{{user_intent}}}</a><div class="intent_triangle"></div>
                   <ul class="go_options">
+                    <li {{#if intention_1}}class="active"{{/if}}>I am going</li>
+                    <li {{#if intention_2}}class="active"{{/if}}>I am thinking about going</li>
+                    <li {{#if intention_3}}class="active"{{/if}}>I would go if somebody else does</li>
                     <li>I'm not</li>
-                    <li>I am thinking about going</li>
-                    <li>I would go if somebody else does</li>
                   </ul>
                 {{else}}
-                  <a class="intenter" href="#">want to go?</a>
+                  <a class="intenter" href="#">want to go?</a><div class="intent_triangle"></div>
                   {{#if current_user}}
                     <ul class="go_options">
                       <li>I am going</li>
                       <li>I am thinking about going</li>
                       <li>I would go if somebody else does</li>
                     </ul>
+                  {{else}}
+                    <ul class="go_options signed_out">
+                      <li class="facebook_sign">sign in with facebook</li>
+                      <li class="twitter_sign">sign in with twitter</li>
+                    </ul>
                   {{/if}}
                 {{/if}}
+              </div>
+            {{/if}}
+            {{#if no_comments}}<a class="comment_show" href="#">comment</a>{{/if}}
+          </div>
+          <div class="right">
+            <div class="share_option">
+              <a href="#" class="share">share</a><div class="intent_triangle"></div>
+              {{#if current_user}}
+                <ul class="share_options">
+                  {{#if fb_connected}}
+                    <li class="share_facebook">to facebook</li>
+                  {{else}}
+                    <li class="share_facebook not_connected">connect to facebook</li>
+                  {{/if}}
+                  {{#if tw_connected}}
+                    <li class="share_twitter">to twitter</li>
+                  {{else}}
+                    <li class="share_twitter not_connected">connect to twitter</li>
+                  {{/if}}
+                  <li class="permalink">permalink</li>
+                </ul>
+              {{else}}
+                <ul class="share_options">
+                  <li class="share_facebook not_connected">sign in with facebook</li>
+                  <li class="share_twitter not_connected">sign in with twitter</li>
+                  <li class="permalink">permalink</li>
+                </ul>
               {{/if}}
             </div>
-            <a href="#">comment</a>
-          </div>
-          <div class="right shares">
-            <a href="#" class="facebook share">facebook</a>
-            <a href="#" class="twitter share">tweet</a>
           </div>
         </div>
+        <div class="share_container"></div>
+        <div class="comment_container {{#unless no_comments}}show{{/unless}}"></div>
       </div>
     </div>
     {{#if ticket_display}}
