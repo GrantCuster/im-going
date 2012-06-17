@@ -84,6 +84,7 @@ GEM
     mime-types (1.17.2)
     multi_json (1.0.4)
     multipart-post (1.1.5)
+    mysql2 (0.3.7)
     nokogiri (1.5.0)
     oauth (0.4.5)
     oauth2 (0.5.2)
@@ -198,6 +199,7 @@ DEPENDENCIES
   hbs
   jquery-rails
   koala
+  mysql2
   omniauth
   omniauth-facebook
   omniauth-twitter

@@ -16,6 +16,7 @@ gem 'omniauth-twitter'
 gem 'koala'
 gem 'twitter'
 gem 'omniauth-twitter'
+gem 'mysql2'
 
 # Gems used only for assets and not required
 # in production environments by default.
