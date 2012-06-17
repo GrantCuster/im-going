@@ -5,7 +5,7 @@
   </div>
   <div class="main">
     {{dates}}
-    <div class="name">{{name}}<div class="expand"><div class="expand_hor"></div></div></div>
+    <div class="name {{#if permalink}}permalink{{/if}}">{{name}}{{#unless permalink}}<div class="expand"><div class="expand_hor"></div></div>{{/unless}}</div>
     <div class="going">
       {{{intentions}}}
     </div>
@@ -56,7 +56,9 @@
                 {{/if}}
               </div>
             {{/if}}
-            {{#if no_comments}}<a class="comment_show" href="#">comment</a>{{/if}}
+            {{#if current_user}}
+              {{#if no_comments}}<a class="comment_show" href="#">comment</a>{{/if}}
+            {{/if}}
           </div>
           <div class="right">
             <div class="share_option">
@@ -94,11 +96,11 @@
       </div>
     </div>
     {{#if ticket_display}}
-      <div class="ticket {{urgency}}">
+      <div class="ticket {{urgency}} {{#if free}}free{{/if}}">
         {{#if ticket_url}}<a href="{{ticket_url}}">{{/if}}
           <div class="ticket_end left"></div>
             {{#if free}}
-              <div class="sale_date">FREE</div>
+              <div class="ticket_price">FREE</div>
             {{else}}
               {{#if sale_date}}
                 <div class="sale_date">{{listing_month}}/{{listing_day}}</div>
@@ -109,7 +111,9 @@
             {{/if}}
           <div class="ticket_end right"></div>
         {{#if ticket_url}}</a>{{/if}}
-        <div class="ticket_tip">Tickets {{#if sale_date}}go on sale <strong>{{tip_date}}</strong>{{else}}<strong>are on sale</strong>{{/if}}. {{username}} thinks they will <strong>sell out {{urgency_tip}}</strong>.</div>
+        {{#unless free}}
+          <div class="ticket_tip">Tickets {{#if sale_date}}go on sale <strong>{{tip_date}}</strong>{{else}}<strong>are on sale</strong>{{/if}}. {{username}} thinks they will <strong>sell out {{urgency_tip}}</strong>.</div>
+        {{/unless}}
       </div>
     {{/if}}
   </div>

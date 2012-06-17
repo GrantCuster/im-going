@@ -195,7 +195,7 @@ window.ListingView = Backbone.View.extend
       venue_map: @model.getIfMap()
       description: @model.getEventDescription()
       urgency: @model.getUrgency()
-      ticket_display: true if (@model.getSaleDate() || @model.getCost())
+      ticket_display: true if (@model.getSaleDate() || @model.getCost() || @model.getTicketOption() == 2)
       free: true if @model.getTicketOption() == 2
       sale_date: @model.getSaleDate()
       listing_month: @model.getSaleMonth()
@@ -411,11 +411,19 @@ window.SideListingView = Backbone.View.extend
 
   render: ->
     user = @model.getUser()
+    intention_num = @model.getIntention()
+    if intention_num == 1
+      intention = "is going to"
+    else if intention_num == 2
+      intention = "would go, if somebody else does, to"
+    else
+      intention = "is thinking about going to"
     HTML = @template
       username: user.username
       name: @model.getName()
       shortdate: @model.getShortDate()
       listing_id: @model.getID()
+      intention: intention
     ($ @el).html HTML
     @
 

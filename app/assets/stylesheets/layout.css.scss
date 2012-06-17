@@ -715,6 +715,9 @@ form {
       float: left;
       position: relative;
     }
+    .name.permalink {
+      cursor: text;
+    }
     a {
       font-weight: bold;
       color: #000;
@@ -756,7 +759,7 @@ form {
       padding-bottom: 10px;
       a {
         color: #555;
-        padding: 10px 12px 8px;
+        padding: 8px 10px 6px;
         display: block;
         float: left;
         text-align: center;
@@ -766,7 +769,7 @@ form {
       }
       a.comment_show {
         color: #fff;
-        background: #008000;
+        background: #029982;
       }
       a:hover {
         text-decoration: none;
@@ -780,7 +783,7 @@ form {
         background: #004CC0;
         margin-right: 4px;
         a.intenter {
-          padding: 10px 32px 8px 12px;
+          padding: 10px 30px 8px 10px;
           background: transparent;
           margin-right: 0;
           color: #fff;
@@ -799,7 +802,7 @@ form {
           display: none;
           position: absolute;
           left: 0;
-          top: 38px;
+          top: 34px;
           width: 260px;
           padding: 0;
           background: #eee;
@@ -848,7 +851,7 @@ form {
         background: #9E00C4;
         margin-right: 20px;
         a.share {
-          padding: 10px 32px 8px 12px;
+          padding: 8px 30px 6px 10px;
           background: transparent;
           margin-right: 0;
           color: #fff;
@@ -861,13 +864,13 @@ form {
           height: 6px;
           position: absolute;
           right: 14px;
-          top: 16px;
+          top: 14px;
         }
         .share_options {
           display: none;
           position: absolute;
           right: 0;
-          top: 38px;
+          top: 34px;
           width: 200px;
           padding: 0;
           background: #eee;
@@ -989,6 +992,13 @@ form {
   }
   .ticket.red {
     background: darkred;
+  }
+  .ticket.free {
+    background: #4169E1;
+    padding: 0 8px;
+    .ticket_end {
+      display: none;
+    }
   }
   .ticket:hover {
     .ticket_tip {
@@ -1224,6 +1234,9 @@ form {
   .expand {
     display: block;
   }
+}
+.name.permalink:hover {
+  text-decoration: none;
 }
 .events_listing {
   padding-top: 0px;
