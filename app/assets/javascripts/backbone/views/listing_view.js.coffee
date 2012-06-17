@@ -1068,7 +1068,14 @@ window.ListingEdit = ListingCreate.extend
 
   render: ->
     token = ($ 'meta[name="csrf-token"]').attr('content')
+    intent_option = @model.getIntention()
     ticket_option = @model.getTicketOption()
+    if intent_option == 0 
+      intent_text = "I am going to"
+    else if intent_option == 1 
+      intent_text = "I am thinking about going to" 
+    else
+      intent_text = "I would go, if somebody else does, to"
     if ticket_option == 0 
       selected_text = "Tickets are on sale"
     else if ticket_option == 1 
@@ -1090,6 +1097,10 @@ window.ListingEdit = ListingCreate.extend
       sell_text = "it sold out"
     HTML = @template
       token: token
+      intent_text: intent_text
+      intent_0: true if intent_option == 0
+      intent_1: true if intent_option == 1
+      intent_2: true if intent_option == 2
       name: @model.getName()
       id: @model.getID()
       day: @model.getFormDay()
@@ -1115,6 +1126,9 @@ window.ListingEdit = ListingCreate.extend
       selected_text: selected_text
       sell_text: sell_text;
     ($ @el).html(HTML)
+    setTimeout =>
+      @initializeAutocomplete()
+    , 0
     ($ @el).find('input').not('input[type="submit"]').each (index, input) =>
       @placeholderSize(input)
     @

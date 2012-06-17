@@ -759,7 +759,8 @@ form {
       padding-bottom: 10px;
       a {
         color: #555;
-        padding: 8px 10px 6px;
+        padding: 6px 10px;
+        line-height: 20px;
         display: block;
         float: left;
         text-align: center;
@@ -783,7 +784,7 @@ form {
         background: #004CC0;
         margin-right: 4px;
         a.intenter {
-          padding: 10px 30px 8px 10px;
+          padding: 6px 30px 6px 10px;
           background: transparent;
           margin-right: 0;
           color: #fff;
@@ -802,7 +803,7 @@ form {
           display: none;
           position: absolute;
           left: 0;
-          top: 34px;
+          top: 32px;
           width: 260px;
           padding: 0;
           background: #eee;
@@ -851,7 +852,8 @@ form {
         background: #9E00C4;
         margin-right: 20px;
         a.share {
-          padding: 8px 30px 6px 10px;
+          padding: 6px 30px 6px 10px;
+          line-height: 20px;
           background: transparent;
           margin-right: 0;
           color: #fff;
@@ -870,7 +872,7 @@ form {
           display: none;
           position: absolute;
           right: 0;
-          top: 34px;
+          top: 32px;
           width: 200px;
           padding: 0;
           background: #eee;
@@ -1495,7 +1497,7 @@ form {
           background: red;
         }
         .follow.edit {
-          background: magenta;
+          background: #9E00C4;
           .follow_hor {
             -moz-transform: rotate(-45deg);  
             -webkit-transform: rotate(-45deg);  
@@ -1692,11 +1694,18 @@ form {
 .side_button.sign_out {
   margin-top: 30px;
   float: left;
-  background: crimson;
+  background: #DC143C;
+}
+.side_button.sign_out:hover {
+  background: #A40122;
 }
 .side_button.find_friends {
-  background: green;
+  background: #9E00C4;
   margin-bottom: 30px;
+  margin-top: -15px;
+}
+.side_button.find_friends:hover {
+  background: #710098;
 }
 
 .create_container {
@@ -1726,10 +1735,10 @@ form {
   opacity: 1;
 }
 #create_event.active {
-  background: #000;
+  background: #DC143C;
 }
 #create_event.active:hover {
-  background: red;
+  background: #A40122;
 }
 .one_quarter {
   width: 100px;

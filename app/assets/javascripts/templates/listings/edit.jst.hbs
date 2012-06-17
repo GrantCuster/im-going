@@ -10,11 +10,11 @@
     
     <div class="required_info group">
       <div id="intention" class="intention_container">
-        <div class="intention_selected">I am going to <div class="intention_triangle"></div></div>
+        <div class="intention_selected">{{intent_text}} <div class="intention_triangle"></div></div>
         <ul class="intention_select">
-          <li class="active">I am going to</li>
-          <li>I am thinking about going to</li>
-          <li>I would go, if somebody else does, to</li>
+          <li {{#if intent_0}}class="active"{{/if}}>I am going to</li>
+          <li {{#if intent_1}}class="active"{{/if}}>I am thinking about going to</li>
+          <li {{#if intent_2}}class="active"{{/if}}>I would go, if somebody else does, to</li>
         </ul>
         <input type="hidden" id="listing_intention" name="listing[intention]" />
       </div>
@@ -32,6 +32,8 @@
       <input type="text" size="30" id="listing_venue_name" name="listing[venue_name]" placeholder="Venue Name" value="{{venue_name}}" /> 
       <input type="text" size="30" id="listing_venue_address" name="listing[venue_address]" placeholder="Address" value="{{venue_address}}" />
       <input type="text" size="30" id="listing_venue_url" name="listing[venue_url]" placeholder="URL" value="{{venue_url}}"/>
+      <div id="map_area"></div>
+      <div id="map_option">Remove Map</div>
     </div>
     
     <div class="form_group group">
@@ -51,7 +53,7 @@
         </ul>
         <input type="hidden" id="listing_ticket_option" name="listing[ticket_option]" />
       </div>
-      <span class="not_free {{#if ticket_3}}hidden{{/if}}{{#if ticket_4}}hidden{{/if}}">
+      <span class="not_free {{#if ticket_2}}hidden{{/if}}{{#if ticket_3}}hidden{{/if}}{{#if ticket_4}}hidden{{/if}}">
         <span class="future_sale {{#unless ticket_1}}hidden{{/unless}}">
           <input type="text" class="required" size="30" id="listing_sale_day" placeholder="Tuesday, December 18" value="{{sale_day}}" />
           &nbsp;&nbsp;at&nbsp;&nbsp;
@@ -79,6 +81,6 @@
       </span>
     </div>
 
-    <div class="form_group group"><input type="submit" value="Create Event" name="commit"></div>
+    <div class="form_group group"><input type="submit" value="update" name="commit"></div>
   </form>
 </div>
