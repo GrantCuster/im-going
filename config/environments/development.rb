@@ -15,6 +15,7 @@ ImGoing::Application.configure do
 
   # Recommended by devise, in production it must be the actual host of the application
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.raise_delivery_errors = true
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false

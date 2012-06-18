@@ -3,14 +3,14 @@ class UserMailer < ActionMailer::Base
   
   def follow_notification(user)
     @user = user
-    @url = "http//going.im/#{user.username}"
+    @url = "http://going.im/#{user.username}"
     mail(:to => user.email, :subject => "#{user.username} followed you")
   end
   
   def intention_notification(user, listing, intention)
     @user = user
-    @user_url = "http//going.im/#{user.username}"
-    @url = "http//going.im/listings/#{listing.id}"
+    @user_url = "http://going.im/#{user.username}"
+    @url = "http://going.im/listings/#{listing.id}"
     @listing = listing
     @intention = 
       if intention.intention == 1
@@ -25,9 +25,9 @@ class UserMailer < ActionMailer::Base
   
   def comment_notification(user, listing)
     @user = user
-    @user_url = "http//going.im/#{user.username}"
+    @user_url = "http://going.im/#{user.username}"
     @listing = listing
-    @url = "http//going.im/listings/#{listing.id}"
+    @url = "http://going.im/listings/#{listing.id}"
     mail(:to => user.email, :subject => "#{listing.listing_name} activity")
   end
 end
