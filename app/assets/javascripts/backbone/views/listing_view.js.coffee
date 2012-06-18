@@ -129,7 +129,6 @@ window.ListingView = Backbone.View.extend
       else
         window.location = '/users/auth/twitter'
     else
-      console.log 'huh'
       ($ @el).find('.intent_option').addClass 'loading'
       @intentions = @model.getIntentions()
       current_intention = false
