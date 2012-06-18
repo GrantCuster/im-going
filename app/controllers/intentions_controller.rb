@@ -31,7 +31,7 @@ class IntentionsController < ApplicationController
     notify_list = Listing.notify_list(@listing)
     notify_list.each do |user|
       if user.id != current_user.id
-        UserMailer.intention_notification(user, @listing, @intention).deliver
+        UserMailer.intention_notification(current_user, @listing, @intention).deliver
       end
     end
     
