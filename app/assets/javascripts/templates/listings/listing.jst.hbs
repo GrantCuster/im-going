@@ -32,6 +32,11 @@
             {{else}}
               <div class="intent_option">
                 {{#if intented}}
+                <div class="small_load">
+                  <div class="circleG_1 circleGs"></div>
+                  <div class="circleG_2 circleGs"></div>
+                  <div class="circleG_3 circleGs"></div>
+                </div>
                   <a class="intenter" href="#">{{{user_intent}}}</a><div class="intent_triangle"></div>
                   <ul class="go_options">
                     <li {{#if intention_1}}class="active"{{/if}}>I am going</li>
@@ -40,6 +45,11 @@
                     <li>I'm not</li>
                   </ul>
                 {{else}}
+                  <div class="small_load">
+                    <div class="circleG_1 circleGs"></div>
+                    <div class="circleG_2 circleGs"></div>
+                    <div class="circleG_3 circleGs"></div>
+                  </div>
                   <a class="intenter" href="#">want to go?</a><div class="intent_triangle"></div>
                   {{#if current_user}}
                     <ul class="go_options">

@@ -11,50 +11,54 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120614212304) do
+ActiveRecord::Schema.define(:version => 20120618171507) do
 
   create_table "comments", :force => true do |t|
-    t.text     "comment"
-    t.integer  "user_id"
-    t.integer  "listing_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.text      "comment"
+    t.integer   "user_id"
+    t.integer   "listing_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
   create_table "intentions", :force => true do |t|
-    t.integer  "intention"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "listing_id"
+    t.integer   "intention"
+    t.integer   "user_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "listing_id"
   end
 
+  add_index "intentions", ["listing_id"], :name => "index_intentions_on_listing_id"
+  add_index "intentions", ["user_id", "listing_id"], :name => "index_intentions_on_user_id_and_listing_id", :unique => true
+  add_index "intentions", ["user_id"], :name => "index_intentions_on_user_id"
+
   create_table "listings", :force => true do |t|
-    t.string   "listing_name"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "date_and_time"
-    t.string   "venue_name"
-    t.string   "venue_url"
-    t.integer  "intention"
-    t.string   "venue_address"
-    t.text     "event_description"
-    t.integer  "ticket_option"
-    t.integer  "sell_out"
-    t.string   "cost"
-    t.text     "ticket_url"
-    t.datetime "sale_date"
-    t.integer  "lat"
-    t.integer  "lng"
-    t.integer  "privacy"
+    t.string    "listing_name"
+    t.integer   "user_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.timestamp "date_and_time"
+    t.string    "venue_name"
+    t.string    "venue_url"
+    t.integer   "intention"
+    t.string    "venue_address"
+    t.text      "event_description"
+    t.integer   "ticket_option"
+    t.integer   "sell_out"
+    t.string    "cost"
+    t.text      "ticket_url"
+    t.timestamp "sale_date"
+    t.integer   "lat"
+    t.integer   "lng"
+    t.integer   "privacy"
   end
 
   create_table "relationships", :force => true do |t|
-    t.integer  "follower_id"
-    t.integer  "followed_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer   "follower_id"
+    t.integer   "followed_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
   add_index "relationships", ["followed_id"], :name => "index_relationships_on_followed_id"
@@ -62,41 +66,41 @@ ActiveRecord::Schema.define(:version => 20120614212304) do
   add_index "relationships", ["follower_id"], :name => "index_relationships_on_follower_id"
 
   create_table "users", :force => true do |t|
-    t.string   "email",                                 :default => "", :null => false
-    t.string   "encrypted_password",     :limit => 128, :default => "", :null => false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                         :default => 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "username"
-    t.string   "image"
-    t.text     "description"
-    t.string   "fb_token"
-    t.integer  "fb_id"
-    t.text     "fb_friends"
-    t.string   "tw_token"
-    t.integer  "tw_id"
-    t.string   "tw_secret"
-    t.boolean  "tw_default"
-    t.boolean  "fb_default"
+    t.string    "email",                                                :null => false
+    t.string    "encrypted_password",     :limit => 128,                :null => false
+    t.string    "reset_password_token"
+    t.timestamp "reset_password_sent_at"
+    t.timestamp "remember_created_at"
+    t.integer   "sign_in_count",                         :default => 0
+    t.timestamp "current_sign_in_at"
+    t.timestamp "last_sign_in_at"
+    t.string    "current_sign_in_ip"
+    t.string    "last_sign_in_ip"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.string    "username"
+    t.string    "image"
+    t.text      "description"
+    t.string    "fb_token"
+    t.integer   "fb_id"
+    t.text      "fb_friends"
+    t.string    "tw_token"
+    t.integer   "tw_id"
+    t.string    "tw_secret"
+    t.boolean   "tw_default"
+    t.boolean   "fb_default"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
   create_table "venues", :force => true do |t|
-    t.string   "venue_name"
-    t.string   "venue_address"
-    t.text     "venue_url"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string    "venue_name"
+    t.string    "venue_address"
+    t.text      "venue_url"
+    t.integer   "user_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
 end

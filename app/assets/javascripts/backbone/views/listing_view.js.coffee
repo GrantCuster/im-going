@@ -129,6 +129,8 @@ window.ListingView = Backbone.View.extend
       else
         window.location = '/users/auth/twitter'
     else
+      console.log 'huh'
+      ($ @el).find('.intent_option').addClass 'loading'
       @intentions = @model.getIntentions()
       current_intention = false
       @intentions.each (intention) ->
@@ -147,11 +149,13 @@ window.ListingView = Backbone.View.extend
       if current_intention
         if intent == 4
           current_intention.destroy()
+          @model.fetch()
         else
-          current_intention.save data
+          current_intention.save data, success: (date) =>
+            @model.fetch()
       else
-        @intentions.create data
-      @model.fetch()
+        @intentions.create data, success: (data) =>
+          @model.fetch()
     return false
 
   render: ->
