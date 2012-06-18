@@ -1,15 +1,17 @@
 class UserMailer < ActionMailer::Base
   default from: "goings.im@gmail.com"
   
-  def follow_notification(user)
+  def follow_notification(user, actor)
     @user = user
-    @url = "http://going.im/#{user.username}"
+    @actor = actor
+    @url = "http://going.im/#{actor.username}"
     mail(:to => user.email, :subject => "#{user.username} followed you")
   end
   
-  def intention_notification(user, listing, intention)
+  def intention_notification(user, actor, listing, intention)
     @user = user
-    @user_url = "http://going.im/#{user.username}"
+    @actor = actor
+    @actor_url = "http://going.im/#{actor.username}"
     @url = "http://going.im/listings/#{listing.id}"
     @listing = listing
     @intention = 
@@ -23,9 +25,10 @@ class UserMailer < ActionMailer::Base
     mail(:to => user.email, :subject => "#{listing.listing_name} activity")
   end
   
-  def comment_notification(user, listing)
+  def comment_notification(user, actor, listing)
     @user = user
-    @user_url = "http://going.im/#{user.username}"
+    @actor = actor
+    @actor_url = "http://going.im/#{actor.username}"
     @listing = listing
     @url = "http://going.im/listings/#{listing.id}"
     mail(:to => user.email, :subject => "#{listing.listing_name} activity")

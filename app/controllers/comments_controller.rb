@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
     notify_list = Listing.notify_list(@listing)
     notify_list.each do |user|
       if user.id != current_user.id
-        UserMailer.comment_notification(user, @listing).deliver
+        UserMailer.comment_notification(user, current_user, @listing).deliver
       end
     end
     
