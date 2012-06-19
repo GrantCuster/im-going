@@ -1543,6 +1543,14 @@ form {
       text-transform: lowercase;
       margin-bottom: 8px;
     }
+    .recently {
+      font-size: 15px;
+      font-weight: bold;
+      color: #333;
+      span {
+        background: yellow;
+      }
+    }
     .listing {
       font-size: 15px;
       line-height: 25px;
@@ -1556,7 +1564,8 @@ form {
       }
     }
     .listing:hover span {
-      text-decoration: underline;
+      background: yellow;
+      color: #000;
     }
     .listing:last-child {
       .side_separator {
