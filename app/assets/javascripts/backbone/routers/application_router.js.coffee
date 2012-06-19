@@ -114,7 +114,7 @@ window.ApplicationRouter = Backbone.Router.extend
     setTimeout =>
       ($ '#wrapper').removeClass 'transition'
     , 100
-
+    
   populate_friends: (username) ->
     view = new FindFriendsView
     ($ '#main_inner').html view.render().el
