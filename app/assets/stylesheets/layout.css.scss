@@ -328,11 +328,10 @@ form {
   opacity: 1;
 }
 .listing.move_it {
-  margin-left: 50px;
-  width: 780px;
+  width: 850px;
   right: 261px;
   .main {
-    width: 678px;
+    width: 738px;
   }
 }
 .listing.space_holder {
@@ -1545,11 +1544,14 @@ form {
       margin-bottom: 8px;
     }
     .recently {
-      font-size: 15px;
-      font-weight: bold;
+      font-size: 17px;
       color: #333;
+      display: block;
+      font-weight: bold;
+      margin-bottom: 2px;
       span {
-        background: yellow;
+//        background: yellow;
+          text-transform: uppercase;
       }
     }
     .listing {

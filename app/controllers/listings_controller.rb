@@ -1,7 +1,7 @@
 class ListingsController < ApplicationController
   
   def friends_feed
-    @data = Listing.from_users_followed_by(current_user)
+    @data = Listing.from_users_followed_by(current_user).find(:all, :conditions => ["date_and_time > ?", Time.now])
     respond_to do |format|
       format.html { render 'listings/feed' }
       format.json { render :json => @data }
@@ -9,7 +9,7 @@ class ListingsController < ApplicationController
   end
   
   def nyc_feed
-    listings = Listing.all
+    listings = Listing.find(:all, :conditions => ["date_and_time > ?", Time.now])
     @data = listings
     
     respond_to do |format|
@@ -40,7 +40,7 @@ class ListingsController < ApplicationController
     @user = User.find_by_username(params["username"])
     
     user_id = @user.id
-    @data = Listing.where(:user_id => user_id)
+    @data = Listing.where(:user_id => user_id).find(:all, :conditions => ["date_and_time > ?", Time.now])
     intentions = Intention.where(:user_id => user_id)
     intentions.each do |intention|
       listFromIntent = Listing.find(intention.listing_id)
