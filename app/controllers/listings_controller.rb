@@ -44,7 +44,9 @@ class ListingsController < ApplicationController
     intentions = Intention.where(:user_id => user_id)
     intentions.each do |intention|
       listFromIntent = Listing.find(intention.listing_id)
-      @data.push(listFromIntent)
+      if listFromIntent.date_and_time > Time.now
+        @data.push(listFromIntent)
+      end
     end
     
     respond_to do |format|
