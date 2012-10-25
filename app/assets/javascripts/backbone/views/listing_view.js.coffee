@@ -418,9 +418,9 @@ window.SideListingView = Backbone.View.extend
     if intention_num == 0
       intention = "is going to"
     else if intention_num == 1
-      intention = "would go, if somebody else does, to"
-    else
       intention = "is thinking about going to"
+    else
+      intention = "would go, if somebody else does, to"
     HTML = @template
       username: user.username
       name: @model.getName()

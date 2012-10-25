@@ -100,7 +100,7 @@ body {
     
     // Main Column
     #main_column {
-      width: 830px;
+      width: 900px;
       min-height: 600px;
       background: #fff;
       margin: 0;
@@ -251,7 +251,6 @@ form {
     color: #fff;
   }
 }
-
 #required_label {
   -moz-transform: rotate(-90deg);
   -webkit-transform: rotate(-90deg);
@@ -329,11 +328,10 @@ form {
   opacity: 1;
 }
 .listing.move_it {
-  margin-left: 50px;
-  width: 780px;
+  width: 850px;
   right: 261px;
   .main {
-    width: 678px;
+    width: 738px;
   }
 }
 .listing.space_holder {
@@ -585,7 +583,7 @@ form {
   left: 0;
   top: 25px;
   margin-top: 0;
-  margin-left: -506px;
+  margin-left: -525px;
   z-index: 9;
 }
 .month.prev {
@@ -669,7 +667,7 @@ form {
     font-size: 30px;
     float: left;
     color: #000;
-    margin-top: 24px;
+    margin-top: 29px;
     font-size: 18px;
     font-weight: bold;
     margin-right: 12px;
@@ -703,8 +701,8 @@ form {
     margin-left: 0;
     font-size: 16px;
     line-height: 20px;
-    width: 678px;
-    padding: 20px 0 14px 11px;
+    width: 738px;
+    padding: 25px 0 15px 11px;
     .name {
       font-size: 30px;
       cursor: pointer;
@@ -727,7 +725,7 @@ form {
       text-decoration: underline;
     }
     .going {
-      margin-bottom: 6px;
+      margin-bottom: 10px;
       clear: both;
     }
     .main_bottom_container {
@@ -736,9 +734,9 @@ form {
       }
     }
     .main_supplement {
-      padding: 10px 0 0 0;
+      padding: 5px 0 0 0;
       margin-right: 49px;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
     .location {
       margin-bottom: 8px;
@@ -756,48 +754,45 @@ form {
       margin-bottom: 8px;
     }
     .actions {
-      padding-bottom: 10px;
+      margin-bottom: 10px;
+      margin-right: 20px;
       a {
         color: #555;
-        padding: 6px 10px;
+        padding: 8px 6px;
         line-height: 20px;
         display: block;
         float: left;
         text-align: center;
         font-weight: 300;
-        background: #ddd;
-        margin-right: 4px;
       }
       a.comment_show {
-        color: #fff;
-        background: #029982;
+//        color: #fff;
+//        background: #029982;
       }
       a:hover {
-        text-decoration: none;
-        color: #fff;
-        background: #000;
+        color: #000;
       }
       .intent_option {
         position: relative;
         display: block;
         float: left;
         background: #004CC0;
-        margin-right: 4px;
+        margin-right: 6px;
         a.intenter {
-          padding: 6px 27px 6px 10px;
+          padding: 8px 29px 8px 10px;
           background: transparent;
           margin-right: 0;
           color: #fff;
         }
         .intent_triangle {
-          border-top: solid 6px #ddd;
+          border-top: solid 6px #fff;
           border-left: solid 6px transparent;
           border-right: solid 6px transparent;
           width: 6px;
           height: 6px;
           position: absolute;
-          right: 10px;
-          top: 13px;
+          right: 12px;
+          top: 15px;
         }
         .go_options {
           display: none;
@@ -859,23 +854,22 @@ form {
         display: block;
         float: left;
         background: #9E00C4;
-        margin-right: 20px;
         a.share {
-          padding: 6px 27px 6px 10px;
+          padding: 8px 29px 8px 10px;
           line-height: 20px;
           background: transparent;
           margin-right: 0;
           color: #fff;
         }
         .intent_triangle {
-          border-top: solid 6px #ddd;
+          border-top: solid 6px #fff;
           border-left: solid 6px transparent;
           border-right: solid 6px transparent;
           width: 6px;
           height: 6px;
           position: absolute;
           right: 12px;
-          top: 13px;
+          top: 15px;
         }
         .share_options {
           display: none;
@@ -937,8 +931,8 @@ form {
     float: right;
     height: 34px;
     position: absolute;
-    right: 20px;
-    top: 15px;
+    right: 30px;
+    top: 22px;
     font-size: 18px;
     padding: 0 15px 0;
     a {
@@ -966,7 +960,7 @@ form {
     .ticket_price {
       float: left;
       height: 36px;
-      padding-top: 9px;
+      padding-top: 8px;
     }
     .ticket_end {
       background: none repeat scroll 0 0 #FFFFFF;
@@ -1005,7 +999,8 @@ form {
     background: darkred;
   }
   .ticket.free {
-    background: #4169E1;
+    background: transparent;
+    color: #4169E1;
     padding: 0 8px;
     .ticket_end {
       display: none;
@@ -1196,7 +1191,7 @@ form {
   height: 1px;
   right: 0px;;
   position: absolute;
-  width: 678px;
+  width: 748px;
   -moz-transition: width 0.2s linear;
   -webkit-transition: width 0.2s linear;
   z-index: 5;
@@ -1380,6 +1375,7 @@ form {
 #side_column {
   width: 271px;
   height: 100%;
+  background: #eee;
   right: 0;
   top: 0;
   position: fixed;
@@ -1547,6 +1543,17 @@ form {
       text-transform: lowercase;
       margin-bottom: 8px;
     }
+    .recently {
+      font-size: 17px;
+      color: #333;
+      display: block;
+      font-weight: bold;
+      margin-bottom: 2px;
+      span {
+//        background: yellow;
+          text-transform: uppercase;
+      }
+    }
     .listing {
       font-size: 15px;
       line-height: 25px;
@@ -1560,7 +1567,8 @@ form {
       }
     }
     .listing:hover span {
-      text-decoration: underline;
+      background: yellow;
+      color: #000;
     }
     .listing:last-child {
       .side_separator {

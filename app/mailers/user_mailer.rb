@@ -5,7 +5,7 @@ class UserMailer < ActionMailer::Base
     @user = user
     @actor = actor
     @url = "http://going.im/#{actor.username}"
-    mail(:to => user.email, :subject => "#{user.username} followed you")
+    mail(:to => user.email, :subject => "#{actor.username} followed you")
   end
   
   def intention_notification(user, actor, listing, intention)
