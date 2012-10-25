@@ -22,6 +22,7 @@ window.UserView = Backbone.View.extend
       view = new UserEditView model: @model
       ($ '#panel_container').html view.render().el
     else
+      ($ e.target).text('following')
       data = {}
       data["followed_id"] = @model.getId()
       data["follower_id"] = oApp.currentUser.id
@@ -135,6 +136,7 @@ window.FriendView = Backbone.View.extend
           @model.set {followed_by_current_user: null}
           @render()
     else
+      $target.text('following');
       data = {}
       data["followed_id"] = @model.getId()
       data["follower_id"] = oApp.currentUser.id
