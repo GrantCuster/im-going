@@ -87,8 +87,6 @@ window.ListingView = Backbone.View.extend
     else
       if ($ e.target).hasClass 'share_twitter'
         view = new ShareView listing: @model, service: "twitter"
-      else
-        view = new ShareView listing: @model, service: "facebook"
       $share_container = ($ @el).find('.share_container')
       $share_container.html(view.render().el)
       value = $share_container.find('textarea').text()
@@ -233,17 +231,6 @@ window.ListingsView = Backbone.View.extend
     window.side_listings.add(listing)
     @render()
   
-  centerIt: (element) ->
-    # window_width = $(window).width()
-    # window_height = $(window).height()
-    # element_width = element.width()
-    # element_height = element.height()
-    # left_pos = (window_width - element_width)/2
-    # top_pos = 20
-    # element.css
-    #   left: left_pos,
-    #   top: top_pos
-  
   initSubViews: ->
     me = @
     me.listing_views = []
@@ -278,69 +265,14 @@ window.ListingsView = Backbone.View.extend
     @monthScroll()
     @
 
-# window.PermalinkView = window.ListingView.extend
-#   template: JST["templates/listings/permalink"]
-#   className: "permalink group listing"
-# 
-#   render: ->
-#     user = @model.getUser()
-#     @intentions || = @model.getIntentions()
-#     if oApp.currentUser.id == @model.getUserID()
-#       user_listing = true
-#     else
-#       user_listing = false
-#     intented = false
-#     user_intent = false
-#     unless user_listing
-#       @intentions.each (intention) =>
-#         if intention.getUserID() == oApp.currentUser.id 
-#           intented = true
-#           user_intent = intention
-#     HTML = @template
-#       current_user: oApp.currentUser
-#       user_listing: user_listing if user_listing == true
-#       name: @model.getName()
-#       full_date: @model.getPermalinkDate()
-#       intented: intented if intented == true
-#       username: user.username
-#       user_id: @model.getUserID()
-#       day: @model.getDay()
-#       date: @model.getDate()
-#       time: @model.getFullTime()
-#       venue_name: @model.getVenueName()
-#       venue_address: @model.getVenueAddress()
-#       venue_url: @model.getVenueUrl()
-#       venue_map: @model.getIfMap()
-#       description: @model.getEventDescription()
-#       urgency: @model.getUrgency()
-#       ticket_display: true if (@model.getSaleDate() || @model.getCost())
-#       free: true if @model.getTicketOption() == 2
-#       sale_date: @model.getSaleDate()
-#       listing_month: @model.getSaleMonth()
-#       listing_day: @model.getSaleDay()
-#       tip_date: @model.getSaleTip()
-#       urgency_tip: if @model.getUrgency() == "green" then "in more than a week" else if @model.getUrgency() == "orange" then "in less than a week" else if @model.getUrgency() == "red" then "very soon"
-#       cost: @model.getCost()
-#       ticket_url: @model.getTicketUrl()
-#       user_intent: user_intent.getText() if user_intent
-#       intentions: @intentions.order() if @intentions.length > 0
-#       listing_id: @model.getID()
-#     ($ @el).html HTML
-#     ($ @el).attr 'data-id', @model.getID()
-#     @
-
 window.ListingsHeader = Backbone.View.extend
   template: JST["templates/listings/header"]
   events:
     'click .base' : 'base'
-    'click .facebook' : 'facebook'
     'click .twitter' : 'twitter'
 
   initialize: (options) ->
     @options = options || ""
-
-  facebook: ->
-    window.location = '/users/auth/facebook'
     
   twitter: ->
     window.location = '/users/auth/twitter'
@@ -450,7 +382,7 @@ window.ListingCreate = Backbone.View.extend
       ($ 'body').append '<div class="text_container"><div class="text_clone"></div></div>'
     @collection = options.collection
     @collection.unbind()
-    @collection.bind 'add', @addTransition, @
+    # @collection.bind 'add', @addTransition, @
     @venues = new Venues
     @venues.fetch
       url: "venues.json"
@@ -697,6 +629,7 @@ window.ListingCreate = Backbone.View.extend
       data["facebook_share"] = facebook_share
       @collection.create data, success: (data) =>
         window.side_listings.add data
+        @closeModal()
       unless _.include(@venue_names, venue_name)
         venue_data = {}
         venue_data["venue_name"] = venue_name
@@ -704,108 +637,7 @@ window.ListingCreate = Backbone.View.extend
         venue_data["venue_url"] = venue_url
         venue_data["user_id"] = oApp.currentUser.id
         @venues.create venue_data
-      input_offset = ($ '#panel_container #listing_listing_name').offset().left
-      panel_offset = ($ '#panel_container').offset().left
-      keep_stable = input_offset - panel_offset
-      ($ '#panel_container #listing_listing_name').css 
-        left: keep_stable,
-        position: 'absolute',
-        width: 'auto',
-        top: '0px',
-        background: 'transparent'
-      ($ '#panel_container').addClass('creating').animate {scrollTop: 0}, 100
       return false
-  
-  addTransition: (listing, collection) ->
-    scroll_modifier = 0
-    new_listing = false
-    ($ '#panel_container #listing_listing_name').css(
-      left: '135px',
-      top: '5px'
-    ).addClass 'transform'
-    collection.find (model, index) =>
-      if model.getID() == listing.getID()
-        @insert_index = index
-    collection_length = collection.length
-    view = new ListingView model: listing
-    view_clone = new ListingView model: listing
-    new_listing = view.render().el
-    new_listing_clone = view_clone.render().el
-    ($ new_listing).addClass 'expanded space_holder'
-    ($ new_listing_clone).addClass 'prepare expanded'
-    ($ '#panel_container').after new_listing_clone
-    setTimeout =>
-      ($ new_listing_clone).addClass 'transform'
-    , 200
-    listing_month = listing.getMonth()
-    if @insert_index != 0
-      object_before = ($ ".events_listing .listing:eq(#{@insert_index - 1})")
-      model_before = collection.at(@insert_index - 1)
-      month_prev = model_before.getMonth()
-      if (@insert_index + 1) != collection_length
-        model_after = collection.at(@insert_index + 1)
-        month_next = model_after.getMonth()
-        if month_prev != listing_month
-          if month_next != listing_month
-            scroll_modifier = 60
-            month_insert = "<div class='month_container inserted'><div class='month'>#{listing.getMonth()}</div></div>"
-            object_before.after new_listing
-            ($ new_listing).before month_insert
-          else
-            object_before.next().after new_listing
-        else
-          object_before.after new_listing
-      else
-        if month_prev != listing_month
-          scroll_modifier = 60
-          month_insert = "<div class='month_container inserted'><div class='month'>#{listing.getMonth()}</div></div>"
-          object_before.after new_listing
-          ($ new_listing).before month_insert
-        else
-          object_before.after new_listing
-    else
-      if collection_length == 1
-        scroll_modifier = 60
-        month_insert = "<div class='month_container inserted'><div class='month'>#{listing.getMonth()}</div></div>"
-        ($ '.events_listing').prepend new_listing
-        ($ new_listing).before month_insert
-      else
-        model_after = collection.at(@insert_index + 1)
-        month_next = model_after.getMonth()
-        if month_next != listing_month
-          scroll_modifier = 60
-          month_insert = "<div class='month_container inserted'><div class='month'>#{listing.getMonth()}</div></div>"
-          ($ '.events_listing').prepend new_listing
-          ($ new_listing).before month_insert
-        else
-          ($ '.events_listing .month_container').first().after new_listing
-    clone_pos = parseInt(($ '.listing.prepare').css 'top')
-    listing_pos = ($ '.listing.space_holder').offset().top
-    scroll_pos = (listing_pos - clone_pos) + 1 + scroll_modifier
-    new_height = ($ '.listing.prepare').height()
-    setTimeout =>
-      ($ '#listing_listing_name').addClass 'done'
-      ($ 'html').animate
-        'scrollTop' : scroll_pos
-      , 200, =>        
-        ($ '.month_container').removeClass 'inserted'
-        ($ '.listing.space_holder').animate
-          'height' : new_height
-        , 200, =>
-          ($ '.listing.space_holder').height('auto')
-        setTimeout =>
-          ($ new_listing_clone).addClass 'move_it'
-          ($ '#main_column').removeClass 'inactive'
-        , 200
-        setTimeout =>
-          ($ '#panel_container').removeClass('creating').html ''
-          ($ '#create_event').removeClass('active').text 'new event'
-          ($ new_listing).removeClass('space_holder')
-          setTimeout =>
-            ($ '.listing.prepare').remove()
-          , 200
-        , 400
-    , 600
   
   submitEnter: (e) ->
     if ($ e.target).hasClass 'not_ready'

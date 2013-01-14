@@ -9,8 +9,8 @@ class ListingsController < ApplicationController
   end
   
   def nyc_feed
-    listings = Listing.find(:all)
-    # listings = Listing.find(:all, :conditions => ["date_and_time > ?", Time.now])
+    # listings = Listing.find(:all)
+    listings = Listing.find(:all, :conditions => ["date_and_time > ?", Time.now])
     @data = listings
     
     respond_to do |format|

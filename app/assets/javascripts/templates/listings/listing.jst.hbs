@@ -59,7 +59,7 @@
                     </ul>
                   {{else}}
                     <ul class="go_options signed_out">
-                      <li class="facebook_sign">sign in with facebook</li>
+<!--                       <li class="facebook_sign">sign in with facebook</li> -->
                       <li class="twitter_sign">sign in with twitter</li>
                     </ul>
                   {{/if}}
@@ -75,11 +75,11 @@
               <a href="#" class="share">share</a><div class="intent_triangle"></div>
               {{#if current_user}}
                 <ul class="share_options">
-                  {{#if fb_connected}}
+<!--                   {{#if fb_connected}}
                     <li class="share_facebook">to facebook</li>
                   {{else}}
                     <li class="share_facebook not_connected">connect to facebook</li>
-                  {{/if}}
+                  {{/if}} -->
                   {{#if tw_connected}}
                     <li class="share_twitter">to twitter</li>
                   {{else}}
@@ -91,7 +91,7 @@
                 </ul>
               {{else}}
                 <ul class="share_options">
-                  <li class="share_facebook not_connected">sign in with facebook</li>
+<!--                   <li class="share_facebook not_connected">sign in with facebook</li> -->
                   <li class="share_twitter not_connected">sign in with twitter</li>
                   {{#unless permalink}}
                     <li class="permalink">permalink</li>
