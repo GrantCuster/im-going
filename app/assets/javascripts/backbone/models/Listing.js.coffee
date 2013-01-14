@@ -1,7 +1,7 @@
 window.Listing = Backbone.Model.extend
   urlRoot: ->
     id = @get "id"
-    "/listings/#{id}"
+    "/listings/"
 
   getID: -> @get "id"
   getName: -> @get "listing_name"

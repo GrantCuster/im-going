@@ -1003,6 +1003,7 @@ window.ListingEdit = ListingCreate.extend
       selected_day = ($ '#listing_day').val().toString()
       strip_day = selected_day.substr(selected_day.indexOf(" ") + 1)
       full_day = strip_day + " 2013"
+      console.log full_day
       selected_time = ($ '#listing_time').val()
       selected_date = new Date(full_day + " " + selected_time)
       formatted_date = 
