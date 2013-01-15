@@ -539,6 +539,8 @@ window.ListingCreate = Backbone.View.extend
     ($ '.listing.editing').removeClass 'editing'
     ($ '#create_event').removeClass('active').text('new event')
     return false
+
+  addTransition: (listing, collection) ->
   
   intentionSelect: (e) ->
     $target = ($ e.target)
@@ -630,6 +632,7 @@ window.ListingCreate = Backbone.View.extend
       @collection.create data, success: (data) =>
         window.side_listings.add data
         @closeModal()
+        @addTransition()
       unless _.include(@venue_names, venue_name)
         venue_data = {}
         venue_data["venue_name"] = venue_name
