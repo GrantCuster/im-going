@@ -283,71 +283,24 @@ form {
   -moz-transition: all 0.2s linear;
   -webkit-transition: all 0.2s linear;
 }
-#panel_container.creating {
-  overflow: hidden;
-  .main_form {
-    form {
-      .form_group {
-        opacity: 0;
-      }
-      .required_info {
-        input, div, span {
-          opacity: 0;
-        }
-        #listing_listing_name {
-          opacity: 1;
-        }
-        #listing_listing_name.transform {
-          font-size: 30px;
-          font-weight: bold;
-          background: transparent;
-        }
-        #listing_listing_name.done {
-          display: none;
-        }
-      }
-    }
-  }
-}
-.listing.prepare {
-  position: fixed;
-  right: 290px;
-  top: 80px;
-  opacity: 0;
-  -moz-transition: all 0.2s linear;
-  -webkit-transition: all 0.2s linear;
-  width: 720px;
-  z-index: 9;
-  .main {
-    -moz-transition: all 0.2s linear;
-    -webkit-transition: all 0.2s linear;
-    width: 588px;
-  }
-}
 .listing.transform {
   opacity: 1;
-}
-.listing.move_it {
-  width: 850px;
-  right: 261px;
-  .main {
-    width: 738px;
-  }
-}
-.listing.space_holder {
-  background: #ddd;
-  border-right: solid 1px #ddd;
-  margin-right: -1px;
-  height: 1px;
-  overflow: hidden;
-  .listing_body {
-    opacity: 0;
-  }
 }
 .listing.editing {
   background: #ddd;
   border-right: solid 1px #ddd;
   margin-right: -1px;
+  .listing_body {
+    opacity: 0;
+  }
+}
+.listing.inserting {
+  max-height: 0;
+  overflow: hidden;
+}
+.listing.added {
+  background: #ddd;
+  overflow: auto;
   .listing_body {
     opacity: 0;
   }
@@ -654,8 +607,11 @@ form {
   position: relative;
   background: #fff;
   right: 0;
+  max-height: 400px;
   -moz-transition: background 0.2s linear;
   -webkit-transition: background 0.2s linear;
+  -moz-transition: max-height 0.2s linear;
+  -webkit-transition: max-height 0.2s linear;
   .listing_body {
     -moz-transition: opacity 0.1s linear;
     -webkit-transition: opacity 0.1s linear;
@@ -1218,7 +1174,7 @@ form {
       display: block;
     }
   }
-  .expand {
+  .expand {.
     top: 3px;
     .expand_ver {
       display: none;

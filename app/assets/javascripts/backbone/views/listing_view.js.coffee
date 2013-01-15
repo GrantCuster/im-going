@@ -629,8 +629,22 @@ window.ListingCreate = Backbone.View.extend
       @collection.create data, success: (data) =>
         window.side_listings.add data
         @closeModal()        
+        index = @collection.indexOf(data)
         view = new ListingView model: data
-        view.render().el
+        if index != 0
+          new_listing = view.render().el
+          listing_before = $('.events_listing .listing').eq(index-1);
+          scroll_point = ($ listing_before).offset().top + ($ listing_before).outerHeight() - 40
+          transition = -> 
+            ($ 'html, body').animate
+              scrollTop: scroll_point
+            , 200, ->
+              $(listing_before).after ($ new_listing).addClass 'inserting added expanded'
+              expand = -> ($ new_listing).removeClass 'inserting'
+              setTimeout expand, 200
+              fade_in = -> ($ new_listing).removeClass 'added'
+              setTimeout fade_in, 600
+          setTimeout transition, 400
       unless _.include(@venue_names, venue_name)
         venue_data = {}
         venue_data["venue_name"] = venue_name
