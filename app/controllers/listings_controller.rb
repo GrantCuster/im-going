@@ -110,15 +110,6 @@ class ListingsController < ApplicationController
     else
       User.toggle_share_default(current_user, false, "twitter")
     end
-    
-    if params[:facebook_share] == true
-      message = Listing.share_message(@listing)
-      @graph = User.client(current_user.fb_token)
-      @graph.put_wall_post(message)
-      User.toggle_share_default(current_user, true, "facebook")
-    else
-      User.toggle_share_default(current_user, false, "facebook")
-    end
   end
   
 end

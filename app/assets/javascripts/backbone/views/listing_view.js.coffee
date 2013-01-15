@@ -228,9 +228,9 @@ window.ListingsView = Backbone.View.extend
     _.bindAll @, 'initSubViews', 'render'
   
   addOne: (listing) ->
-    window.side_listings.add(listing)
+    window.side_listings.add listing
     @render()
-  
+
   initSubViews: ->
     me = @
     me.listing_views = []
@@ -382,7 +382,6 @@ window.ListingCreate = Backbone.View.extend
       ($ 'body').append '<div class="text_container"><div class="text_clone"></div></div>'
     @collection = options.collection
     @collection.unbind()
-    # @collection.bind 'add', @addTransition, @
     @venues = new Venues
     @venues.fetch
       url: "venues.json"
@@ -540,8 +539,6 @@ window.ListingCreate = Backbone.View.extend
     ($ '#create_event').removeClass('active').text('new event')
     return false
 
-  addTransition: (listing, collection) ->
-  
   intentionSelect: (e) ->
     $target = ($ e.target)
     $intention_container = $target.parents('.intention_container')
@@ -631,8 +628,9 @@ window.ListingCreate = Backbone.View.extend
       data["facebook_share"] = facebook_share
       @collection.create data, success: (data) =>
         window.side_listings.add data
-        @closeModal()
-        @addTransition()
+        @closeModal()        
+        view = new ListingView model: data
+        view.render().el
       unless _.include(@venue_names, venue_name)
         venue_data = {}
         venue_data["venue_name"] = venue_name
@@ -838,7 +836,6 @@ window.ListingEdit = ListingCreate.extend
       selected_day = ($ '#listing_day').val().toString()
       strip_day = selected_day.substr(selected_day.indexOf(" ") + 1)
       full_day = strip_day + " 2013"
-      console.log full_day
       selected_time = ($ '#listing_time').val()
       selected_date = new Date(full_day + " " + selected_time)
       formatted_date = 

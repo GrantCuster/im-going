@@ -102,6 +102,7 @@ window.ApplicationRouter = Backbone.Router.extend
     
   populate_listings: (listings, side_listings) ->
     listings_view = new ListingsView collection: listings
+    window.main_listings = listings_view
     ($ '#main_inner').html listings_view.render().el
     setTimeout =>
       ($ '#wrapper').removeClass 'transition'
