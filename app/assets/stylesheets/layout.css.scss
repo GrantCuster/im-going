@@ -498,12 +498,13 @@ form {
 .month_container {
   position: relative;
   height: 60px;
+  max-height: 60px;
   padding-top: 25px;
   padding-bottom: 5px;
   background: #fff;
   clear: both;
-  -moz-transition: height 0.2s linear;
-  -webkit-transition: height 0.2s linear;
+  -moz-transition: max-height 0.2s linear;
+  -webkit-transition: max-height 0.2s linear;
   .month {
     background: none repeat scroll 0 0 #000000;
     color: #FFFFFF;
