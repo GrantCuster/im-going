@@ -94,7 +94,7 @@ body {
   font-family: "ff-meta-web-pro-1","ff-meta-web-pro-2","Open Sans","Helvetica Neue", sans-serif;
   
   #wrapper {
-    margin: 0 271px 0 0;
+    margin: 0 270px 0 0;
     line-height: 1.4em;
     position: relative;
     
@@ -157,6 +157,7 @@ body {
 
 // general form styling
 form {
+  color: #000;
   .form_heading {
     font-size: 15px;
     margin-top: 10px;
@@ -180,6 +181,34 @@ form {
   }
   .form_text.end {
   }
+  .input_box {
+    border: solid 3px #000;
+    padding: 6px 6px 5px;
+    display: inline-block;
+    -webkit-transition: background 0.1s linear;
+    -moz-transition: background 0.1s linear;
+    transition: background 0.1s linear;
+    &:hover, &:active {
+      background: #fff;
+    }
+  }
+  .input {
+    display: inline-block;
+    font-size: 18px;
+    color: #000;
+  }
+  .input:empty {
+    color: #999;
+  }
+  .input:focus {
+    outline: none;
+  }
+  #listing_listing_name:empty:before {
+    content: "event name";
+  }
+  #listing_day:empty:before {
+    content: "tuesday, december 18";
+  }
   input {
     border: none;
     padding: 0;
@@ -188,13 +217,27 @@ form {
     font-size: 18px;
     font-weight: normal;
     padding: 6px 6px 5px;
-    background: #eee;
     margin-bottom: 8px;
     margin-top: 0px;
     margin-left: 0;
     -moz-transition: all 0.2s linear;
     -webkit-transition: all 0.2s linear;
     position: relative;
+    color: #000;
+    border: solid 3px #000;
+    background: transparent;
+    &::-webkit-input-placeholder {
+       color: #126293;
+    }
+    &:-moz-placeholder {  
+       color: #126293;  
+    }
+    &:-ms-input-placeholder {  
+       color: #126293;  
+    }
+    &:placeholder {
+      color: #126293;
+    }
   }
   input.text_entered {
     background: transparent;
@@ -207,6 +250,18 @@ form {
   }
   input:hover, input:focus {
     background: #fff;
+    &::-webkit-input-placeholder {
+       color: #aaa;
+    }
+    &:-moz-placeholder {  
+       color: #aaa;  
+    }
+    &:-ms-input-placeholder {  
+       color: #aaa;  
+    }
+    &:placeholder {
+      color: #aaa;
+    }
   }
   input[type="submit"] {
     background: #0066FF;
@@ -292,6 +347,7 @@ form {
   margin-right: -1px;
   .listing_body {
     opacity: 0;
+    overflow: hidden;
   }
 }
 .listing.inserting {
@@ -323,9 +379,15 @@ form {
     text-transform: lowercase;
     h2 {
       float: left;
+      text-transform: lowercase;
+      color: #000;
+      font-size: 22px;
+      font-weight: bold;
+      -webkit-font-smoothing: antialiased;
     }
     .modal_close {
       float: right;
+      font-size: 46px;
       margin-top: -6px;
       padding: 3px;
       cursor: pointer;
@@ -371,22 +433,22 @@ form {
     display: inline-block;
     margin-bottom: -15px;
     .intention_selected {
-      background: #eee;
-      padding: 8px 26px 6px 6px;
+      padding: 8px 28px 6px 6px;
       font-size: 18px;
       line-height: 24px;
       color: #000;
       cursor: pointer;
       float: left;
+      border: solid 3px #000;
       .intention_triangle {
-        border-top: solid 6px #7f7f7f;
+        border-top: solid 6px #000;
         border-left: solid 6px transparent;
         border-right: solid 6px transparent;
         width: 6px;
         height: 6px;
         position: absolute;
-        right: 10px;
-        top: 16px;
+        right: 12px;
+        top: 18px;
       }
     }
     .fake_intention {
@@ -1149,7 +1211,7 @@ form {
   }
 }
 .bottom_dot {
-  background: #ddd;
+  background: #eee;
   bottom: 0px;
   height: 1px;
   right: 0px;;
@@ -1336,7 +1398,7 @@ form {
   }  
 }
 #side_column {
-  width: 271px;
+  width: 270px;
   height: 100%;
   background: #eee;
   right: 0;
@@ -1346,7 +1408,6 @@ form {
   -webkit-transition: width 0.2s linear;
   z-index: 7;
   line-height: 1.4em;
-  border-left: solid 1px #ddd;
   overflow: auto;
   .sign_options {
     color: #aaa;
@@ -1510,15 +1571,13 @@ form {
       margin-bottom: 8px;
     }
     .recently {
-      font-size: 17px;
-      color: #333;
+      font-size: 16px;
+      text-transform: lowercase;
+      color: #444;
       display: block;
+      margin-bottom: 12px;
       font-weight: bold;
-      margin-bottom: 2px;
-      span {
-//        background: yellow;
-          text-transform: uppercase;
-      }
+      line-height: 14px;
     }
     .listing {
       font-size: 15px;
@@ -1561,7 +1620,7 @@ form {
   height: 100%;
   top: 0;
   right: 270px;
-  background: #ddd;
+  background: #d3d3d3;
   position: fixed;
   z-index: 1;
   overflow: auto;
@@ -1740,6 +1799,7 @@ form {
   font-size: 18px;
   -moz-transition: opacity 0.1s linear;
   -webkit-transition: opacity 0.1s linear;
+  display: none;
 }
 .form_group.intention_fix {
   min-height: 100px;

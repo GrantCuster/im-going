@@ -18,9 +18,10 @@ window.ListingView = Backbone.View.extend
 
   initialize: (options) ->
     _.bindAll @, 'render'
-    @permalink = true if options.permalink == true
-    if @permalink == true
+    me = @
+    if options.permalink == true
       ($ @el).addClass 'expanded'
+      @permalink_page = true
     @model.bind 'change', @render, @
 
   initSubViews: ->
@@ -214,7 +215,7 @@ window.ListingView = Backbone.View.extend
       no_comments: true if comment_number == 0
       fb_connected: true if oApp.currentUser && oApp.currentUser.fb_token
       tw_connected: true if oApp.currentUser && oApp.currentUser.tw_token
-      permalink: true if @permalink == true
+      permalink_page: true if @permalink_page == true
     ($ @el).html HTML
     @initSubViews()
     ($ @el).attr 'data-id', @model.getID()
