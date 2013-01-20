@@ -421,6 +421,8 @@ form {
     color: #000;
     margin: 24px 30px 30px;
     font-size: 20px;
+    padding-bottom: 5px;
+    border-bottom: solid 1px #bbb;
     h2 {
       float: left;
       color: #000;
@@ -595,15 +597,14 @@ form {
 .additional_info {
   background-color: #bbb;
   padding: 16px 0 22px 0;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 20px 30px;
   position: relative;
   .icon_hold {
     background: #888;
     color: #333;
   }
   .additional_header {
-    font-size: 13px;
+    font-size: 14px;
     line-height: 13px;
     padding: 10px 30px 8px;
     color: #333;
