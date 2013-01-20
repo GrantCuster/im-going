@@ -107,7 +107,7 @@
     </div>
     {{#if ticket_display}}
       <div class="ticket {{urgency}} {{#if free}}free{{/if}}">
-        {{#if ticket_url}}<a href="{{ticket_url}}">{{/if}}
+        {{#if ticket_url}}<a href="{{ticket_url}}" target="_blank">{{/if}}
           <div class="ticket_end left"></div>
             {{#if free}}
               <div class="ticket_price">FREE</div>
@@ -119,10 +119,14 @@
                 <div class="ticket_price">{{cost}}</div>
               {{/if}}
             {{/if}}
-          <div class="ticket_end right"></div>
+          <div class="ticket_link">
+            <i class="icon-arrow-right"></i>
+          </div>
         {{#if ticket_url}}</a>{{/if}}
         {{#unless free}}
-          <div class="ticket_tip">Tickets {{#if sale_date}}go on sale <strong>{{tip_date}}</strong>{{else}}<strong>are on sale</strong>{{/if}}. {{username}} thinks they will <strong>sell out {{urgency_tip}}</strong>.</div>
+          <div class="tip_container">
+            <div class="ticket_tip">Tickets {{#if sale_date}}go on sale <strong>{{tip_date}}</strong>{{else}}<strong>are on sale</strong>{{/if}}. {{username}} thinks they will <strong>sell out {{urgency_tip}}</strong>.</div>
+          </div>
         {{/unless}}
       </div>
     {{/if}}

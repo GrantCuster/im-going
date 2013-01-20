@@ -390,7 +390,6 @@ form {
   margin-right: -1px;
   .listing_body {
     opacity: 0;
-    overflow: hidden;
   }
 }
 .listing.inserting {
@@ -594,7 +593,7 @@ form {
   margin-right: 30px;
 }
 .additional_info {
-  background-color: #aaa;
+  background-color: #bbb;
   padding: 16px 0 22px 0;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -607,7 +606,7 @@ form {
     font-size: 13px;
     line-height: 13px;
     padding: 10px 30px 8px;
-    color: #444;
+    color: #333;
     -webkit-font-smoothing: antialiased;
     float: left;
     span {
@@ -1050,10 +1049,10 @@ form {
     float: right;
     height: 34px;
     position: absolute;
-    right: 30px;
-    top: 22px;
+    right: 0;
+    top: 20px;
     font-size: 18px;
-    padding: 0 15px 0;
+    padding: 0 12px 0 15px;
     a {
       display: block;
       color: #fff;
@@ -1084,28 +1083,50 @@ form {
     .ticket_end {
       background: none repeat scroll 0 0 #FFFFFF;
       height: 12px;
-      left: -6px;
+      left: -5px;
       position: absolute;
       top: 11px;
       width: 10px;
-      border-radius: 22px;
+      border-radius: 24px;
+    }
+    .ticket_link {
+      color: rgba(255,255,255,0.5);
+      float: left;
+      height: 36px;
+      padding-left: 4px;
+      .icon-arrow-right::before {
+        padding-top: 8px;
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+      }
     }
     .ticket_end.right {
       left: auto;
       right: -6px;
+      display: none;
+    }
+    .tip_container {
+      position: absolute;
+      bottom: 36px;
+      right: 0;
+      float: left;
+      z-index: 999;
+      overflow: hidden;
     }
     .ticket_tip {
       background: none repeat scroll 0 0 #000000;
       color: #fff;
       font-size: 14px;
       line-height: 20px;
-      padding: 8px 10px;
+      padding: 8px 12px 6px;
       width: 260px;
-      position: absolute;
-      top: 39px;
-      right: -21px;
-      z-index: 999;
-      display: none;
+      float: left;
+      top: 0;
+      margin-right: -260px;
+      -webkit-transition: margin-right 0.05s linear;
+      -moz-transition: margin-right 0.05s linear;
+      transition: 0.05s linear;
       strong {
         font-weight: normal;
       }
@@ -1127,7 +1148,10 @@ form {
   }
   .ticket:hover {
     .ticket_tip {
-      display: block;
+      margin-right: 0;
+    }
+    .ticket_link {
+      color: rgba(255,255,255,1);
     }
   }
   .share_container {
@@ -1305,7 +1329,7 @@ form {
   }
 }
 .bottom_dot {
-  background: #eee;
+  background: #ddd;
   bottom: 0px;
   height: 1px;
   right: 0px;;
@@ -1495,6 +1519,7 @@ form {
   width: 270px;
   height: 100%;
   background: #eee;
+  border-left: solid 1px #ddd;
   right: 0;
   top: 0;
   position: fixed;
@@ -1717,7 +1742,7 @@ form {
   height: 100%;
   top: 0;
   right: 270px;
-  background: #c3c3c3;
+  background: #cfcfcf;
   position: fixed;
   z-index: 1;
   overflow: auto;

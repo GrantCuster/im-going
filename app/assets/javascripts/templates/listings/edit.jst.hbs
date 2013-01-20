@@ -6,8 +6,8 @@
   <form method="post" id="update_listing" class="udpate_listing" action="/listings/{{id}}" accept-charset="UTF-8">
     <div style="margin:0;padding:0;display:inline">
       <input type="hidden" value="✓" name="utf8"><input name="authenticity_token" type="hidden" value="{{token}}">
-    </div>
-    
+    </div> 
+
     <div class="required_info group">
       <div id="intention" class="intention_container">
         <div class="intention_selected">{{intent_text}} <div class="intention_triangle"></div></div>
@@ -18,27 +18,39 @@
         </ul>
         <input type="hidden" id="listing_intention" name="listing[intention]" />
       </div>
-      <input class="required" type="text" size="37" name="listing[listing_name]" id="listing_listing_name" placeholder="Event Name" value="{{name}}" />
-      &nbsp;&nbsp;on&nbsp;&nbsp;
-      <input type="text" class="required" size="30" id="listing_day" placeholder="Tuesday, December 18" value="{{day}}" />
-      &nbsp;&nbsp;at&nbsp;&nbsp;
-      <input type="text" class="short required" size="30" id="listing_time" placeholder="8:00 PM" value="{{time}}" />
-      <input type="hidden" id="listing_date_and_time" name="listing[date_and_time]" />
+      <div class="input_box">
+        <div class="required input" contenteditable="true" name="listing[listing_name]" id="listing_listing_name" placeholder="Event Name">{{name}}</div>
+      </div>
+      <span>&nbsp;on&nbsp;</span>
+      <div class="input_box">
+        <div contenteditable="true" class="required input" id="listing_day">{{day}}</div>
+      </div>
+      <span>&nbsp;at&nbsp;</span>
+      <div class="input_box">
+        <div contenteditable="true" class="short required input" id="listing_time">{{time}}</div>
+      </div>
+      <span>.</span>
+      <input type="hidden" class="input" id="listing_date_and_time" name="listing[date_and_time]" />
       <div id="required_label">required</div>
     </div>
+
+    <div class="additional_info">
       
     <div class="form_group group">
-      <div class="form_heading">location</div>
-      <input type="text" size="30" id="listing_venue_name" name="listing[venue_name]" placeholder="Venue Name" value="{{venue_name}}" /> 
-      <input type="text" size="30" id="listing_venue_address" name="listing[venue_address]" placeholder="Address" value="{{venue_address}}" />
-      <input type="text" size="30" id="listing_venue_url" name="listing[venue_url]" placeholder="URL" value="{{venue_url}}"/>
+      <div class="icon_hold">
+        <i class="icon-map-marker"></i>
+      </div>
+      <div class="input_box">
+        <div contenteditable="true" class="input" id="listing_venue_name">{{venue_name}}</div>
+      </div>
+      <div class="input_box">
+        <div contenteditable="true" class="input" id="listing_venue_address">{{venue_address}}</div>
+      </div>
+      <div class="input_box">
+        <div contenteditable="true" class="input" id="listing_venue_url">{{venue_url}}</div>
+      </div>
       <div id="map_area"></div>
       <div id="map_option">Remove Map</div>
-    </div>
-    
-    <div class="form_group group">
-      <div class="form_heading">event description</div>
-      <textarea id="listing_event_description" name="listing[event_description]">{{description}}</textarea>
     </div>
     
     <div class="form_group group intention_fix">
@@ -79,6 +91,13 @@
         &nbsp;&nbsp;and you can get them at&nbsp;
         <input type="text" size="30" name="listing[ticket_url]" id="listing_ticket_url" placeholder="Ticket URL" value="{{ticket_url}}" />
       </span>
+    </div>
+
+    <div class="form_group group">
+      <div class="form_heading">event description</div>
+      <textarea id="listing_event_description" name="listing[event_description]">{{description}}</textarea>
+    </div>
+
     </div>
 
     <div class="form_group group"><input type="submit" value="update" name="commit"></div>
