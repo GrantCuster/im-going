@@ -336,7 +336,7 @@ window.SideListingView = Backbone.View.extend
 
   findListing: ->
     listing_id = ($ @el).find('span').attr("data-id").trim()
-    listing_target = ($ '.listing[data-id="' + listing_id + '"]"')
+    listing_target = ($ '.listing[data-id="' + listing_id + '"]')
     offset = listing_target.offset().top - 40
     ($ 'html, body').animate
       scrollTop: offset
@@ -730,6 +730,7 @@ window.ListingCreate = Backbone.View.extend
       if input.attr('id') == 'listing_venue_address'
         @addMap(input)
     else
+      # fix for breaks being inserted
       input.html('')
     if input.parents('.info_group').hasClass 'required_info'
       @checkRequired($ e.target)

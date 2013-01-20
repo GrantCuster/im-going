@@ -1656,6 +1656,8 @@ form {
     }
   }
   .side_listing {
+    padding-bottom: 10px;
+    border-bottom: solid 1px #c9c9c9;
     .title {
       color: #000;
       font-size: 20px;
@@ -1666,12 +1668,13 @@ form {
     }
     .recently {
       font-size: 16px;
-      text-transform: lowercase;
       color: #444;
       display: block;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       font-weight: bold;
       line-height: 14px;
+      border-bottom: solid 1px #c9c9c9;
+      padding-bottom: 8px;
     }
     .listing {
       font-size: 15px;
