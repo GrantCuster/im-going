@@ -1110,9 +1110,11 @@ form {
       position: absolute;
       bottom: 36px;
       right: 0;
+      width: 260px;
       float: left;
       z-index: 999;
       overflow: hidden;
+      display: none;
     }
     .ticket_tip {
       background: none repeat scroll 0 0 #000000;
@@ -1123,9 +1125,6 @@ form {
       width: 260px;
       float: left;
       top: 0;
-      margin-right: -260px;
-      -webkit-transition: margin-right 0.05s linear;
-      -moz-transition: margin-right 0.05s linear;
       transition: 0.05s linear;
       strong {
         font-weight: normal;
@@ -1147,8 +1146,8 @@ form {
     }
   }
   .ticket:hover {
-    .ticket_tip {
-      margin-right: 0;
+    .tip_container {
+      display: block;
     }
     .ticket_link {
       color: rgba(255,255,255,1);
