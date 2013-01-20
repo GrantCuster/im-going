@@ -15,15 +15,18 @@ window.ImGoing =
 
 $(document).ready ->
   ImGoing.init()
-  # main_size = ->
-  #   main_width = $(window).width() - 361
-  #   ($ '#main_column').width main_width
-  #   ($ '.listing .main').width(main_width - 152)
-  #   ($ '.bottom_dot').width(main_width - 152)
-  # main_size()
-  # ($ window).resize ->
-  #   main_size()
-  
+  # fix to get autocomplete working on contenteditable
+  `(function ($) {
+   var original = $.fn.val;
+   console.log('it ran');
+   $.fn.val = function() {
+      if ($(this).is('[contenteditable]')) {
+         return $.fn.text.apply(this, arguments);
+      };
+      return original.apply(this, arguments);
+   };
+  })(jQuery);`
+
 Backbone.Model.prototype.toJSON = ->
   return _(_.clone(this.attributes)).extend
     'authenticity_token' : $('meta[name="csrf-token"]').attr('content')

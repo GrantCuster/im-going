@@ -368,12 +368,12 @@ window.ListingCreate = Backbone.View.extend
   template: JST["templates/listings/new"]
   events:
     'click input[type="submit"]' : "createListing"
-    'click .intention_selected' : "showIntentions"
-    'click .intention_select li' : "intentionSelect"
+    'click .intention_container' : "showIntentions"
+    'click .intention_container li' : "intentionSelect"
     'click .modal_close' : 'closeModal'
     'click #map_option' : 'removeMap'
-    'focus input' : 'inputFocus'
-    'blur input' : 'inputBlur'
+    'focus .input' : 'inputFocus'
+    'blur .input' : 'inputBlur'
     'click .new_share' : 'toggleShare'
     'mouseenter input[type="submit"]' : 'submitEnter'
   
@@ -398,10 +398,9 @@ window.ListingCreate = Backbone.View.extend
 
   initializeAutocomplete: ->
     el = $('.listing_create_container')
+
     $("#listing_day").autocomplete
       select: (event, ui) ->
-        selected_date = ($ ui.item).val().toString()
-        ($ '.text_clone').text(selected_date)
         setTimeout =>
           ($ @).blur()
         , 0
@@ -425,13 +424,15 @@ window.ListingCreate = Backbone.View.extend
             return matcher.test(item) && matcher_two.test(item)
           else if term_count == 3
             return matcher.test(item) && matcher_two.test(item) && matcher_three.test(item)
-        responseFn(a)       
+        responseFn(a) 
+      position:
+        my: "left top",
+        at: "left-10 bottom+5",
+        collision: "none"
     $("#listing_time").autocomplete
       open: (event, ui) ->
         ($ '.ui-autocomplete:visible').width(100)
       select: (event, ui) ->
-        selected_date = ($ ui.item).val().toString()
-        ($ '.text_clone').text(selected_date)
         setTimeout =>
           ($ @).blur()
         , 0
@@ -453,10 +454,12 @@ window.ListingCreate = Backbone.View.extend
           else if term_count == 2
             return matcher.test(item) && matcher_two.test(item)
         responseFn(a) 
+      position:
+        my: "left top",
+        at: "left-10 bottom+5",
+        collision: "none"
     $("#listing_sale_day").autocomplete
       select: (event, ui) ->
-        selected_date = ($ ui.item).val().toString()
-        ($ '.text_clone').text(selected_date)
         setTimeout =>
           ($ @).blur()
         , 0
@@ -480,13 +483,15 @@ window.ListingCreate = Backbone.View.extend
             return matcher.test(item) && matcher_two.test(item)
           else if term_count == 3
             return matcher.test(item) && matcher_two.test(item) && matcher_three.test(item)
-        responseFn(a)       
+        responseFn(a)
+      position:
+        my: "left top",
+        at: "left-10 bottom+5",
+        collision: "none" 
     $("#listing_sale_time").autocomplete
       open: (event, ui) ->
         ($ '.ui-autocomplete:visible').width(100)
       select: (event, ui) ->
-        selected_date = ($ ui.item).val().toString()
-        ($ '.text_clone').text(selected_date)
         setTimeout =>
           ($ @).blur()
         , 0
@@ -508,30 +513,39 @@ window.ListingCreate = Backbone.View.extend
           else if term_count == 2
             return matcher.test(item) && matcher_two.test(item)
         responseFn(a)
+      position:
+        my: "left top",
+        at: "left-10 bottom+5",
+        collision: "none"
     ($ '#listing_venue_name').autocomplete
       select: (event, ui) =>
         address = ui.item.attributes.venue_address
         url = ui.item.attributes.venue_url
         if address
           ($ '#listing_venue_address').val address
-          @placeholderSize($ '#listing_venue_address')
           @addMap($ '#listing_venue_address')
         if url
           ($ '#listing_venue_url').val url
-          @placeholderSize($ '#listing_venue_url')
+      position:
+        my: "left top",
+        at: "left-10 bottom+5",
+        collision: "none"
 
   toggleShare: (e) ->
     ($ e.target).toggleClass 'share_it'
 
   showIntentions: (e) ->
-    target = ($ e.target)
-    options  = ($ e.target).next()
-    if options.hasClass 'active'
-      options.removeClass 'active'
-      target.removeClass 'active'
+    if ($ e.target).hasClass('.intention_container')
+      $container = ($ e.target)
     else
-      options.addClass 'active'
-      target.addClass 'active'
+      $container = ($ e.target).parents('.intention_container')
+    $options  = $container.find('.intention_select')
+    if $options.hasClass 'active'
+      $options.removeClass 'active'
+      $container.removeClass 'active'
+    else
+      $options.addClass 'active'
+      $container.addClass 'active'
   
   closeModal: ->
     ($ @el).remove()
@@ -546,7 +560,7 @@ window.ListingCreate = Backbone.View.extend
     $intention_select = $target.parents('.intention_select')
     $intention_selected = $intention_select.prev()
     new_text = $target.text()
-    $intention_select.removeClass('active').find('li').removeClass 'active'
+    $intention_container.removeClass('active').find('li').removeClass 'active'
     $target.addClass 'active'
     $intention_selected.html(new_text + '<div class="intention_triangle"></div>').removeClass 'active'
     if ($intention_container.attr('id') == "ticket_option")
@@ -630,7 +644,7 @@ window.ListingCreate = Backbone.View.extend
       data["facebook_share"] = facebook_share
       @collection.create data, success: (data) =>
         window.side_listings.add data
-        @closeModal()        
+        @closeModal()
         index = @collection.indexOf(data)
         setTimeout ->
           me.insertListing(data, index)
@@ -649,30 +663,53 @@ window.ListingCreate = Backbone.View.extend
     new_listing = ($ view.render().el).addClass 'inserting added expanded'
     scroll_point = 0
 
+    collection = @collection
+    collection_length = collection.length
+    listing_month = model.getMonth()
+
+    before_match = false
+    after_match = false
+    month_insert = false
+    first_listing = false
+
     if index != 0
-      collection = @collection
-      collection_length = collection.length
-      listing_month = model.getMonth()
-      listing_before = $('.events_listing .listing').eq(index-1)
-      scroll_point = ($ listing_before).offset().top + ($ listing_before).outerHeight() - 40
       model_before = @collection.at(index - 1)
       month_before = model_before.getMonth()
-      month_insert = false
-      if month_before != listing_month
-        month_insert = "<div class='month_container inserted'><div class='month'>#{listing_month}</div></div>"
+      if listing_month == month_before
+        before_match = true
     else
-      month_insert = "<div class='month_container inserted'><div class='month'>#{listing_month}</div></div>"
+      first_listing = true
+    if index != (collection_length - 1)
+      model_after = @collection.at(index + 1)
+      month_after = model_after.getMonth()
+      if listing_month == month_after
+        after_match = true
+
+    month_insert = "<div class='month_container inserted'><div class='month'>#{listing_month}</div></div>"
+
+    if first_listing == false
+      listing_before = $('.events_listing .listing').eq(index-1)
+      if before_match == false && after_match == false
+        listing_before.after new_listing
+        listing_before.after month_insert
+      else if before_match == false
+        listing_after = $('.events_listing .listing').eq(index+1)
+        listing_after.before new_listing
+      else
+        listing_before.after new_listing
+      scroll_point = ($ listing_before).offset().top + ($ listing_before).outerHeight() - 40
+    else
+      if after_match == false
+        $('.events_listing').prepend new_listing
+        $('.events_listing').prepend month_insert
+      else
+        listing_after = $('.events_listing .listing').eq(0)
+        listing_after.before new_listing
+      scroll_point = 0
 
     ($ 'body').animate
       scrollTop: scroll_point
     , 200, ->
-
-      if scroll_point == 0
-        $('.events_listing').append new_listing
-      else
-        $(listing_before).after new_listing
-      if month_insert
-        $(listing_before).after month_insert
 
       expand = -> 
         ($ new_listing).removeClass 'inserting'
@@ -686,22 +723,13 @@ window.ListingCreate = Backbone.View.extend
       ($ '.error_msg').addClass 'show'
   
   inputFocus: (e) ->
-    input = ($ e.target)
-    new_width = input.attr('data-og-width')
-    input.width new_width
     
   inputBlur: (e) ->
     input = ($ e.target)
-    if input.val().length > 0
-      characters = input.val()
-      ($ '.text_clone').text(characters)
-      new_width = ($ '.text_clone').width() + 15
-      input.width(new_width)
+    if input.text().length > 0
       if input.attr('id') == 'listing_venue_address'
         @addMap(input)
-    else
-      @placeholderSize(input)
-    if input.parent().hasClass 'required_info'
+    if input.parents('.info_group').hasClass 'required_info'
       @checkRequired($ e.target)
     if ($ e.target).attr('id') == "listing_sale_day" || ($ e.target).attr('id') == 'listing_sale_time'
       @ticketCheck($ e.target)
@@ -758,6 +786,7 @@ window.ListingCreate = Backbone.View.extend
       , 200
 
   checkRequired: (target) ->
+    console.log 'check required'
     if target
       if target.attr('id') == "listing_day"
         date_list = window.getDates()
@@ -778,9 +807,9 @@ window.ListingCreate = Backbone.View.extend
             target.addClass 'invalid'
         , 200
     setTimeout ->
-      name_check = ($ '#listing_listing_name').val().length > 0
-      day_check = ($ '#listing_day').val().length > 0
-      time_check = ($ '#listing_time').val().length > 0
+      name_check = ($ '#listing_listing_name').text().length > 0
+      day_check = ($ '#listing_day').text().length > 0
+      time_check = ($ '#listing_time').text().length > 0
       day_invalid = ($ '#listing_day').hasClass 'invalid'
       time_invalid = ($ '#listing_time').hasClass 'invalid'
       day_double_check = day_check && !day_invalid
@@ -812,18 +841,6 @@ window.ListingCreate = Backbone.View.extend
       $error_box.text error_text
     , 200
 
-  placeholderSize: (input) ->
-    placeholder = ($ input).attr('placeholder')
-    ($ '.text_clone').text(placeholder)
-    if !($ input).attr('data-og-width')
-      og_width = ($ input).css('width')
-      ($ input).attr('data-og-width',og_width)
-    if ($ input).val().length > 0
-      characters = ($ input).val()
-      ($ '.text_clone').text(characters)
-    new_width = ($ '.text_clone').width() + 15
-    ($ input).width new_width
-
   render: ->
     token = ($ 'meta[name="csrf-token"]').attr('content')
     HTML = @template
@@ -836,20 +853,18 @@ window.ListingCreate = Backbone.View.extend
     setTimeout =>
       @initializeAutocomplete()
     , 0
-    ($ @el).find('input').not('input[type="submit"]').each (index, input) =>
-      @placeholderSize(input)
     @
 
 window.ListingEdit = ListingCreate.extend
   template: JST["templates/listings/edit"]
   events:
     'click input[type="submit"]' : "createListing"
-    'click .intention_selected' : "showIntentions"
-    'click .intention_select li' : "intentionSelect"
+    'click .intention_container' : "showIntentions"
+    'click .intention_container li' : "intentionSelect"
     'click .modal_close' : 'closeModal'
     'click #map_option' : 'removeMap'
     'focus input' : 'inputFocus'
-    'blur input' : 'inputBlur'
+    'blur .input' : 'inputBlur'
     'click input[type="submit"]' : 'saveListing'
   
   initialize: () ->
@@ -1006,8 +1021,6 @@ window.ListingEdit = ListingCreate.extend
     setTimeout =>
       @initializeAutocomplete()
     , 0
-    ($ @el).find('input').not('input[type="submit"]').each (index, input) =>
-      @placeholderSize(input)
     @
 
 window.CreateButton = Backbone.View.extend

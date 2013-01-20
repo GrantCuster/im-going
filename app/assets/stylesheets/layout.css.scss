@@ -160,9 +160,8 @@ form {
   color: #000;
   .form_heading {
     font-size: 15px;
-    margin-top: 10px;
-    margin-bottom : 15px;
-    border-bottom: solid 1px #ccc;
+    margin-top: 14px;
+    margin-bottom : 2px;
     text-transform: lowercase;
     color: #333;
     clear: both;
@@ -182,12 +181,10 @@ form {
   .form_text.end {
   }
   .input_box {
-    border: solid 3px #000;
-    padding: 6px 6px 5px;
+    background: #eaeaea;
+    padding: 6px 10px 5px;
     display: inline-block;
-    -webkit-transition: background 0.1s linear;
-    -moz-transition: background 0.1s linear;
-    transition: background 0.1s linear;
+    margin-bottom: 4px;
     &:hover, &:active {
       background: #fff;
     }
@@ -203,11 +200,50 @@ form {
   .input:focus {
     outline: none;
   }
+  .input:active {
+    cursor: text;
+  }
   #listing_listing_name:empty:before {
-    content: "event name";
+    content: "Event Name";
   }
   #listing_day:empty:before {
-    content: "tuesday, december 18";
+    content: "Tuesday, December 18";
+  }
+  #listing_day, #listing_sale_day {
+    width: 180px;
+  }
+  #listing_time:empty:before {
+    content: "8:00 PM";
+  }
+  #listing_time, #listing_sale_time {
+    width: 80px;
+  }
+  #listing_venue_name:focus {
+    min-width: 180px;
+  }
+  #listing_venue_name:empty:before {
+    content: "Venue Name";
+  }
+  #listing_venue_address:empty:before {
+    content: "Address";
+  }
+  #listing_venue_url:empty:before {
+    content: "URL";
+  }
+  #listing_event_description:empty:before {
+    content: "Event Description";
+  }
+  #listing_sale_day:empty:before {
+    content: "Tuesday, December 18";
+  }
+  #listing_sale_time:empty:before {
+    content: "8:00 PM"
+  }
+  #listing_cost:empty:before {
+    content: "$10";
+  }
+  #listing_ticket_url:empty:before {
+    content: "URL";
   }
   input {
     border: none;
@@ -273,7 +309,6 @@ form {
     text-align: center;
     cursor: pointer;
     text-transform: lowercase;
-    margin-top: 14px;
     float: left;
     width: 200px;
   }
@@ -288,7 +323,7 @@ form {
   }
 }
 .ui-autocomplete {
-  width: 169px;
+  width: 200px;
   font-size: 16px;
   background: #e9e9e9;
   border-top: solid 4px #000;
@@ -299,6 +334,11 @@ form {
   .ui-menu-item a {
     padding: 6px 8px;
     display: block;
+    cursor: pointer;
+    &:hover {
+      background: #000;
+      color: #fff;
+    }
   }
   .ui-state-hover {
     background: #000;
@@ -331,12 +371,6 @@ form {
   -moz-transition: all 0.1s linear;
   -webkit-transition: all 0.1s linear;
   color: #444;
-}
-#listing_listing_name {
-  left: 0;
-  top: 0;
-  -moz-transition: all 0.2s linear;
-  -webkit-transition: all 0.2s linear;
 }
 .listing.transform {
   opacity: 1;
@@ -372,14 +406,15 @@ form {
 }
 .main_form {
   margin: 0;
+  .ui-helper-hidden-accessible {
+    display: none;
+  }
   .header {
     color: #000;
     margin: 24px 30px 30px;
     font-size: 20px;
-    text-transform: lowercase;
     h2 {
       float: left;
-      text-transform: lowercase;
       color: #000;
       font-size: 22px;
       font-weight: bold;
@@ -387,8 +422,8 @@ form {
     }
     .modal_close {
       float: right;
-      font-size: 46px;
-      margin-top: -6px;
+      font-size: 40px;
+      margin-top: -4px;
       padding: 3px;
       cursor: pointer;
     }
@@ -401,25 +436,29 @@ form {
     padding: 0;
   }
   .new_share {
-    padding: 8px 6px 6px 6px;
-    font-size: 18px;
-    line-height: 24px;
-    margin-right: 2px;
+    padding: 7px 0 4px;
+    width: 40px;
+    margin-right: 4px;
     color: #777;
-    display: inline-block;
+    float: left;
     cursor: pointer;
+    text-align: center;
+    background: #eee;
   }
   .twitter.share_it {
     background: #53BEE2;
     color: #fff;
+    &:hover {
+      background: #53BEE2;
+    }
   }
   .facebook.share_it {
     background: #395B9B;
     color: #fff;
   }
   .new_share:hover {
-    background: #000;
-    color: #fff;
+    background: #fff;
+    color: #000;
   }
   .spacer {
     height: 37px;
@@ -431,24 +470,23 @@ form {
   .intention_container {
     position: relative;
     display: inline-block;
-    margin-bottom: -15px;
+    padding: 6px 27px 5px 10px;
+    background: #eaeaea;
+    margin-bottom: 4px;
+    cursor: pointer;
     .intention_selected {
-      padding: 8px 28px 6px 6px;
+      display: inline-block;
       font-size: 18px;
-      line-height: 24px;
-      color: #000;
       cursor: pointer;
-      float: left;
-      border: solid 3px #000;
       .intention_triangle {
-        border-top: solid 6px #000;
-        border-left: solid 6px transparent;
-        border-right: solid 6px transparent;
-        width: 6px;
-        height: 6px;
+        border-top: solid 5px #555;
+        border-left: solid 5px transparent;
+        border-right: solid 5px transparent;
+        width: 5px;
+        height: 5px;
         position: absolute;
-        right: 12px;
-        top: 18px;
+        right: 10px;
+        top: 16px;
       }
     }
     .fake_intention {
@@ -459,24 +497,13 @@ form {
       color: #000;
       float: left;      
     }
-    .intention_selected:hover {
+    &:hover {
       background: #fff;
       .intention_triangle {
         border-top: solid 6px #000;
       }
-    }
-    .intention_selected.active {
-      background: #000;
-      color: #fff;
-      .intention_triangle {
-        border-top: solid 6px #fff;
-      }
-    }
-    .intention_selected.active:hover {
-      .intention_triangle {
-        border-top: solid 6px transparent;
-        border-bottom: solid 6px #fff;
-        top: 10px;
+      .intent_block {
+        background: #000;
       }
     }
     .intention_select {
@@ -487,8 +514,9 @@ form {
       background: #fff;
       border: solid 4px #000;
       z-index: 9;
+      left: 0;
       display: none;
-      top: 38px;
+      top: 39px;
       margin-bottom: 8px;
       li {
         padding: 6px 8px;
@@ -501,6 +529,24 @@ form {
       }
       li.active {
         display: none;
+      }
+    }
+    &.active {
+      background: #000;
+      color: #fff;
+      .intent_block {
+        background: #000;
+      }
+      .intention_triangle {
+        border-top: solid 6px #fff;
+        top: 18px;
+      }
+    }
+    &.active:hover {
+      .intention_triangle {
+        border-top: solid 6px transparent;
+        border-bottom: solid 6px #fff;
+        top: 10px;
       }
     }
     .intention_select.active {
@@ -516,9 +562,48 @@ form {
 .required_info {
   padding: 0 30px;
   font-size: 18px;
-  opacity: 1;
-  -moz-transition: opacity 0.1s linear;
-  -webkit-transition: opacity 0.1s linear;
+}
+.icon_hold {
+  float: left;
+  padding: 7px 0 4px;
+  width: 40px;
+  background: #9f9f9f;
+  text-align: center;
+  color: #444;
+  position: relative;
+  margin-right: 4px;
+  -webkit-font-smoothing: antialiased;
+}
+.share_group {
+  float: left;
+}
+#create_group {
+  float: right;
+  padding: 0;
+  margin: 0;
+  clear: none;
+  margin-right: 30px;
+}
+.additional_info {
+  background-color: #aaa;
+  padding: 16px 0 22px 0;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  .icon_hold {
+    background: #888;
+    color: #333;
+  }
+  .additional_header {
+    font-size: 13px;
+    line-height: 13px;
+    padding: 10px 30px 8px;
+    color: #444;
+    -webkit-font-smoothing: antialiased;
+    float: left;
+    span {
+    }
+  }
 }
 .left_group {
   float: left;
@@ -1620,7 +1705,7 @@ form {
   height: 100%;
   top: 0;
   right: 270px;
-  background: #d3d3d3;
+  background: #c3c3c3;
   position: fixed;
   z-index: 1;
   overflow: auto;
@@ -1799,7 +1884,6 @@ form {
   font-size: 18px;
   -moz-transition: opacity 0.1s linear;
   -webkit-transition: opacity 0.1s linear;
-  display: none;
 }
 .form_group.intention_fix {
   min-height: 100px;
@@ -1901,8 +1985,6 @@ form {
 }
 .error_msg {
   float: left;
-  margin-left: 13px;
-  margin-top: 21px;
   color: red;
   display: none;
 }
