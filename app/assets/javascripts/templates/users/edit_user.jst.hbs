@@ -1,16 +1,20 @@
 <div class="main_form">
   <div class="header group">
     <h2>Your Profile</h2>
-    <div class="modal_close">x</div>
+    <div class="modal_close">&times;</div>
   </div>
   <form method="put" id="user_new" class="user_new" action="/users/{{current_user_id}}" accept-charset="UTF-8"><input type="hidden" value="✓" name="utf8"><input name="authenticity_token" type="hidden" value="{{token}}">
 
     <div class="form_group group">
-      <input type="text" placeholder="name" size="30" name="user[username]" id="user_username" value="{{name}}">
+      <div class="input_box">
+        <div class="input" contenteditable="true" id="user_username">{{name}}</div>
+      </div>
     </div>
 
     <div class="form_group group">
-      <input type="email" placeholder="email" value="{{email}}" size="30" name="user[email]" id="user_email">
+      <div class="input_box">
+        <div class="input" contenteditable="true" id="user_email">{{email}}</div>
+      </div>
     </div>
     
     <div class="form_group group">
@@ -20,7 +24,9 @@
 
     <div class="form_group group">
       <div class="form_heading">description</div>
-      <textarea size="30" name="user[description]" id="user_description">{{description}}</textarea>
+      <div class="input_box">
+        <div contenteditable="true" class="input" id="user_description">{{description}}</div>
+      </div>
     </div>
     
     <div class="form_group group intention_fix">
@@ -30,7 +36,7 @@
     </div>
     
     <div class="form_group group">
-      <input type="submit" class="not_ready" value="update" name="commit">
+      <input type="submit" value="update" name="commit">
     </div>
   </form>
 </div>

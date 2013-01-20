@@ -22,8 +22,8 @@ window.SignInView = ListingCreate.extend
     'click .intention_selected' : "showIntentions"
     'click .intention_select li' : "intentionSelect"
     'click .modal_close' : 'closeModal'
-    'focus input' : 'inputFocus'
-    'blur input' : 'inputBlur'
+    'focus .input' : 'inputFocus'
+    'blur .input' : 'inputBlur'
 
   initialize: (collection) ->
     _.bindAll @
@@ -44,20 +44,13 @@ window.UserEditView = ListingCreate.extend
   template: JST["templates/users/edit_user"]
   events:
     'click .modal_close' : 'closeModal'
-    'focus input' : 'inputFocus'
-    'blur input' : 'inputBlur'
+    'focus .input' : 'inputFocus'
+    'blur .input' : 'inputBlur'
     'click input[type="submit"]' : "save"
     'click .new_share' : 'connect'
 
   initialize: () ->
     _.bindAll @
-    if ($ '.text_container').length == 0
-      ($ 'body').append '<div class="text_container"><div class="text_clone"></div></div>'
-
-  typeCheck: (e) ->
-    current_input = ($ ".line.focus input")
-    if (!($ ".line.focus").hasClass('text_entered')) && (e.which != 8)
-      current_input.parent().addClass('text_entered')
 
   connect: (e) ->
     if ($ e.target).hasClass 'twitter'
@@ -80,31 +73,22 @@ window.UserEditView = ListingCreate.extend
       else
         window.location = '/users/auth/facebook'
 
-  textCheck: (e) ->
-    current_input = ($ ".line.focus input")
-    if current_input.val().length == 0
-      current_input.parent().removeClass('text_entered')
-
   inputBlur: (e) ->
     input = ($ e.target)
-    if input.val().length > 0
-      characters = input.val()
-      ($ '.text_clone').text(characters)
-      new_width = ($ '.text_clone').width() + 15
-      input.width(new_width)
+    if input.text().length > 0
+      characters = input.text()
       if ($ e.target).attr('id') == "user_email"
         ($ e.target).removeClass 'invalid'
         ($ 'input[type="submit"]').removeClass 'not_ready'
     else
-      @placeholderSize(input)
-      if ($ e.target).attr('id') == "user_email"
-        ($ e.target).addClass 'invalid'
+      # fix for breaks being inserted
+      input.html('')
 
   save: () ->
     old_username = @model.getName()
-    username = ($ @el).find('#user_username').val()
-    email = ($ @el).find('user_email').val()
-    description = ($ @el).find('#user_description').val()
+    username = ($ @el).find('#user_username').text().trim()
+    email = ($ @el).find('user_email').text().trim()
+    description = ($ @el).find('#user_description').text().trim()
     data = {}
     data["username"] = username
     data["email"] = email
@@ -128,16 +112,14 @@ window.UserEditView = ListingCreate.extend
       tw_connect: true if oApp.currentUser && oApp.currentUser.tw_token
       current_user_id: if oApp.currentUser then oApp.currentUser.id else false
     ($ @el).html(HTML)
-    ($ @el).find('input').not('input[type="submit"]').each (index, input) =>
-      @placeholderSize(input)
     @
 
 window.UserNewView = ListingCreate.extend
   template: JST["templates/users/new_user"]
   events:
     'click .modal_close' : 'closeModal'
-    'focus input' : 'inputFocus'
-    'blur input' : 'inputBlur'
+    'focus .input' : 'inputFocus'
+    'blur .input' : 'inputBlur'
     'click input[type="submit"]' : 'createUser'
 
   initialize: () ->
@@ -157,18 +139,14 @@ window.UserNewView = ListingCreate.extend
 
   inputBlur: (e) ->
     input = ($ e.target)
-    if input.val().length > 0
-      characters = input.val()
-      ($ '.text_clone').text(characters)
-      new_width = ($ '.text_clone').width() + 15
-      input.width(new_width)
+    if input.text().length > 0
+      characters = input.text()
       if ($ e.target).attr('id') == "user_email"
         ($ e.target).removeClass 'invalid'
         ($ 'input[type="submit"]').removeClass 'not_ready'
     else
-      @placeholderSize(input)
-      if ($ e.target).attr('id') == "user_email"
-        ($ e.target).addClass 'invalid'
+      # fix for breaks being inserted
+      input.html('')
 
   createUser: (e) ->
     if ($ e.target).hasClass 'not_ready'
@@ -183,8 +161,6 @@ window.UserNewView = ListingCreate.extend
       imageURL: @model.getImageURL()
       description: @model.getDescription()
     ($ @el).html(HTML)
-    ($ @el).find('input').not('input[type="submit"]').each (index, input) =>
-      @placeholderSize(input)
     @
 
 window.SortOptionsView = Backbone.View.extend

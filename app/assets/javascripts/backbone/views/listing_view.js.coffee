@@ -729,6 +729,8 @@ window.ListingCreate = Backbone.View.extend
     if input.text().length > 0
       if input.attr('id') == 'listing_venue_address'
         @addMap(input)
+    else
+      input.html('')
     if input.parents('.info_group').hasClass 'required_info'
       @checkRequired($ e.target)
     if ($ e.target).attr('id') == "listing_sale_day" || ($ e.target).attr('id') == 'listing_sale_time'

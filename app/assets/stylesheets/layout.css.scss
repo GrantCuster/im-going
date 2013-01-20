@@ -245,6 +245,15 @@ form {
   #listing_ticket_url:empty:before {
     content: "URL";
   }
+  #user_username:empty:before {
+    content: "Name";
+  }
+  #user_email:empty:before {
+    content: "Email";
+  }
+  #user_description:empty:before {
+    content: "Description";
+  }
   input {
     border: none;
     padding: 0;
