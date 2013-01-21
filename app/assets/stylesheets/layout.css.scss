@@ -589,7 +589,7 @@ form {
   text-align: center;
   color: #444;
   position: relative;
-  margin-right: 4px;
+  margin-right: 6px;
   -webkit-font-smoothing: antialiased;
 }
 .share_group {
@@ -603,12 +603,11 @@ form {
   margin-right: 30px;
 }
 .additional_info {
-  margin: 20px 0;
+  margin: 16px 0 20px;
   position: relative;
   .icon_hold {
-    background: #888;
-    color: #333;
-    display: none;
+    background: #aaa;
+    color: #555;
   }
   .additional_header {
     font-size: 14px;
