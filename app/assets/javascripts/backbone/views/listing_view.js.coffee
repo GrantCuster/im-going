@@ -559,6 +559,7 @@ window.ListingCreate = Backbone.View.extend
     $intention_container = $target.parents('.intention_container')
     $intention_select = $target.parents('.intention_select')
     $intention_selected = $intention_select.prev()
+    $intention_selected.removeClass 'virgin'
     new_text = $target.text()
     $intention_container.removeClass('active').find('li').removeClass 'active'
     $target.addClass 'active'
@@ -575,6 +576,7 @@ window.ListingCreate = Backbone.View.extend
         ($ '.not_free').addClass('hidden')
         ($ '.future_sale').addClass('hidden')
       else
+        $intention_selected.addClass 'virgin'
         ($ '.not_free').addClass('hidden')
         ($ '.future_sale').addClass('hidden')
     

@@ -446,13 +446,12 @@ form {
     padding: 0;
   }
   .new_share {
-    padding: 7px 0 4px;
-    width: 40px;
+    padding: 7px 10px 4px;
     margin-right: 4px;
     color: #777;
-    float: left;
     cursor: pointer;
     text-align: center;
+    display: inline-block;
     background: #eee;
   }
   .twitter.share_it {
@@ -488,6 +487,15 @@ form {
       display: inline-block;
       font-size: 18px;
       cursor: pointer;
+      &.virgin {
+        color: #999;
+        .intention_triangle {
+          border-top: solid 5px #999;
+        }
+        &:hover .intention_triangle {
+          border-top: solid 5px #555;
+        }
+      }
       .intention_triangle {
         border-top: solid 5px #555;
         border-left: solid 5px transparent;
@@ -554,7 +562,7 @@ form {
     }
     &.active:hover {
       .intention_triangle {
-        border-top: solid 6px transparent;
+        border-top: solid 6px transparent !important;
         border-bottom: solid 6px #fff;
         top: 10px;
       }
@@ -595,13 +603,12 @@ form {
   margin-right: 30px;
 }
 .additional_info {
-  background-color: #bbb;
-  padding: 16px 0 22px 0;
-  margin: 20px 30px;
+  margin: 20px 0;
   position: relative;
   .icon_hold {
     background: #888;
     color: #333;
+    display: none;
   }
   .additional_header {
     font-size: 14px;
