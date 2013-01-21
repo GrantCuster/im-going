@@ -38,35 +38,41 @@ window.NewCommentView = Backbone.View.extend
   template: JST["templates/comments/new"]
   className: "comment group"
   events: 
-    "focus textarea" : "active"
-    "blur textarea" : "inactive"
+    "focus .new_comment" : "active"
+    "blur .new_comment" : "inactive"
     "click .post" : "saveComment"
 
   initialize: ->
     _.bindAll @, 'render'
 
   active: ->
-    ($ @el).find('textarea').addClass 'active'
+    ($ @el).find('.comment_cont').addClass 'active'
     ($ @el).find('.post').addClass 'active'
 
   inactive: ->
-    if ($ @el).find('textarea').val().length == 0
-      ($ @el).find('textarea').removeClass 'active'
+    if ($ @el).find('.new_comment').text().length == 0
+      ($ @el).find('.comment_cont').removeClass('active').find('.new_comment').html('')
       ($ @el).find('.post').removeClass 'active'
   
   saveComment: ->
+    me = @
     listing_id = @model.getListingId()
-    text = ($ @el).find('textarea').val()
+    text = ($ @el).find('.new_comment').text()
     data = {}
     data["listing_id"] = listing_id
     data["comment"] = text
     data["user_id"] = oApp.currentUser.id
-    @collection.create data
+    $comment = ($ @el)
+    @collection.create data, success: (data) ->
+      view = new CommentView model: data
+      new_comment = view.render().el
+      $comment.before new_comment
+      me.render()
 
   render: ->
     user = @model.getUser()
     HTML = @template
-      avatar: user.getImageURL()
+      avatar: oApp.currentUser.image
     ($ @el).html HTML
     @
  
@@ -76,7 +82,6 @@ window.CommentsView = Backbone.View.extend
   
   initialize: (options) ->
     _.bindAll @, 'render'
-    @collection.bind 'add', @render, @
     @collection.bind 'remove', @render, @
     @listing = options.listing
   
