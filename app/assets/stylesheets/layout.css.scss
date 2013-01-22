@@ -1059,7 +1059,7 @@ form {
     right: 26px;
     top: 20px;
     font-size: 18px;
-    padding: 0 12px 0 15px;
+    padding: 0 12px 0;
     a {
       display: block;
       color: #fff;
@@ -1100,7 +1100,8 @@ form {
       color: rgba(255,255,255,0.5);
       float: left;
       height: 36px;
-      padding-left: 4px;
+      padding-left: 2px;
+      padding-right: 2px;
       .icon-arrow-right::before {
         padding-top: 8px;
         -webkit-transform: rotate(-45deg);
@@ -1110,8 +1111,7 @@ form {
     }
     .ticket_end.right {
       left: auto;
-      right: -6px;
-      display: none;
+      right: -5px;
     }
     .tip_container {
       position: absolute;
@@ -1826,11 +1826,13 @@ form {
   }
   li {
     height: 41px;
-    padding: 12px 15px 0;
+    padding: 12px 0 0;
     font-size: 18px;
     line-height: 18px;
+    width: 28%;
     color: #000;
     float: left;
+    text-align: center;
     text-transform: lowercase;
     cursor: pointer;
     -moz-transition: background 0.1s linear;
@@ -1841,10 +1843,13 @@ form {
     color: #fff;
   }
   li.city {
-    width: 200px;
+    width: 100%;
   }
   li.city.signed_in {
-    width: auto;
+    width: 28%;
+  }
+  li.friends {
+    width: 44%;
   }
   li:hover {
     background: #999;
