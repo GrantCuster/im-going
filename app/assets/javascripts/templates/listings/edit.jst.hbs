@@ -67,12 +67,16 @@
       </div>
       <span class="not_free {{#if ticket_2}}hidden{{/if}}{{#if ticket_3}}hidden{{/if}}{{#if ticket_4}}hidden{{/if}}">
         <span class="future_sale {{#unless ticket_1}}hidden{{/unless}}">
-          <input type="text" class="required" size="30" id="listing_sale_day" placeholder="Tuesday, December 18" value="{{sale_day}}" />
-          &nbsp;&nbsp;at&nbsp;&nbsp;
-          <input type="text" class="short required" size="30" id="listing_sale_time" placeholder="8:00 PM" value="{{sale_time}}" />
+          <div class="input_box">
+            <div id="listing_sale_day" class="input" contenteditable="true">{{sale_day}}</div>
+          </div>
+          &nbsp;at&nbsp;
+          <div class="input_box">
+            <div id="listing_sale_time" class="input" contenteditable="true">{{sale_time}}</div>
+          </div>
           <input type="hidden" id="listing_sale_date" name="listing[sale_date]" />
         </span>
-        &nbsp;&nbsp;and I think they will&nbsp;
+        &nbsp;and I think they will&nbsp;
         <div id="sell_out" class="intention_container">
           <div class="intention_selected">{{sell_text}}
             <div class="intention_triangle"></div>
@@ -86,16 +90,24 @@
           </ul>
           <input type="hidden" id="listing_sell_out" name="listing[sell_out]" />
         </div>.
-        &nbsp;&nbsp;They cost&nbsp;&nbsp;
-        <input type="text" class="required" size="30" class="short" name="listing[cost]" id="listing_cost" placeholder="$0" value="{{cost}}" />
-        &nbsp;&nbsp;and you can get them at&nbsp;
-        <input type="text" size="30" name="listing[ticket_url]" id="listing_ticket_url" placeholder="Ticket URL" value="{{ticket_url}}" />
+        &nbsp;They cost&nbsp;
+        <div class="input_box">
+          <div id="listing_cost" class="input" contenteditable="true">{{cost}}</div>
+        </div>
+        &nbsp;and you can get them at&nbsp;
+        <div class="input_box">
+          <div id="listing_ticket_url" class="input" contenteditable="true">{{ticket_url}}</div>
+        </div>.
       </span>
     </div>
 
     <div class="form_group group">
-      <div class="form_heading">event description</div>
-      <textarea id="listing_event_description" name="listing[event_description]">{{description}}</textarea>
+      <div class="icon_hold">
+        <i class="icon-align-left"></i>
+      </div>
+      <div class="input_box">
+        <div contenteditable="true" class="input" id="listing_event_description">{{description}}</div>
+      </div>
     </div>
 
     </div>
