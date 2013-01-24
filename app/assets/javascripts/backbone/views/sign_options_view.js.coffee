@@ -3,18 +3,6 @@ window.SignUpView = ListingCreate.extend
 
   initialize: (collection) ->
     _.bindAll @
-    if ($ '.text_container').length == 0
-      ($ 'body').append '<div class="text_container"><div class="text_clone"></div></div>'
-
-  typeCheck: (e) ->
-    current_input = ($ ".line.focus input")
-    if (!($ ".line.focus").hasClass('text_entered')) && (e.which != 8)
-      current_input.parent().addClass('text_entered')
-
-  textCheck: (e) ->
-    current_input = ($ ".line.focus input")
-    if current_input.val().length == 0
-      current_input.parent().removeClass('text_entered')
 
 window.SignInView = ListingCreate.extend
   template: JST["templates/sign_in"]
@@ -124,18 +112,6 @@ window.UserNewView = ListingCreate.extend
 
   initialize: () ->
     _.bindAll @
-    if ($ '.text_container').length == 0
-      ($ 'body').append '<div class="text_container"><div class="text_clone"></div></div>'
-
-  typeCheck: (e) ->
-    current_input = ($ ".line.focus input")
-    if (!($ ".line.focus").hasClass('text_entered')) && (e.which != 8)
-      current_input.parent().addClass('text_entered')
-
-  textCheck: (e) ->
-    current_input = ($ ".line.focus input")
-    if current_input.val().length == 0
-      current_input.parent().removeClass('text_entered')
 
   inputBlur: (e) ->
     input = ($ e.target)
@@ -151,6 +127,19 @@ window.UserNewView = ListingCreate.extend
   createUser: (e) ->
     if ($ e.target).hasClass 'not_ready'
       return false
+    else
+      me = @
+      username = $('#user_username').val()
+      email = $('#user_email').val()
+      description = $('#user_description').val()
+      data = {}
+      data["username"] = username
+      data["email"] = email
+      data["description"] = description
+      console.log 'here at least'
+      @model.save data, success: (data) ->
+        window.location.href = '/'
+    return false
 
   render: ->
     token = ($ 'meta[name="csrf-token"]').attr('content')

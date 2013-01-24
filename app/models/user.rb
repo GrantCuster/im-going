@@ -77,8 +77,7 @@ class User < ActiveRecord::Base
   def self.check_twitter_or_create(options)
     access_token = options["session"]
     data = access_token.info
-    params = options["params"]
-    user_data = params["user"]
+    user_data = options["params"]
     
     if user = self.find_by_email((user_data["email"]).downcase!)
       user.update_attributes(:tw_token => access_token.credentials.token, :tw_secret => access_token.credentials.secret, :tw_id => access_token.uid)
