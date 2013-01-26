@@ -90,10 +90,6 @@ class ListingsController < ApplicationController
       @twitter = User.init_twitter(current_user.tw_token, current_user.tw_secret)
       @twitter.update(message)
     end
-    if client == "facebook"
-      @graph = User.client(current_user.fb_token)
-      @graph.put_wall_post(message)
-    end
     render :json => params
   end
   

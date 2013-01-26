@@ -40,12 +40,8 @@ class User < ActiveRecord::Base
   end
 
   def self.toggle_share_default(user, value, client)
-    logger.debug 'did we make it'
     if client == "twitter"
       user.tw_default = value
-      user.save
-    elsif client == "facebook"
-      user.fb_default = value
       user.save
     end
   end
@@ -95,9 +91,7 @@ class User < ActiveRecord::Base
   end
   
   def self.init_twitter(token, secret)
-    unless @twitter_user
-      @twitter_user = Twitter::Client.new(:consumer_key => "YAY8FFbW6ssYwqY11OJFOQ",  :consumer_secret => "I5szFahp3K61YYJA7X6zJx813qWEhKow70nYfg3m4", :oauth_token => token, :oauth_token_secret => secret)
-    end
+    @twitter_user = Twitter::Client.new(:consumer_key => "YAY8FFbW6ssYwqY11OJFOQ",  :consumer_secret => "I5szFahp3K61YYJA7X6zJx813qWEhKow70nYfg3m4", :oauth_token => token, :oauth_token_secret => secret)
     @twitter_user
   end
   
