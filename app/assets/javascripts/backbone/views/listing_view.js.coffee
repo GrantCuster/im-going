@@ -279,7 +279,12 @@ window.ListingsHeader = Backbone.View.extend
     window.location = '/users/auth/twitter'
 
   base: ->
-    unless window.location.pathname == "/nyc"
+    if window.location.pathname == "/nyc"
+      $listings = $('.listing')
+      $listings.each ->
+        if $(this).hasClass('expanded')
+          $(this).removeClass('expanded').find('.main_bottom_container').slideUp(100);
+    else
       ($ '#wrapper').addClass 'transition'
       setTimeout =>
         ($ '#main_inner').addClass 'transparent'
