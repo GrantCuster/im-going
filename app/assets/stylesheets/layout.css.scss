@@ -588,9 +588,9 @@ form {
   float: left;
   padding: 7px 0 4px;
   width: 40px;
-  background: #9f9f9f;
+  background: #aaa;
+  color: #555;
   text-align: center;
-  color: #444;
   position: relative;
   margin-right: 6px;
   -webkit-font-smoothing: antialiased;
@@ -601,12 +601,8 @@ form {
   margin-top: 20px;
 }
 .additional_info {
-  margin: 16px 0 20px;
+  margin: 10px 0 0;
   position: relative;
-  .icon_hold {
-    background: #aaa;
-    color: #555;
-  }
   .additional_header {
     font-size: 14px;
     line-height: 13px;
@@ -1368,8 +1364,8 @@ form {
       display: block;
     }
   }
-  .expand {.
-    top: 3px;
+  .expand {
+    top: 2px;
     .expand_ver {
       display: none;
     }
@@ -1381,6 +1377,9 @@ form {
 }
 .listing.expanded:hover {
   .main .name {
+  }
+  .expand {
+
   }
   .expand .expand_hor {
     border-top: solid 8px transparent;
