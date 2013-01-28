@@ -183,7 +183,6 @@ window.ApplicationRouter = Backbone.Router.extend
     ($ '#panel_container').html view.render().el
   
   bookmarklet: ->
-    console.log 'made it to the page'
     listing_create = new BookmarkletCreate collection: {}
     ($ '#panel_container').html listing_create.render().el  
 

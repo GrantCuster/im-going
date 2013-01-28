@@ -70,7 +70,6 @@ window.FindFriendsView = Backbone.View.extend
           view = new FriendsView collection: friends
           ($ @el).find('.twitter_friends').html view.render().el
     if oApp.currentUser.fb_token
-      console.log 'if passed'
       friends = new Users
       friends.fetch
         url: "/#{oApp.currentUser.username}/find_facebook_friends.json"
@@ -116,7 +115,6 @@ window.FriendView = Backbone.View.extend
     "click .user_name" : "loadUser"
 
   initialize: ->
-    console.log 'friend view'
     _.bindAll @, 'render'
  
   loadUser: ->
@@ -147,7 +145,6 @@ window.FriendView = Backbone.View.extend
           @render()
 
   render: ->
-    console.log @model
     HTML = @template
       name: @model.getName()
       followed: @model.getFollowStatus()

@@ -640,7 +640,7 @@ window.BookmarkletCreate = Backbone.View.extend
       data["facebook_share"] = facebook_share
       @model = new Listing;
       @model.save data, success: (data) =>
-        console.log 'success'
+        console.log 'saved'
       unless _.include(@venue_names, venue_name)
         venue_data = {}
         venue_data["venue_name"] = venue_name

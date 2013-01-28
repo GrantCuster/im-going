@@ -136,7 +136,6 @@ window.UserNewView = ListingCreate.extend
       data["username"] = username
       data["email"] = email
       data["description"] = description
-      console.log 'here at least'
       @model.save data, success: (data) ->
         window.location.href = '/'
     return false

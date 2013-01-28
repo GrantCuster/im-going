@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Going.im</title>
+  <script type='text/javascript'>
+    var oApp = {};
+    <% if current_user %>
+      oApp.currentUser = <%= current_user.to_json({ :include_private => true }).html_safe %>;
+    <% else %>
+      oApp.currentUser = false
+    <% end %>
+  </script>
+  <script type ="text/javascript">
+    preloaded_data = <%= @data.to_json.html_safe %>
+  </script>
+  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD-9lXYCHkWBjznD26TxjtKrNNy8pNGCz8&sensor=false" ></script>
+  <%= stylesheet_link_tag    "application" %>
+  <%= javascript_include_tag "application" %>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <%= csrf_meta_tags %>
+  <script type="text/javascript" src="http://use.typekit.com/rpj4ngm.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      // Initialize parent massage listener
+      window.parent.postMessage('initialize', '*');
+      window.addEventListener("message", function(e){
+        var msg = e.data;
+        $('#listing_listing_name').text(msg.event_name);
+        $('#listing_day').text(msg.day);
+        $('#listing_time').text(msg.hour);
+        $('#listing_venue_name').text(msg.venue);
+        $('#listing_venue_address').text(msg.location);
+      });
+    });
+  </script>
+</head>
+<body class="bookmarklet">
+  <div id="wrapper" class="group">
+    <div id="collapse_tab">
+      <div id="collapse_triangle"></div>
+    </div>
+    <section id="panel_container"></div>
+  </div>
+</body>
+</html>

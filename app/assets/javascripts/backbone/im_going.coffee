@@ -18,7 +18,6 @@ $(document).ready ->
   # fix to get autocomplete working on contenteditable
   `(function ($) {
    var original = $.fn.val;
-   console.log('it ran');
    $.fn.val = function() {
       if ($(this).is('[contenteditable]')) {
          return $.fn.text.apply(this, arguments);
