@@ -15,6 +15,7 @@ ImGoing::Application.routes.draw do
   match "users/:user_id/unfollow" => "users#follow"
   match "share/twitter" => "listings#share"
   match "share/facebook" => "listings#share"
+  match "bookmarklet" => "listings#new"
   resources :venues
   resources :listings
   resources :users

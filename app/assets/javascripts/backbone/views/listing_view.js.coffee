@@ -363,6 +363,432 @@ window.SideListingView = Backbone.View.extend
     ($ @el).html HTML
     @
 
+window.BookmarkletCreate = Backbone.View.extend
+  className: "panel"
+  template: JST["templates/listings/new"]
+  events:
+    'click input[type="submit"]' : "createListing"
+    'click .intention_container' : "showIntentions"
+    'click .intention_container li' : "intentionSelect"
+    'click .modal_close' : 'closeModal'
+    'click #map_option' : 'removeMap'
+    'focus .input' : 'inputFocus'
+    'blur .input' : 'inputBlur'
+    'click .new_share' : 'toggleShare'
+    'mouseenter input[type="submit"]' : 'submitEnter'
+  
+  initialize: (options) ->
+    _.bindAll @
+
+  initializeAutocomplete: ->
+    el = $('.listing_create_container')
+
+    $("#listing_day").autocomplete
+      select: (event, ui) ->
+        setTimeout =>
+          ($ @).blur()
+        , 0
+      source: (req, responseFn) ->
+        wordlist = getDates()
+        term_input = req.term
+        term = term_input.split("\ ")
+        term_count = term.length
+        terms = []
+        i = 0
+        while (i < term_count)
+          terms.push($.ui.autocomplete.escapeRegex(term[i]))
+          i++
+        matcher = new RegExp("\\b" + terms[0], "i")
+        matcher_two = new RegExp("\\b" + terms[1], "i")  if term_count > 1
+        matcher_three = new RegExp("\\b" + terms[2], "i") if term_count > 2
+        a = $.grep wordlist, (item) ->
+          if term_count == 1
+            return matcher.test item
+          else if term_count == 2
+            return matcher.test(item) && matcher_two.test(item)
+          else if term_count == 3
+            return matcher.test(item) && matcher_two.test(item) && matcher_three.test(item)
+        responseFn(a) 
+      position:
+        my: "left top",
+        at: "left-10 bottom+5",
+        collision: "none"
+    $("#listing_time").autocomplete
+      open: (event, ui) ->
+        ($ '.ui-autocomplete:visible').width(100)
+      select: (event, ui) ->
+        setTimeout =>
+          ($ @).blur()
+        , 0
+      source: (req, responseFn) ->
+        wordlist = getTimes()
+        term_input = req.term
+        term = term_input.split("\ ")
+        term_count = term.length
+        terms = []
+        i = 0
+        while (i < term_count)
+          terms.push($.ui.autocomplete.escapeRegex(term[i]))
+          i++
+        matcher = new RegExp("\\b" + terms[0], "i")
+        matcher_two = new RegExp("\\b" + terms[1], "i")  if term_count > 1
+        a = $.grep wordlist, (item) ->
+          if term_count == 1
+            return matcher.test item
+          else if term_count == 2
+            return matcher.test(item) && matcher_two.test(item)
+        responseFn(a) 
+      position:
+        my: "left top",
+        at: "left-10 bottom+5",
+        collision: "none"
+    $("#listing_sale_day").autocomplete
+      select: (event, ui) ->
+        setTimeout =>
+          ($ @).blur()
+        , 0
+      source: (req, responseFn) ->
+        wordlist = getDates()
+        term_input = req.term
+        term = term_input.split("\ ")
+        term_count = term.length
+        terms = []
+        i = 0
+        while (i < term_count)
+          terms.push($.ui.autocomplete.escapeRegex(term[i]))
+          i++
+        matcher = new RegExp("\\b" + terms[0], "i")
+        matcher_two = new RegExp("\\b" + terms[1], "i")  if term_count > 1
+        matcher_three = new RegExp("\\b" + terms[2], "i") if term_count > 2
+        a = $.grep wordlist, (item) ->
+          if term_count == 1
+            return matcher.test item
+          else if term_count == 2
+            return matcher.test(item) && matcher_two.test(item)
+          else if term_count == 3
+            return matcher.test(item) && matcher_two.test(item) && matcher_three.test(item)
+        responseFn(a)
+      position:
+        my: "left top",
+        at: "left-10 bottom+5",
+        collision: "none" 
+    $("#listing_sale_time").autocomplete
+      open: (event, ui) ->
+        ($ '.ui-autocomplete:visible').width(100)
+      select: (event, ui) ->
+        setTimeout =>
+          ($ @).blur()
+        , 0
+      source: (req, responseFn) ->
+        wordlist = getTimes()
+        term_input = req.term
+        term = term_input.split("\ ")
+        term_count = term.length
+        terms = []
+        i = 0
+        while (i < term_count)
+          terms.push($.ui.autocomplete.escapeRegex(term[i]))
+          i++
+        matcher = new RegExp("\\b" + terms[0], "i")
+        matcher_two = new RegExp("\\b" + terms[1], "i")  if term_count > 1
+        a = $.grep wordlist, (item) ->
+          if term_count == 1
+            return matcher.test item
+          else if term_count == 2
+            return matcher.test(item) && matcher_two.test(item)
+        responseFn(a)
+      position:
+        my: "left top",
+        at: "left-10 bottom+5",
+        collision: "none"
+    ($ '#listing_venue_name').autocomplete
+      select: (event, ui) =>
+        address = ui.item.attributes.venue_address
+        url = ui.item.attributes.venue_url
+        if address
+          ($ '#listing_venue_address').val address
+          @addMap($ '#listing_venue_address')
+        if url
+          ($ '#listing_venue_url').val url
+      position:
+        my: "left top",
+        at: "left-10 bottom+5",
+        collision: "none"
+
+    @venues = new Venues
+    @venues.fetch
+      url: "venues.json"
+      success: (collection, response) => 
+        @venues = collection
+        @venue_list = collection.models
+        @venue_names = []
+        _.each(@venue_list, (venue) =>
+          @venue_names.push venue.attributes.venue_name
+          venue.label = venue.attributes.venue_name
+        )
+        ($ '#listing_venue_name').autocomplete("option", "source", @venue_list)
+
+  toggleShare: (e) ->
+    ($ e.target).toggleClass 'share_it'
+
+  showIntentions: (e) ->
+    if ($ e.target).hasClass('.intention_container')
+      $container = ($ e.target)
+    else
+      $container = ($ e.target).parents('.intention_container')
+    $options  = $container.find('.intention_select')
+    if $options.hasClass 'active'
+      $options.removeClass 'active'
+      $container.removeClass 'active'
+    else
+      $options.addClass 'active'
+      $container.addClass 'active'
+  
+  closeModal: ->
+    ($ @el).remove()
+    return false
+
+  intentionSelect: (e) ->
+    $target = ($ e.target)
+    $intention_container = $target.parents('.intention_container')
+    $intention_select = $target.parents('.intention_select')
+    $intention_selected = $intention_select.prev()
+    $intention_selected.removeClass 'virgin'
+    new_text = $target.text()
+    $intention_container.removeClass('active').find('li').removeClass 'active'
+    $target.addClass 'active'
+    $intention_selected.html(new_text + '<div class="intention_triangle"></div>').removeClass 'active'
+    if ($intention_container.attr('id') == "ticket_option")
+      index = $intention_select.find('li').index(e.target)
+      if (index == 0)
+        ($ '.not_free').removeClass('hidden')
+        ($ '.future_sale').addClass('hidden')
+      else if (index == 1)
+        ($ '.not_free').removeClass('hidden')
+        ($ '.future_sale').removeClass('hidden')
+      else if (index == 2)
+        ($ '.not_free').addClass('hidden')
+        ($ '.future_sale').addClass('hidden')
+      else
+        $intention_selected.addClass 'virgin'
+        ($ '.not_free').addClass('hidden')
+        ($ '.future_sale').addClass('hidden')
+    
+  createListing: (e) ->
+    me = @
+    if ($ e.target).hasClass 'not_ready'
+      return false
+    else
+      me = @
+      listing_name = ($ "#listing_listing_name").val()
+      selected_day = ($ '#listing_day').val().toString()
+      strip_day = selected_day.substr(selected_day.indexOf(" ") + 1)
+      full_day = strip_day + " 2013"
+      selected_time = ($ '#listing_time').val()
+      selected_date = new Date(full_day + " " + selected_time)
+      formatted_date = 
+        if (selected_day.length > 0)
+          $.format.date(selected_date,"yyyy-MM-dd HH:mm:ss GMT+0400")
+        else
+          false
+      venue_name = ($ '#listing_venue_name').val()
+      venue_address = ($ '#listing_venue_address').val()
+      venue_url = ($ '#listing_venue_url').val()
+      lat = @map.lat * 1000000 if @map
+      lng = @map.lng * 1000000 if @map
+      event_description = ($ '#listing_event_description').val()
+      intention = ($ '#intention .intention_select').find('li.active').index()
+      ticket_option = ($ '#ticket_option .intention_select').find('li.active').index()
+      sell_out = ($ '#sell_out .intention_select').find('li.active').index()
+      cost = ($ '#listing_cost').val()
+      selected_sale_day = ($ '#listing_sale_day').val().toString()
+      sale_strip_day = selected_sale_day.substr(selected_sale_day.indexOf(" ") + 1)
+      full_sale_day = sale_strip_day + " 2013"
+      selected_sale_time = ($ '#listing_time').val()
+      selected_sale_date = new Date(full_sale_day + " " + selected_sale_time)
+      formatted_sale_date = 
+        if (selected_sale_day.length > 0)
+          $.format.date(selected_sale_date,"yyyy-MM-dd HH:mm:ss GMT+0400")
+        else
+          false
+      twitter_share = if ($ '.new_share.twitter').hasClass 'share_it' then true else false
+      facebook_share = if ($ '.new_share.facebook').hasClass 'share_it' then true else false
+      ticket_url = ($ '#listing_ticket_url').val()
+      ($ '#listing_sale_date').val formatted_date
+      ($ '#listing_intention').val intention
+      ($ '#listing_date_and_time').val formatted_date
+      ($ '#listing_ticket_option').val ticket_option
+      ($ '#listing_sell_out').val sell_out
+      data = {}
+      data["listing_name"] = listing_name
+      data["user_id"] = oApp.currentUser.id
+      data["date_and_time"] = formatted_date
+      data["intention"] = intention
+      data["venue_name"] = venue_name
+      data["venue_address"] = venue_address
+      data["venue_url"] = venue_url
+      data["lat"] = lat
+      data["lng"] = lng
+      data["event_description"] = event_description
+      data["intention"] = intention
+      data["ticket_option"] = ticket_option
+      data["cost"] = cost
+      data["sell_out"] = sell_out
+      data["ticket_url"] = ticket_url
+      data["sale_date"] = formatted_sale_date
+      data["twitter_share"] = twitter_share
+      data["facebook_share"] = facebook_share
+      @model = new Listing;
+      @model.save data, success: (data) =>
+        console.log 'success'
+      unless _.include(@venue_names, venue_name)
+        venue_data = {}
+        venue_data["venue_name"] = venue_name
+        venue_data["venue_address"] = venue_address
+        venue_data["venue_url"] = venue_url
+        venue_data["user_id"] = oApp.currentUser.id
+        @venues.create venue_data
+      return false
+
+  submitEnter: (e) ->
+    if ($ e.target).hasClass 'not_ready'
+      ($ '.error_msg').addClass 'show'
+  
+  inputFocus: (e) ->
+    
+  inputBlur: (e) ->
+    input = ($ e.target)
+    if input.text().length > 0
+      if input.attr('id') == 'listing_venue_address'
+        @addMap(input)
+    else
+      # fix for breaks being inserted
+      input.html('')
+    if input.parents('.info_group').hasClass 'required_info'
+      @checkRequired($ e.target)
+    if ($ e.target).attr('id') == "listing_sale_day" || ($ e.target).attr('id') == 'listing_sale_time'
+      @ticketCheck($ e.target)
+
+  addMap: (input) ->
+    og_address = input.val()
+    address = og_address.toLowerCase()
+    if address.indexOf(' ny')
+      address = address + ' ny'
+    geocoder = new google.maps.Geocoder()
+    geocoder.geocode
+      address: address, 
+      region: 'us' 
+    , (results, status) =>
+      ($ '#map_area').addClass 'show'
+      ($ '#map_option').addClass 'show'
+      data = results[0]
+      @map = {}
+      lat = data.geometry.location.lat()
+      lng = data.geometry.location.lng()
+      @map.lat = lat
+      @map.lng = lng
+      map = new GMaps
+        div: '#map_area',
+        lat: lat,
+        lng: lng
+      map.addMarker
+        lat: lat,
+        lng: lng
+
+  removeMap: ->
+    ($ '#map_area').removeClass('show').html ''
+    ($ '#map_option').removeClass 'show'
+    @map = false
+
+  ticketCheck: (target) ->
+    if target.attr('id') == "listing_sale_day"
+      date_list = window.getDates()
+      setTimeout =>
+        date_entered = target.val()
+        if _.include(date_list, date_entered)
+          target.removeClass 'invalid'
+        else
+          target.addClass 'invalid'
+      , 200
+    else if target.attr('id') == 'listing_sale_time'
+      time_list = window.getTimes()
+      setTimeout =>
+        time_entered = ($ target).val()
+        if _.include(time_list, time_entered)
+          target.removeClass 'invalid'
+        else
+          target.addClass 'invalid'
+      , 200
+
+  checkRequired: (target) ->
+    if target
+      if target.attr('id') == "listing_day"
+        date_list = window.getDates()
+        setTimeout =>
+          date_entered = target.val()
+          if _.include(date_list, date_entered)
+            target.removeClass 'invalid'
+          else
+            target.addClass 'invalid'
+        , 200
+      else if target.attr('id') == 'listing_time'
+        time_list = window.getTimes()
+        setTimeout =>
+          time_entered = ($ target).val()
+          if _.include(time_list, time_entered)
+            target.removeClass 'invalid'
+          else
+            target.addClass 'invalid'
+        , 200
+    setTimeout ->
+      name_check = ($ '#listing_listing_name').text().length > 0
+      day_check = ($ '#listing_day').text().length > 0
+      time_check = ($ '#listing_time').text().length > 0
+      day_invalid = ($ '#listing_day').hasClass 'invalid'
+      time_invalid = ($ '#listing_time').hasClass 'invalid'
+      day_double_check = day_check && !day_invalid
+      time_double_check = time_check && !time_invalid
+      $error_box = ($ '.error_msg')
+      if name_check && day_double_check && time_double_check
+        ($ 'input[type="submit"]').removeClass 'not_ready'
+        error_text = ''
+        $error_box.removeClass 'show'
+      else
+        ($ 'input[type="submit"]').addClass 'not_ready'
+        if !name_check
+          if day_double_check && time_double_check
+            error_text = 'An event name is required.'
+          else
+            if time_double_check
+              error_text = 'An event name and day are required.'
+            else if day_double_check
+              error_text = 'An event name and time are required.'
+            else
+              error_text = 'An event name, day and time are required.'
+        else if !day_double_check
+          if name_check && time_double_check
+            error_text = 'An event day is required.'
+          else
+            error_text = 'An event day and time are required.'
+        else
+          error_text = 'An event time is required.'
+      $error_box.text error_text
+    , 200
+
+  render: ->
+    token = ($ 'meta[name="csrf-token"]').attr('content')
+    HTML = @template
+      token: token
+      fb_connect: true if oApp.currentUser.fb_token
+      fb_default: oApp.currentUser.fb_default
+      tw_connect: true if oApp.currentUser.tw_token
+      tw_default: oApp.currentUser.tw_default
+    ($ @el).html(HTML)
+    setTimeout =>
+      @initializeAutocomplete()
+    , 0
+    @
+
 window.ListingCreate = Backbone.View.extend
   className: "panel"
   template: JST["templates/listings/new"]
@@ -379,8 +805,6 @@ window.ListingCreate = Backbone.View.extend
   
   initialize: (options) ->
     _.bindAll @
-    if ($ '.text_container').length == 0
-      ($ 'body').append '<div class="text_container"><div class="text_clone"></div></div>'
     @collection = options.collection
     @collection.unbind()
     @venues = new Venues
@@ -791,7 +1215,6 @@ window.ListingCreate = Backbone.View.extend
       , 200
 
   checkRequired: (target) ->
-    console.log 'check required'
     if target
       if target.attr('id') == "listing_day"
         date_list = window.getDates()

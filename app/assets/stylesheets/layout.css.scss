@@ -596,14 +596,9 @@ form {
   -webkit-font-smoothing: antialiased;
 }
 .share_group {
-  float: left;
 }
 #create_group {
-  float: right;
-  padding: 0;
-  margin: 0;
-  clear: none;
-  margin-right: 30px;
+  margin-top: 20px;
 }
 .additional_info {
   margin: 16px 0 20px;
@@ -2501,5 +2496,21 @@ form {
   }
   .user_name:hover {
     text-decoration: underline;
+  }
+}
+body.bookmarklet {
+  #wrapper {
+    margin: 0;
+    #panel_container {
+      right: auto;
+      left: 0;
+      width: 400px;
+      .main_form {
+        padding-top: 30px;
+        .header {
+          display: none
+        }
+      }
+    }
   }
 }

@@ -9,6 +9,8 @@ window.ApplicationRouter = Backbone.Router.extend
     "listings/:id" : "permalink"
     "/listings/:id" : "permalink"
     "users/new" : "userCreate"
+    "bookmarklet" : "bookmarklet"
+    "/bookmarklet" : "bookmarklet"
     "/users/new" : "userCreate"
     ":username/find_friends" : "find_friends"
     ":username" : "profile"
@@ -180,6 +182,11 @@ window.ApplicationRouter = Backbone.Router.extend
     view = new UserNewView model: user
     ($ '#panel_container').html view.render().el
   
+  bookmarklet: ->
+    console.log 'made it to the page'
+    listing_create = new BookmarkletCreate collection: {}
+    ($ '#panel_container').html listing_create.render().el  
+
   permalink: (id) ->
     @fetch_or_preload_listing(id)
     @fetch_and_populate_side_listings()

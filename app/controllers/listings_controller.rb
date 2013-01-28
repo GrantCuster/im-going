@@ -80,7 +80,7 @@ class ListingsController < ApplicationController
   end
 
   def new
-    @listing = Listing.new
+    render :layout => "bookmarklet"
   end
   
   def share
