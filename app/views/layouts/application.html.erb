@@ -22,23 +22,30 @@
   <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 </head>
 <body>
-  <div id="bar_back"></div>
-  <div id="wrapper" class="group">
-    <section id="main_column" class="group">
-      <div class="listing_top"></div>
-      <div id="main_inner">
-        <%= yield %>
+  <div id="whole_wrap">
+    <div id="response_wrap">
+      <div id="bar_back"></div>
+      <div id="wrapper" class="group">
+        <section id="main_column" class="group">
+          <div class="listing_top"></div>
+          <div id="main_inner">
+            <%= yield %>
+          </div>
+          <div id="date_bar"></div>
+        </section>
+        <div id="side_column_offseter">
+          <section id="side_column">
+            <div class="sort_container"></div>
+            <div class="side_create">
+            </div>
+            <div class="side_content">
+            </div>
+          </section>
+          <div id="side_color"></div>
+        </div>
+        <section id="panel_container"></div>
       </div>
-      <div id="date_bar"></div>
-    </section>
-    <section id="side_column">
-      <div class="sort_container"></div>
-      <div class="side_create">
-      </div>
-      <div class="side_content">
-      </div>
-    </section>
-    <section id="panel_container"></div>
+    </div>
   </div>
 </body>
 </html>

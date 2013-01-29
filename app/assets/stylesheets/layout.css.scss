@@ -145,7 +145,7 @@ body {
       }
     }
     #main_column.inactive {
-      margin-right: 780px;
+      margin-right: 779px;
       .month_container {
         .month {
           width: 400px;
@@ -415,6 +415,15 @@ form {
   margin-right: -829px;
   float: left;
 }
+#whole_wrap {
+  overflow: hidden;
+  min-width: 1260px;
+}
+#response_wrap {
+  margin: 0 auto;
+  width: 1260px;
+  position: relative;
+}
 .main_form {
   margin: 0;
   .ui-helper-hidden-accessible {
@@ -669,7 +678,7 @@ form {
     height: 32px;
     letter-spacing: 2px;
     line-height: 1em;
-    margin: 0 0 0 -610px;
+    margin-left: -610px;
     padding: 10px;
     position: absolute;
     text-align: right;
@@ -688,12 +697,10 @@ form {
   overflow: hidden;
 }
 .month.active {
-  width: 650px;
   position: fixed;
-  left: 0;
   top: 25px;
   margin-top: 0;
-  margin-left: -525px;
+  width: 648px;
   z-index: 9;
 }
 .month.prev {
@@ -1527,12 +1534,25 @@ form {
     }
   }  
 }
+#side_column_offseter {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+}
+#side_color {
+  width: 1000px;
+  background: #eee;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+}
 #side_column {
   width: 270px;
   height: 100%;
   background: #eee;
   border-left: solid 1px #ddd;
-  right: 0;
   top: 0;
   position: fixed;
   -moz-transition: width 0.2s linear;
@@ -1749,14 +1769,17 @@ form {
 //  }
 //}
 
+#panel_wrap {
+
+}
 #panel_container {
   width: 780px;
   height: 100%;
   top: 0;
-  right: 270px;
   background: #cfcfcf;
   position: fixed;
   z-index: 1;
+  left: 301px;
   overflow: auto;
   .panel {
     margin-bottom: 30px;
