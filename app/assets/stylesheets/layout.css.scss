@@ -54,6 +54,12 @@ input::-moz-focus-inner {
     border: 0 none !important;
 }
 
+@media only screen and (max-width: 1260px) {
+  #side_column_offseter #side_column {
+    right: 0;
+  }
+}
+
 // font styling
 input {
   font-family: "ff-meta-web-pro-1","ff-meta-web-pro-2",'Helvetica Neue';
@@ -158,6 +164,7 @@ body {
 // general form styling
 form {
   color: #000;
+  line-height: 1.4em;
   .form_heading {
     font-size: 15px;
     margin-top: 14px;
@@ -1539,6 +1546,7 @@ form {
   right: 0;
   top: 0;
   height: 100%;
+  width: 270px;
 }
 #side_color {
   width: 1000px;
